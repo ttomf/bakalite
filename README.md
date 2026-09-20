@@ -1,0 +1,3 @@
+# BakaLite
+
+Lightweight Bakaláři client
