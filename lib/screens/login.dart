@@ -1,4 +1,5 @@
 import 'package:bakalite/api.dart';
+import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class SchoolSearchDialog extends StatefulWidget {
@@ -72,7 +73,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
               TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'Search',
+                  hintText: AppLocalizations.of(context)!.searchHint,
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -146,7 +147,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                               ),
                           ],
                         )
-                      : Text('Nothing found.'),
+                      : Text(AppLocalizations.of(context)!.nothingFound),
                 ),
               ),
             ],
@@ -167,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.login)),
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -182,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _urlController,
                   keyboardType: TextInputType.url,
                   decoration: InputDecoration(
-                    labelText: 'Bakaláři link',
+                    labelText: AppLocalizations.of(context)!.bakaLink,
                     suffixIcon: IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () async {
@@ -206,7 +207,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   autocorrect: false,
                   controller: _usernameController,
                   keyboardType: TextInputType.name,
-                  decoration: InputDecoration(labelText: 'Username'),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.username,
+                  ),
                 ),
                 TextField(
                   spellCheckConfiguration: SpellCheckConfiguration.disabled(),
@@ -215,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _obscurePassword,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: AppLocalizations.of(context)!.password,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
@@ -233,7 +236,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.maxFinite,
                   height: 64,
-                  child: FilledButton(child: Text('Login'), onPressed: () {}),
+                  child: FilledButton(
+                    child: Text(AppLocalizations.of(context)!.login),
+                    onPressed: () {},
+                  ),
                 ),
               ],
             ),
