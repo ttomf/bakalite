@@ -41,10 +41,17 @@ class BakalariAPI {
 
   Future<Map<String, String>> getSchoolsIn(String city) async {
     try {
+      if (city.isEmpty) {
+        return {};
+      }
       final res = await http.get(
         Uri.parse('$mainBaseUrl/municipality/$city'),
         headers: {'Accept': 'application/json'},
       );
+
+      if (res.statusCode == 404) {
+        return {};
+      }
 
       if (res.statusCode < 200 || res.statusCode >= 300) {
         throw HttpException('HTTP ${res.statusCode}');
@@ -56,13 +63,13 @@ class BakalariAPI {
         throw const FormatException('Expected a JSON dict');
       }
 
-      if (json["schools"] is! List) {
+      if (json['schools'] is! List) {
         throw const FormatException('Expected a JSON list');
       }
 
       final map = <String, String>{};
 
-      for (final school in json["schools"]) {
+      for (final school in json['schools']) {
         if (school is! Map<String, dynamic>) {
           throw const FormatException('Expected a list of JSON objects');
         }

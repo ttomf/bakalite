@@ -1,4 +1,4 @@
-import 'package:bakalite/api.dart';
+import 'package:bakalite/screens/login.dart';
 import 'package:bakalite/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,9 @@ class MainApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
+
+      initialRoute: '/login',
+      routes: {'/login': (context) => LoginScreen()},
     );
   }
 }
-
