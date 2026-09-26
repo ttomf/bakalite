@@ -17,7 +17,7 @@
 	<key>CFBundleName</key>
 	<string>bakalite</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>BakaLite</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
