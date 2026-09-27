@@ -41,4 +41,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get invalidInput => 'Neplatný vstup';
+
+  @override
+  String get cannotBeEmpty => 'Toto pole nemůže být prázdné';
 }

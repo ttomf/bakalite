@@ -9,5 +9,6 @@
   "httpError": "HTTP error",
   "invalidCredentials": "Invalid login credentials",
   "invalidResponse": "Invalid server response",
-  "invalidInput": "Invalid input"
+  "invalidInput": "Invalid input",
+  "cannotBeEmpty": "This field cannot be empty"
 }

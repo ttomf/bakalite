@@ -9,5 +9,6 @@
   "httpError": "Chyba HTTP",
   "invalidCredentials": "Neplatné přihlašovací údaje",
   "invalidResponse": "Neplatná odpověď serveru",
-  "invalidInput": "Neplatný vstup"
+  "invalidInput": "Neplatný vstup",
+  "cannotBeEmpty": "Toto pole nemůže být prázdné"
 }

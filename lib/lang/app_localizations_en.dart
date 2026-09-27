@@ -41,4 +41,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidInput => 'Invalid input';
+
+  @override
+  String get cannotBeEmpty => 'This field cannot be empty';
 }

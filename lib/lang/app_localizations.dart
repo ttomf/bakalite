@@ -163,6 +163,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid input'**
   String get invalidInput;
+
+  /// No description provided for @cannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'This field cannot be empty'**
+  String get cannotBeEmpty;
 }
 
 class _AppLocalizationsDelegate

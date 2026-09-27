@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:bakalite/api.dart';
+import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 
 class SchoolSearchDialog extends StatefulWidget {
@@ -194,6 +196,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  String? _urlError;
+  String? _usernameError;
+  String? _passwordError;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,8 +218,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   autofocus: true,
                   controller: _urlController,
                   keyboardType: TextInputType.url,
+                  onChanged: (String value) {
+                    setState(() {
+                      _urlError = null;
+                    });
+                  },
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.bakaLink,
+                    errorText: _urlError,
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () async {
@@ -227,6 +239,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         if (schoolUrl != null) {
                           _urlController.text = schoolUrl;
+                          setState(() {
+                            _urlError = null;
+                          });
                         }
                       },
                     ),
@@ -238,8 +253,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   autocorrect: false,
                   controller: _usernameController,
                   keyboardType: TextInputType.name,
+                  onChanged: (String value) {
+                    setState(() {
+                      _usernameError = null;
+                    });
+                  },
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.username,
+                    errorText: _usernameError,
                   ),
                 ),
                 TextField(
@@ -249,8 +270,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   obscureText: _obscurePassword,
                   keyboardType: TextInputType.visiblePassword,
+                  onChanged: (String value) {
+                    setState(() {
+                      _passwordError = null;
+                    });
+                  },
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.password,
+                    errorText: _passwordError,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword
@@ -270,7 +297,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 64,
                   child: FilledButton(
                     child: Text(AppLocalizations.of(context)!.login),
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (_urlController.text.isEmpty) {
+                        setState(() {
+                          _urlError = AppLocalizations.of(context)!
+                              .cannotBeEmpty;
+                        });
+                      }
+
+                      if (_usernameController.text.isEmpty) {
+                        setState(() {
+                          _usernameError = AppLocalizations.of(context)!
+                              .cannotBeEmpty;
+                        });
+                      }
+
+                      if (_passwordController.text.isEmpty) {
+                        setState(() {
+                          _passwordError = AppLocalizations.of(context)!
+                              .cannotBeEmpty;
+                        });
+                      }
+                      _api.baseUrl = '${_urlController.text}/api/'; // TODO: better concatenation of URL
+                      try {
+                        final token = await _api.login(
+                          _usernameController.text,
+                          _passwordController.text,
+                        );
+                      } on BakaLiteException catch (e) {
+                        if (!context.mounted) return;
+                        showError(context, e);
+                      }
+                    },
                   ),
                 ),
               ],
