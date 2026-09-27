@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 class BakalariAPI {
   static const mainBaseUrl = 'https://sluzby.bakalari.cz/api/v1';
+  String baseUrl = '';
 
   Future<Map<String, int>> getSchools() async {
     try {
@@ -82,6 +83,53 @@ class BakalariAPI {
       }
 
       return map;
+    } on http.ClientException {
+      throw Exception('Network error');
+    }
+  }
+
+  Future<String> login(String user, String pass) async {
+    try {
+      if (baseUrl.isEmpty) {
+        throw Exception('Base URL cannot be empty');
+      }
+      if (user.isEmpty) {
+        throw Exception('Username cannot be empty');
+      }
+      if (pass.isEmpty) {
+        throw Exception('Password cannot be empty');
+      }
+
+      final res = await http.post(
+        Uri.parse('$baseUrl/login'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {
+          'client_id': 'ANDR',
+          'grant_type': 'password',
+          'username': user,
+          'password': pass,
+        },
+      );
+
+      final json = jsonDecode(res.body);
+
+      if (json is! Map) {
+        throw const FormatException('Expected a JSON dict');
+      }
+
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        if (json['error'] == 'invalid_grant') {
+          throw Exception(json['error_description']);
+        } else {
+          throw HttpException('HTTP ${res.statusCode}');
+        }
+      }
+
+      if (json['access_token'] is! String) {
+        throw const FormatException('Expected access_token to be a string');
+      }
+
+      return json['access_token'];
     } on http.ClientException {
       throw Exception('Network error');
     }
