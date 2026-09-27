@@ -318,6 +318,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               .cannotBeEmpty;
                         });
                       }
+
+                      if (_urlError != null ||
+                          _usernameError != null ||
+                          _passwordError != null) {
+                        return;
+                      }
+
                       _api.baseUrl = '${_urlController.text}/api/'; // TODO: better concatenation of URL
                       try {
                         final token = await _api.login(
