@@ -93,7 +93,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                   prefixIcon: _searchController.text.isEmpty
                       ? const Icon(Icons.search)
                       : IconButton(
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                           onPressed: () {
                             _searchRequest++;
                             _searchController.text = '';
@@ -101,7 +101,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                           },
                         ),
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
+                    icon: const Icon(Icons.clear),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -120,7 +120,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                   );
                 },
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Expanded(
                 child: Center(
                   child: _isLoading
@@ -138,9 +138,12 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                                       children: [
                                         Text(
                                           '${_cities[name]}',
-                                          style: TextStyle(fontSize: 16),
+                                          style: const TextStyle(fontSize: 16),
                                         ),
-                                        Icon(Icons.arrow_forward_ios, size: 16),
+                                        const Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 16,
+                                        ),
                                       ],
                                     ),
                                     onTap: () {
@@ -203,7 +206,8 @@ class _LoginScreenState extends State<LoginScreen> {
               spacing: 16,
               children: [
                 TextField(
-                  spellCheckConfiguration: SpellCheckConfiguration.disabled(),
+                  spellCheckConfiguration:
+                      const SpellCheckConfiguration.disabled(),
                   autocorrect: false,
                   autofocus: true,
                   controller: _urlController,
@@ -211,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.bakaLink,
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.search),
+                      icon: const Icon(Icons.search),
                       onPressed: () async {
                         final String? schoolUrl =
                             await showAdaptiveDialog<String>(
@@ -229,7 +233,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 TextField(
-                  spellCheckConfiguration: SpellCheckConfiguration.disabled(),
+                  spellCheckConfiguration:
+                      const SpellCheckConfiguration.disabled(),
                   autocorrect: false,
                   controller: _usernameController,
                   keyboardType: TextInputType.name,
@@ -238,7 +243,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 TextField(
-                  spellCheckConfiguration: SpellCheckConfiguration.disabled(),
+                  spellCheckConfiguration:
+                      const SpellCheckConfiguration.disabled(),
                   autocorrect: false,
                   controller: _passwordController,
                   obscureText: _obscurePassword,

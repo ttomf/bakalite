@@ -21,7 +21,7 @@ class AppTheme {
       inputDecorationTheme: InputDecorationThemeData(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       ),
-      listTileTheme: ListTileThemeData(
+      listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 0),
       ),
       colorScheme: colorScheme,

@@ -18,14 +18,14 @@ class MainApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
 
-      localizationsDelegates: [
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         ...GlobalMaterialLocalizations.delegates,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
 
       initialRoute: '/login',
-      routes: {'/login': (context) => LoginScreen()},
+      routes: {'/login': (context) => const LoginScreen()},
     );
   }
 }
