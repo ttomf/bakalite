@@ -27,7 +27,9 @@ class BakalariAPI {
 
       for (final city in json) {
         if (city is! Map<String, dynamic>) {
-          throw const FormatException('Expected a list of JSON objects');
+          throw const FormatException(
+            'Expected city to be a list of JSON objects',
+          );
         }
 
         map[city['name']] = city['schoolCount'];
@@ -64,14 +66,16 @@ class BakalariAPI {
       }
 
       if (json['schools'] is! List) {
-        throw const FormatException('Expected a JSON list');
+        throw const FormatException('Expected schools to be a JSON list');
       }
 
       final map = <String, String>{};
 
       for (final school in json['schools']) {
         if (school is! Map<String, dynamic>) {
-          throw const FormatException('Expected a list of JSON objects');
+          throw const FormatException(
+            'Expected school to be a list of JSON objects',
+          );
         }
 
         map[school['name']] = school['schoolUrl'];
