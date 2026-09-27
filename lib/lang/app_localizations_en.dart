@@ -26,4 +26,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login => 'Login';
+
+  @override
+  String get networkError => 'Network error';
+
+  @override
+  String get httpError => 'HTTP error';
+
+  @override
+  String get invalidCredentials => 'Invalid login credentials';
+
+  @override
+  String get invalidResponse => 'Invalid server response';
+
+  @override
+  String get invalidInput => 'Invalid input';
 }

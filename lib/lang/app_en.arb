@@ -1,8 +1,13 @@
 {
-    "searchHint": "Search...",
-    "nothingFound": "Nothing found",
-    "bakaLink": "Bakaláři link",
-    "username": "Username",
-    "password": "Password",
-    "login": "Login"
+  "searchHint": "Search...",
+  "nothingFound": "Nothing found",
+  "bakaLink": "Bakaláři link",
+  "username": "Username",
+  "password": "Password",
+  "login": "Login",
+  "networkError": "Network error",
+  "httpError": "HTTP error",
+  "invalidCredentials": "Invalid login credentials",
+  "invalidResponse": "Invalid server response",
+  "invalidInput": "Invalid input"
 }

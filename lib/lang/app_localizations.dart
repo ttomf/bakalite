@@ -133,6 +133,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get login;
+
+  /// No description provided for @networkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error'**
+  String get networkError;
+
+  /// No description provided for @httpError.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTP error'**
+  String get httpError;
+
+  /// No description provided for @invalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid login credentials'**
+  String get invalidCredentials;
+
+  /// No description provided for @invalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid server response'**
+  String get invalidResponse;
+
+  /// No description provided for @invalidInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid input'**
+  String get invalidInput;
 }
 
 class _AppLocalizationsDelegate

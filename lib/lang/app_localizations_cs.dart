@@ -26,4 +26,19 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get login => 'Přihlášení';
+
+  @override
+  String get networkError => 'Chyba sítě';
+
+  @override
+  String get httpError => 'Chyba HTTP';
+
+  @override
+  String get invalidCredentials => 'Neplatné přihlašovací údaje';
+
+  @override
+  String get invalidResponse => 'Neplatná odpověď serveru';
+
+  @override
+  String get invalidInput => 'Neplatný vstup';
 }

@@ -1,6 +1,20 @@
+import 'package:bakalite/exceptions.dart';
+import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-void showError(BuildContext context, String message) {
+void showError(BuildContext context, BakaLiteException error) {
+  final lang = AppLocalizations.of(context)!;
+
+  final message =
+      switch (error.error) {
+        BakaLiteError.network => lang.networkError,
+        BakaLiteError.http => lang.httpError,
+        BakaLiteError.invalidCredentials => lang.invalidCredentials,
+        BakaLiteError.invalidResponse => lang.invalidResponse,
+        BakaLiteError.invalidInput => lang.invalidInput,
+      } +
+      ((error.info?.isNotEmpty ?? false) ? ': ${error.info}' : '');
+
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(

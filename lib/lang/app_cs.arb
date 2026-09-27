@@ -1,8 +1,13 @@
 {
-    "searchHint": "Hledat...",
-    "nothingFound": "Nic nenalezeno",
-    "bakaLink": "Odkaz na Bakaláře",
-    "username": "Uživatelské jméno",
-    "password": "Heslo",
-    "login": "Přihlášení"
+  "searchHint": "Hledat...",
+  "nothingFound": "Nic nenalezeno",
+  "bakaLink": "Odkaz na Bakaláře",
+  "username": "Uživatelské jméno",
+  "password": "Heslo",
+  "login": "Přihlášení",
+  "networkError": "Chyba sítě",
+  "httpError": "Chyba HTTP",
+  "invalidCredentials": "Neplatné přihlašovací údaje",
+  "invalidResponse": "Neplatná odpověď serveru",
+  "invalidInput": "Neplatný vstup"
 }
