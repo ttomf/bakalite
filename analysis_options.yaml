@@ -6,6 +6,7 @@ linter:
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables
     - prefer_single_quotes
+    - unnecessary_parenthesis
 
 analyzer:
   exclude:
