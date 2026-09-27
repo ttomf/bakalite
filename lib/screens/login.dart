@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bakalite/api.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,8 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
   Map<String, String> _schools = {};
   bool _isLoading = true;
   final _searchController = TextEditingController();
+  Timer? _searchDebounce;
+  int _searchRequest = 0;
 
   @override
   void initState() {
@@ -31,6 +35,9 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
   }
 
   Future<void> _loadSchools() async {
+    final request = _searchRequest;
+    final search = _searchController.text.trim();
+
     try {
       setState(() {
         _isLoading = true;
@@ -38,16 +45,16 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
 
       Map<String, int> citiesMap = _cities;
       Map<String, String> schoolsMap = _schools;
+
       if (_cities.isEmpty) {
         citiesMap = await widget.api.getSchools();
       }
-      if (_searchController.text.isNotEmpty) {
-        schoolsMap = await widget.api.getSchoolsIn(
-          _searchController.text.trim(),
-        );
+
+      if (search.isNotEmpty) {
+        schoolsMap = await widget.api.getSchoolsIn(search);
       }
 
-      if (!mounted) return;
+      if (!mounted || request != _searchRequest) return;
 
       setState(() {
         _cities = citiesMap;
@@ -55,7 +62,8 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
         _isLoading = false;
       });
     } catch (e) {
-      if (!mounted) return;
+      if (!mounted || request != _searchRequest) return;
+
       setState(() {
         _isLoading = false;
       });
@@ -87,6 +95,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                       : IconButton(
                           icon: Icon(Icons.arrow_back),
                           onPressed: () {
+                            _searchRequest++;
                             _searchController.text = '';
                             _loadSchools();
                           },
@@ -99,7 +108,16 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                   ),
                 ),
                 onChanged: (String value) {
-                  _loadSchools();
+                  setState(() {});
+                  _searchRequest++;
+                  _searchDebounce?.cancel();
+
+                  _searchDebounce = Timer(
+                    const Duration(milliseconds: 300),
+                    () {
+                      _loadSchools();
+                    },
+                  );
                 },
               ),
               SizedBox(height: 8),
@@ -126,6 +144,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                                       ],
                                     ),
                                     onTap: () {
+                                      _searchRequest++;
                                       _searchController.text = name;
                                       _loadSchools();
                                     },
@@ -155,6 +174,13 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchDebounce?.cancel();
+    _searchController.dispose();
+    super.dispose();
   }
 }
 
