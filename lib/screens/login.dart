@@ -325,9 +325,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         return;
                       }
 
-                      _api.baseUrl = '${_urlController.text}/api/'; // TODO: better concatenation of URL
+                      final url = _urlController.text;
+                      _api.baseUrl = '${url.endsWith('/') ? url : '$url/'}api';
                       try {
-                        final token = await _api.login(
+                        await _api.login(
                           _usernameController.text,
                           _passwordController.text,
                         );

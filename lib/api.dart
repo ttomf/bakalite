@@ -162,6 +162,11 @@ class BakalariAPI {
       return json['access_token'];
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
+    } on FormatException {
+      throw const BakaLiteException(
+        BakaLiteError.invalidResponse,
+        'Invalid JSON (likely an invalid URL)',
+      );
     }
   }
 }
