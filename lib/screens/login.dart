@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/v4.dart';
 
 class SchoolSearchDialog extends StatefulWidget {
   const SchoolSearchDialog({super.key, required this.api});
@@ -326,12 +328,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
 
                       final url = _urlController.text;
-                      _api.baseUrl = '${url.endsWith('/') ? url : '$url/'}api';
+                      final baseUrl = '${url.endsWith('/') ? url : '$url/'}api';
+                      _api.baseUrl = baseUrl;
                       try {
                         await _api.login(
                           _usernameController.text,
                           _passwordController.text,
                         );
+                        final account = Account(
+                          id: const UuidV4().generate(),
+                          username: _usernameController.text,
+                          password: _passwordController.text,
+                          baseUrl: baseUrl,
+                        );
+                        final id = await accountManager.saveAccount(account);
+                        await accountManager.setActiveAccount(id);
                       } on BakaLiteException catch (e) {
                         if (!context.mounted) return;
                         showError(context, e);

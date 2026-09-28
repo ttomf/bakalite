@@ -12,8 +12,6 @@ class BakalariAPI {
   static const mainBaseUrl = 'https://sluzby.bakalari.cz/api/v1';
   String? baseUrl;
   String? accessToken;
-  String? username;
-  String? password;
 
   Future<Map<String, int>> getSchools() async {
     try {
@@ -176,8 +174,6 @@ class BakalariAPI {
         );
       }
 
-      password = pass;
-      username = user;
       accessToken = json['access_token'];
 
       return json['access_token'];

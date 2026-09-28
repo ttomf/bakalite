@@ -83,8 +83,6 @@ void main() {
       final token = await api.login('USERNAME', 'PASSWORD');
       expect(token, 'VERY-LONG-TOKEN');
       expect(api.accessToken, 'VERY-LONG-TOKEN');
-      expect(api.username, 'USERNAME');
-      expect(api.password, 'PASSWORD');
     });
   });
 }
