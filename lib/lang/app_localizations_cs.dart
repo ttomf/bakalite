@@ -10,7 +10,7 @@ class AppLocalizationsCs extends AppLocalizations {
   AppLocalizationsCs([String locale = 'cs']) : super(locale);
 
   @override
-  String get searchHint => 'Hledat...';
+  String get searchCityHint => 'Hledat město...';
 
   @override
   String get nothingFound => 'Nic nenalezeno';

@@ -10,7 +10,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get searchHint => 'Search...';
+  String get searchCityHint => 'Search city...';
 
   @override
   String get nothingFound => 'Nothing found';

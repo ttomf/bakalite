@@ -98,11 +98,11 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
-  /// No description provided for @searchHint.
+  /// No description provided for @searchCityHint.
   ///
   /// In en, this message translates to:
-  /// **'Search...'**
-  String get searchHint;
+  /// **'Search city...'**
+  String get searchCityHint;
 
   /// No description provided for @nothingFound.
   ///

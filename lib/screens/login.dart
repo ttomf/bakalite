@@ -85,7 +85,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
               TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.searchHint,
+                  hintText: AppLocalizations.of(context)!.searchCityHint,
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
