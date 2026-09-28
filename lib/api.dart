@@ -5,6 +5,10 @@ import 'package:http/http.dart' as http;
 import 'exceptions.dart';
 
 class BakalariAPI {
+  BakalariAPI({http.Client? client}) : client = client ?? http.Client();
+
+  final http.Client client;
+
   static const mainBaseUrl = 'https://sluzby.bakalari.cz/api/v1';
   String? baseUrl;
   String? accessToken;
@@ -13,7 +17,7 @@ class BakalariAPI {
 
   Future<Map<String, int>> getSchools() async {
     try {
-      final res = await http.get(
+      final res = await client.get(
         Uri.parse('$mainBaseUrl/municipality'),
         headers: {'Accept': 'application/json'},
       );
@@ -47,6 +51,11 @@ class BakalariAPI {
       return map;
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
+    } on FormatException {
+      throw const BakaLiteException(
+        BakaLiteError.invalidResponse,
+        'Invalid JSON',
+      );
     }
   }
 
@@ -56,7 +65,7 @@ class BakalariAPI {
         return {};
       }
 
-      final res = await http.get(
+      final res = await client.get(
         Uri.parse('$mainBaseUrl/municipality/$city'),
         headers: {'Accept': 'application/json'},
       );
@@ -101,6 +110,11 @@ class BakalariAPI {
       return map;
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
+    } on FormatException {
+      throw const BakaLiteException(
+        BakaLiteError.invalidResponse,
+        'Invalid JSON',
+      );
     }
   }
 
@@ -127,7 +141,7 @@ class BakalariAPI {
         );
       }
 
-      final res = await http.post(
+      final res = await client.post(
         Uri.parse('$baseUrl/login'),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {
