@@ -6,7 +6,10 @@ import 'exceptions.dart';
 
 class BakalariAPI {
   static const mainBaseUrl = 'https://sluzby.bakalari.cz/api/v1';
-  String baseUrl = '';
+  String? baseUrl;
+  String? accessToken;
+  String? username;
+  String? password;
 
   Future<Map<String, int>> getSchools() async {
     try {
@@ -103,7 +106,7 @@ class BakalariAPI {
 
   Future<String> login(String user, String pass) async {
     try {
-      if (baseUrl.isEmpty) {
+      if (baseUrl?.isEmpty ?? true) {
         throw const BakaLiteException(
           BakaLiteError.invalidInput,
           'Base URL cannot be empty',
@@ -158,6 +161,10 @@ class BakalariAPI {
           'Expected access_token to be a string',
         );
       }
+
+      password = pass;
+      username = user;
+      accessToken = json['access_token'];
 
       return json['access_token'];
     } on http.ClientException catch (e) {
