@@ -44,4 +44,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get cannotBeEmpty => 'Toto pole nemůže být prázdné';
+
+  @override
+  String get dashboard => 'Přehled';
 }

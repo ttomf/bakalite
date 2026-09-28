@@ -10,5 +10,6 @@
   "invalidCredentials": "Invalid login credentials",
   "invalidResponse": "Invalid server response",
   "invalidInput": "Invalid input",
-  "cannotBeEmpty": "This field cannot be empty"
+  "cannotBeEmpty": "This field cannot be empty",
+  "dashboard": "Dashboard"
 }

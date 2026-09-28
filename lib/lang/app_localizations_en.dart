@@ -44,4 +44,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cannotBeEmpty => 'This field cannot be empty';
+
+  @override
+  String get dashboard => 'Dashboard';
 }

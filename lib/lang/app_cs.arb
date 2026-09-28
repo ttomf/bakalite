@@ -10,5 +10,6 @@
   "invalidCredentials": "Neplatné přihlašovací údaje",
   "invalidResponse": "Neplatná odpověď serveru",
   "invalidInput": "Neplatný vstup",
-  "cannotBeEmpty": "Toto pole nemůže být prázdné"
+  "cannotBeEmpty": "Toto pole nemůže být prázdné",
+  "dashboard": "Přehled"
 }

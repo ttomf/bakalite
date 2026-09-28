@@ -1,4 +1,5 @@
 import 'package:bakalite/screens/login.dart';
+import 'package:bakalite/screens/dashboard.dart';
 import 'package:bakalite/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,7 +7,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'lang/app_localizations.dart';
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({super.key, this.route = '/login'});
+
+  final String route;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,11 @@ class MainApp extends StatelessWidget {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
 
-      initialRoute: '/login',
-      routes: {'/login': (context) => const LoginScreen()},
+      initialRoute: route,
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/dashboard': (context) => const Dashboard(),
+      },
     );
   }
 }

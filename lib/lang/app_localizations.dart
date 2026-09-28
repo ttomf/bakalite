@@ -169,6 +169,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This field cannot be empty'**
   String get cannotBeEmpty;
+
+  /// No description provided for @dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
 }
 
 class _AppLocalizationsDelegate
