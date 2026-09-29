@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bakalite/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -62,6 +64,49 @@ void main() {
         }''', 200),
     );
 
+    when(
+      client.get(
+        Uri.parse('https://school.cz/bakaweb/api/3/user'),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Bearer VERY-LONG-TOKEN',
+        },
+      ),
+    ).thenAnswer(
+      (_) async => http.Response.bytes(
+        utf8.encode('''{
+      "UserUID":"1234/id",
+      "CampaignCategoryCode":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "Class":{
+        "Id":"XL",
+        "Abbrev":"X.A",
+        "Name":"X. A"
+      },
+      "FullName":"Příjmení Jméno, X.A",
+      "SchoolOrganizationName":"school",
+      "SchoolType":null,
+      "UserType":"parents",
+      "UserTypeText":"rodič",
+      "StudyYear":1,
+      "EnabledModules":[
+        "###"
+      ],
+      "SettingModules":{
+        "Common":{
+          "\$type":"CommonModuleSettings",
+          "ActualSemester":{
+            "SemesterId":"2",
+            "From":"2020-01-04T00:00:00+01:00",
+            "To":"2020-07-14T23:59:59+02:00"
+          }
+        }
+      }
+    }'''),
+        200,
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      ),
+    );
+
     test('getSchools test', () async {
       final schools = await api.getSchools();
       expect(schools, {'Praha': 4, 'Brno': 2});
@@ -83,6 +128,11 @@ void main() {
       final token = await api.login('USERNAME', 'PASSWORD');
       expect(token, 'VERY-LONG-TOKEN');
       expect(api.accessToken, 'VERY-LONG-TOKEN');
+    });
+
+    test('user test', () async {
+      final user = await api.user();
+      expect(user['FullName'], 'Příjmení Jméno, X.A');
     });
   });
 }
