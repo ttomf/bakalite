@@ -12,7 +12,7 @@ import 'api_test.mocks.dart';
 void main() {
   group('API tests', () {
     final client = MockHttpClient();
-    final api = BakalariAPI(client: client);
+    api = BakalariAPI(client: client);
 
     when(
       client.get(
