@@ -86,21 +86,7 @@ void main() {
       "SchoolOrganizationName":"school",
       "SchoolType":null,
       "UserType":"parents",
-      "UserTypeText":"rodič",
-      "StudyYear":1,
-      "EnabledModules":[
-        "###"
-      ],
-      "SettingModules":{
-        "Common":{
-          "\$type":"CommonModuleSettings",
-          "ActualSemester":{
-            "SemesterId":"2",
-            "From":"2020-01-04T00:00:00+01:00",
-            "To":"2020-07-14T23:59:59+02:00"
-          }
-        }
-      }
+      "UserTypeText":"rodič"
     }'''),
         200,
         headers: {'content-type': 'application/json; charset=utf-8'},
@@ -131,7 +117,7 @@ void main() {
     });
 
     test('user test', () async {
-      final user = await api.user();
+      final user = await api.fetch('user');
       expect(user['FullName'], 'Příjmení Jméno, X.A');
     });
   });
