@@ -228,3 +228,5 @@ class BakalariAPI {
     }
   }
 }
+
+BakalariAPI api = BakalariAPI();

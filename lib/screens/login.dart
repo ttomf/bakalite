@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/v4.dart';
 
 class SchoolSearchDialog extends StatefulWidget {
-  const SchoolSearchDialog({super.key, required this.api});
-
-  final BakalariAPI api;
+  const SchoolSearchDialog({super.key});
 
   @override
   State<SchoolSearchDialog> createState() => _SchoolSearchDialogState();
@@ -51,11 +49,11 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
       Map<String, String> schoolsMap = _schools;
 
       if (_cities.isEmpty) {
-        citiesMap = await widget.api.getSchools();
+        citiesMap = await api.getSchools();
       }
 
       if (search.isNotEmpty) {
-        schoolsMap = await widget.api.getSchoolsIn(search);
+        schoolsMap = await api.getSchoolsIn(search);
       }
 
       if (!mounted || request != _searchRequest) return;
@@ -192,7 +190,6 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final BakalariAPI _api = BakalariAPI();
   bool _obscurePassword = true;
   final _urlController = TextEditingController();
   final _usernameController = TextEditingController();
@@ -235,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             await showAdaptiveDialog<String>(
                               context: context,
                               builder: (context) {
-                                return SchoolSearchDialog(api: _api);
+                                return const SchoolSearchDialog();
                               },
                             );
 
@@ -329,9 +326,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       final url = _urlController.text;
                       final baseUrl = '${url.endsWith('/') ? url : '$url/'}api';
-                      _api.baseUrl = baseUrl;
+                      api.baseUrl = baseUrl;
                       try {
-                        await _api.login(
+                        await api.login(
                           _usernameController.text,
                           _passwordController.text,
                         );
