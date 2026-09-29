@@ -25,6 +25,7 @@ class LoginScreen extends StatefulWidget {
 class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
   Map<String, int> _cities = {};
   Map<String, String> _schools = {};
+  String _search = '';
   bool _isLoading = true;
   final _searchController = TextEditingController();
   Timer? _searchDebounce;
@@ -38,7 +39,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
 
   Future<void> _loadSchools() async {
     final request = _searchRequest;
-    final search = _searchController.text.trim();
+    _search = _searchController.text;
 
     try {
       setState(() {
@@ -52,8 +53,8 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
         citiesMap = await api.getSchools();
       }
 
-      if (search.isNotEmpty) {
-        schoolsMap = await api.getSchoolsIn(search);
+      if (_search.trim().isNotEmpty) {
+        schoolsMap = await api.getSchoolsIn(_search.trim());
       }
 
       if (!mounted || request != _searchRequest) return;
@@ -77,7 +78,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
     return Dialog(
       child: SizedBox(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: Column(
             children: [
               TextField(
@@ -115,7 +116,7 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
                   _searchDebounce?.cancel();
 
                   _searchDebounce = Timer(
-                    const Duration(milliseconds: 300),
+                    const Duration(milliseconds: 500),
                     () {
                       _loadSchools();
                     },
@@ -125,7 +126,10 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
               const SizedBox(height: 8),
               Expanded(
                 child: Center(
-                  child: _isLoading
+                  child:
+                      _isLoading ||
+                          (_searchController.text != _search &&
+                              _searchController.text.isNotEmpty)
                       ? const CircularProgressIndicator()
                       : _searchController.text.isEmpty
                       ? ListView(
@@ -206,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: Column(
               spacing: 16,
               children: [
