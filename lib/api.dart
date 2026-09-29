@@ -187,10 +187,23 @@ class BakalariAPI {
     }
   }
 
-  Future<Map<String, dynamic>> user() async {
+  Future<Map<String, dynamic>> fetch(String endpoint) async {
     try {
+      if (baseUrl?.isEmpty ?? true) {
+        throw const BakaLiteException(
+          BakaLiteError.invalidInput,
+          'Base URL cannot be empty',
+        );
+      }
+      if (accessToken?.isEmpty ?? true) {
+        throw const BakaLiteException(
+          BakaLiteError.invalidCredentials,
+          'Invalid accessToken',
+        );
+      }
+
       final res = await client.get(
-        Uri.parse('$baseUrl/3/user'),
+        Uri.parse('$baseUrl/3/$endpoint'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': 'Bearer $accessToken',
@@ -208,7 +221,7 @@ class BakalariAPI {
 
       if (res.statusCode == 401) {
         throw const BakaLiteException(
-          BakaLiteError.http,
+          BakaLiteError.invalidCredentials,
           'Unauthorized, invalid accessToken',
         );
       }

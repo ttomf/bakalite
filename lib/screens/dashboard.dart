@@ -23,7 +23,7 @@ class _DashboardState extends State<Dashboard> {
       Map<String, dynamic>? userData = _user;
 
       if (_user == null) {
-        userData = await api.user();
+        userData = await api.fetch('user');
       }
 
       if (!mounted) return;
