@@ -186,4 +186,45 @@ class BakalariAPI {
       );
     }
   }
+
+  Future<Map<String, dynamic>> user() async {
+    try {
+      final res = await client.get(
+        Uri.parse('$baseUrl/3/user'),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+
+      final json = jsonDecode(res.body);
+
+      if (json is! Map<String, dynamic>) {
+        throw const BakaLiteException(
+          BakaLiteError.invalidResponse,
+          'Expected a JSON dict',
+        );
+      }
+
+      if (res.statusCode == 401) {
+        throw const BakaLiteException(
+          BakaLiteError.http,
+          'Unauthorized, invalid accessToken',
+        );
+      }
+
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        throw BakaLiteException(BakaLiteError.http, 'HTTP ${res.statusCode}');
+      }
+
+      return json;
+    } on http.ClientException catch (e) {
+      throw BakaLiteException(BakaLiteError.network, e.toString());
+    } on FormatException {
+      throw const BakaLiteException(
+        BakaLiteError.invalidResponse,
+        'Invalid JSON',
+      );
+    }
+  }
 }
