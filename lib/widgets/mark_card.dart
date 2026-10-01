@@ -1,3 +1,4 @@
+import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MarkCard extends StatelessWidget {
@@ -65,7 +66,7 @@ class MarkCard extends StatelessWidget {
               children: [
                 Text(date, style: Theme.of(context).textTheme.bodyMedium),
                 Text(
-                  'Váha: $weight', // TODO translation
+                  AppLocalizations.of(context)!.weight(weight),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],

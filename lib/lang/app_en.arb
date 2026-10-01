@@ -12,5 +12,6 @@
   "invalidInput": "Invalid input",
   "cannotBeEmpty": "This field cannot be empty",
   "dashboard": "Dashboard",
-  "marks": "Marks"
+  "marks": "Marks",
+  "weight": "Weight: {weight}"
 }

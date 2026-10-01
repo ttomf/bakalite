@@ -181,6 +181,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Marks'**
   String get marks;
+
+  /// No description provided for @weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight: {weight}'**
+  String weight(Object weight);
 }
 
 class _AppLocalizationsDelegate

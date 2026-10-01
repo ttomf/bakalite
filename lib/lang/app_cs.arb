@@ -12,5 +12,6 @@
   "invalidInput": "Neplatný vstup",
   "cannotBeEmpty": "Toto pole nemůže být prázdné",
   "dashboard": "Přehled",
-  "marks": "Známky"
+  "marks": "Známky",
+  "weight": "Váha: {weight}"
 }
