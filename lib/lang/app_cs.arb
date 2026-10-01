@@ -11,5 +11,6 @@
   "invalidResponse": "Neplatná odpověď serveru",
   "invalidInput": "Neplatný vstup",
   "cannotBeEmpty": "Toto pole nemůže být prázdné",
-  "dashboard": "Přehled"
+  "dashboard": "Přehled",
+  "marks": "Známky"
 }

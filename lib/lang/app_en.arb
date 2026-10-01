@@ -11,5 +11,6 @@
   "invalidResponse": "Invalid server response",
   "invalidInput": "Invalid input",
   "cannotBeEmpty": "This field cannot be empty",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "marks": "Marks"
 }

@@ -47,4 +47,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get dashboard => 'Přehled';
+
+  @override
+  String get marks => 'Známky';
 }

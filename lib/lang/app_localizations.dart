@@ -175,6 +175,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dashboard'**
   String get dashboard;
+
+  /// No description provided for @marks.
+  ///
+  /// In en, this message translates to:
+  /// **'Marks'**
+  String get marks;
 }
 
 class _AppLocalizationsDelegate
