@@ -4,14 +4,14 @@ import 'package:bakalite/widgets/mark_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class Marks extends StatefulWidget {
-  const Marks({super.key});
+class MarksScreen extends StatefulWidget {
+  const MarksScreen({super.key});
 
   @override
-  State<Marks> createState() => _MarksState();
+  State<MarksScreen> createState() => _MarksScreenState();
 }
 
-class _MarksState extends State<Marks> {
+class _MarksScreenState extends State<MarksScreen> {
   Map<String, dynamic>? _marks;
   List<Map<String, dynamic>>? _marksLast;
 
