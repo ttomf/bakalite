@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static ThemeData getThemeData(Brightness brightness) {
+  static ThemeData getTheme(Brightness brightness, Color seedColor) {
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.blue,
+      seedColor: seedColor,
       brightness: brightness,
     );
 
@@ -33,13 +33,5 @@ class AppTheme {
       ),
       colorScheme: colorScheme,
     );
-  }
-
-  static ThemeData get lightTheme {
-    return getThemeData(Brightness.light);
-  }
-
-  static ThemeData get darkTheme {
-    return getThemeData(Brightness.dark);
   }
 }
