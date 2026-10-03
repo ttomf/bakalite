@@ -55,4 +55,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String weight(Object weight) {
     return 'Weight: $weight';
   }
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get seedColor => 'Theme seed color';
+
+  @override
+  String get resetSettings => 'Reset settings';
 }

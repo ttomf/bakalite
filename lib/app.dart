@@ -1,6 +1,7 @@
 import 'package:bakalite/screens/login.dart';
 import 'package:bakalite/screens/dashboard.dart';
 import 'package:bakalite/screens/marks.dart';
+import 'package:bakalite/screens/settings.dart';
 import 'package:bakalite/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,6 +34,7 @@ class MainApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/dashboard': (context) => const Dashboard(),
         '/marks': (context) => const MarksScreen(),
+        '/settings': (context) => const SettingsScreen(),
       },
     );
   }

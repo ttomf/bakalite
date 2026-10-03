@@ -187,6 +187,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weight: {weight}'**
   String weight(Object weight);
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @seedColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme seed color'**
+  String get seedColor;
+
+  /// No description provided for @resetSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset settings'**
+  String get resetSettings;
 }
 
 class _AppLocalizationsDelegate

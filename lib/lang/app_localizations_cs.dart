@@ -55,4 +55,13 @@ class AppLocalizationsCs extends AppLocalizations {
   String weight(Object weight) {
     return 'Váha: $weight';
   }
+
+  @override
+  String get settings => 'Nastavení';
+
+  @override
+  String get seedColor => 'Výchozí barva vzhledu';
+
+  @override
+  String get resetSettings => 'Obnovit nastavení';
 }
