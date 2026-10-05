@@ -64,4 +64,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resetSettings => 'Reset settings';
+
+  @override
+  String get byDate => 'By date';
+
+  @override
+  String get bySubject => 'By subject';
+
+  @override
+  String get predictor => 'Predictor';
 }

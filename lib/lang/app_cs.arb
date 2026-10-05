@@ -16,5 +16,8 @@
   "weight": "Váha: {weight}",
   "settings": "Nastavení",
   "seedColor": "Výchozí barva vzhledu",
-  "resetSettings": "Obnovit nastavení"
+  "resetSettings": "Obnovit nastavení",
+  "byDate": "Podle data",
+  "bySubject": "Podle předmětu",
+  "predictor": "Předvídač"
 }

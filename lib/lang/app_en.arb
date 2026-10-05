@@ -16,5 +16,8 @@
   "weight": "Weight: {weight}",
   "settings": "Settings",
   "seedColor": "Theme seed color",
-  "resetSettings": "Reset settings"
+  "resetSettings": "Reset settings",
+  "byDate": "By date",
+  "bySubject": "By subject",
+  "predictor": "Predictor"
 }

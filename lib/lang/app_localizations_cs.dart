@@ -64,4 +64,13 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get resetSettings => 'Obnovit nastavení';
+
+  @override
+  String get byDate => 'Podle data';
+
+  @override
+  String get bySubject => 'Podle předmětu';
+
+  @override
+  String get predictor => 'Předvídač';
 }

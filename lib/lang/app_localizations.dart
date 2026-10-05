@@ -205,6 +205,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset settings'**
   String get resetSettings;
+
+  /// No description provided for @byDate.
+  ///
+  /// In en, this message translates to:
+  /// **'By date'**
+  String get byDate;
+
+  /// No description provided for @bySubject.
+  ///
+  /// In en, this message translates to:
+  /// **'By subject'**
+  String get bySubject;
+
+  /// No description provided for @predictor.
+  ///
+  /// In en, this message translates to:
+  /// **'Predictor'**
+  String get predictor;
 }
 
 class _AppLocalizationsDelegate

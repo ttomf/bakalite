@@ -57,26 +57,44 @@ class _MarksScreenState extends State<MarksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.marks)),
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: ListView(
-              children: [
-                if (_marksLast != null)
-                  for (final mark in _marksLast!)
-                    MarkCard(
-                      mark: mark['MarkText'],
-                      weight: mark['Weight'],
-                      subject: mark['SubjectName'],
-                      date: DateFormat('d. M. yyyy')
-                          .format(DateTime.parse(mark['MarkDate'])),
-                      caption: mark['Caption'],
-                      theme: mark['Theme'],
-                    ),
-              ],
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.marks),
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Text(AppLocalizations.of(context)!.byDate)),
+              Tab(icon: Text(AppLocalizations.of(context)!.bySubject)),
+              Tab(icon: Text(AppLocalizations.of(context)!.predictor)),
+            ],
+          ),
+        ),
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: TabBarView(
+                children: [
+                  ListView(
+                    children: [
+                      if (_marksLast != null)
+                        for (final mark in _marksLast!)
+                          MarkCard(
+                            mark: mark['MarkText'],
+                            weight: mark['Weight'],
+                            subject: mark['SubjectName'],
+                            date: DateFormat('d. M. yyyy')
+                                .format(DateTime.parse(mark['MarkDate'])),
+                            caption: mark['Caption'],
+                            theme: mark['Theme'],
+                          ),
+                    ],
+                  ),
+                  ListView(children: [Text('todo')]),
+                  ListView(children: [Text('todo')]),
+                ],
+              ),
             ),
           ),
         ),
