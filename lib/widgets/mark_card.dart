@@ -34,8 +34,10 @@ class MarkCard extends StatelessWidget {
                   width: 50,
                   child: Text(
                     mark,
-                    style: Theme.of(context).textTheme.titleLarge
-                        ?.copyWith(color: Colors.red),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -45,7 +47,11 @@ class MarkCard extends StatelessWidget {
                     children: [
                       Text(
                         subject,
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                       if (caption.isNotEmpty) Text(caption),
                       if (theme.isNotEmpty)
@@ -59,7 +65,11 @@ class MarkCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            const Divider(height: 1, thickness: 2),
+            Divider(
+              height: 1,
+              thickness: 1.5,
+              color: Theme.of(context).colorScheme.primary,
+            ),
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
