@@ -39,20 +39,63 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.dashboard)),
+      appBar: AppBar(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(AppLocalizations.of(context)!.dashboard),
+            SelectableText(
+              _user?['FullName'] != null
+                  ? '${_user!['FullName']} – ${_user!['UserTypeText']}'
+                  : '',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                SelectableText(
-                  _user != null
-                      ? '${_user?['FullName']} – ${_user?['UserTypeText']}'
-                      : '',
-                  style: Theme.of(context).textTheme.titleMedium,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: GridView(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 300,
                 ),
-              ],
+                children: [
+                  Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/marks');
+                      },
+                      child: Center(
+                        child: Text(AppLocalizations.of(context)!.marks),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/settings');
+                      },
+                      child: Center(
+                        child: Text(AppLocalizations.of(context)!.settings),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: Center(
+                        child: Text(AppLocalizations.of(context)!.login),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
