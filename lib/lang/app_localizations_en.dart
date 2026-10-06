@@ -71,4 +71,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get predictor => 'Predictor';
+
+  @override
+  String get average => 'Average';
 }

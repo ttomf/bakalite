@@ -19,5 +19,6 @@
   "resetSettings": "Obnovit nastavení",
   "byDate": "Podle data",
   "bySubject": "Podle předmětu",
-  "predictor": "Předvídač"
+  "predictor": "Předvídač",
+  "average": "Průměr"
 }

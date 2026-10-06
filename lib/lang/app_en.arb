@@ -19,5 +19,6 @@
   "resetSettings": "Reset settings",
   "byDate": "By date",
   "bySubject": "By subject",
-  "predictor": "Predictor"
+  "predictor": "Predictor",
+  "average": "Average"
 }

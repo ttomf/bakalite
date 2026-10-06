@@ -71,4 +71,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get predictor => 'Předvídač';
+
+  @override
+  String get average => 'Průměr';
 }

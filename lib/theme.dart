@@ -31,6 +31,10 @@ class AppTheme {
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 0),
       ),
+      expansionTileTheme: const ExpansionTileThemeData(
+        shape: Border(),
+        collapsedShape: Border(),
+      ),
       colorScheme: colorScheme,
     );
   }
