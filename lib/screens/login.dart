@@ -329,7 +329,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
 
                       final url = _urlController.text;
-                      final baseUrl = '${url.endsWith('/') ? url : '$url/'}api';
+                      final baseUrl =
+                          '${url.startsWith('https://') ? '' : 'https://'}${url.endsWith('/') ? url : '$url/'}api';
                       api.baseUrl = baseUrl;
                       try {
                         await api.login(
