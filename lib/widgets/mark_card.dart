@@ -76,7 +76,7 @@ class MarkCard extends StatelessWidget {
               children: [
                 Text(date, style: Theme.of(context).textTheme.bodyMedium),
                 Text(
-                  AppLocalizations.of(context)!.weight(weight),
+                  '${AppLocalizations.of(context)!.weight}: $weight',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],

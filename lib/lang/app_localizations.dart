@@ -185,8 +185,8 @@ abstract class AppLocalizations {
   /// No description provided for @weight.
   ///
   /// In en, this message translates to:
-  /// **'Weight: {weight}'**
-  String weight(Object weight);
+  /// **'Weight'**
+  String get weight;
 
   /// No description provided for @settings.
   ///

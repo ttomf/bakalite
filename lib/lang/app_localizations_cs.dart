@@ -52,9 +52,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get marks => 'Známky';
 
   @override
-  String weight(Object weight) {
-    return 'Váha: $weight';
-  }
+  String get weight => 'Váha';
 
   @override
   String get settings => 'Nastavení';

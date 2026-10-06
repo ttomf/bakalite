@@ -13,7 +13,7 @@
   "cannotBeEmpty": "Toto pole nemůže být prázdné",
   "dashboard": "Přehled",
   "marks": "Známky",
-  "weight": "Váha: {weight}",
+  "weight": "Váha",
   "settings": "Nastavení",
   "seedColor": "Výchozí barva vzhledu",
   "resetSettings": "Obnovit nastavení",

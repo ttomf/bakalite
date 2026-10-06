@@ -13,7 +13,7 @@
   "cannotBeEmpty": "This field cannot be empty",
   "dashboard": "Dashboard",
   "marks": "Marks",
-  "weight": "Weight: {weight}",
+  "weight": "Weight",
   "settings": "Settings",
   "seedColor": "Theme seed color",
   "resetSettings": "Reset settings",

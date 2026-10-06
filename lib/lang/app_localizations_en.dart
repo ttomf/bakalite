@@ -52,9 +52,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get marks => 'Marks';
 
   @override
-  String weight(Object weight) {
-    return 'Weight: $weight';
-  }
+  String get weight => 'Weight';
 
   @override
   String get settings => 'Settings';
