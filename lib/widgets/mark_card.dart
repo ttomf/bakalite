@@ -74,11 +74,8 @@ class MarkCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(date, style: Theme.of(context).textTheme.bodyMedium),
-                Text(
-                  '${AppLocalizations.of(context)!.weight}: $weight',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text(date),
+                Text('${AppLocalizations.of(context)!.weight}: $weight'),
               ],
             ),
           ],
