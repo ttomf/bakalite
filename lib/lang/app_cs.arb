@@ -24,5 +24,7 @@
   "homework": "Domácí úkoly",
   "current": "Aktuální",
   "start": "začátek",
-  "end": "konec"
+  "end": "konec",
+  "language": "Jazyk",
+  "systemLanguage": "Systémový jazyk"
 }

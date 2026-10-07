@@ -86,4 +86,10 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get end => 'konec';
+
+  @override
+  String get language => 'Jazyk';
+
+  @override
+  String get systemLanguage => 'Systémový jazyk';
 }

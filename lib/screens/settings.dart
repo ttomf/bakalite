@@ -4,9 +4,14 @@ import 'package:bakalite/widgets/setting_card.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key, required this.onColorChanged});
+  const SettingsScreen({
+    super.key,
+    required this.onColorChanged,
+    required this.onLanguageChanged,
+  });
 
   final ValueChanged<Color> onColorChanged;
+  final ValueChanged<String> onLanguageChanged;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -32,6 +37,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   defaultValue: Colors.lightBlue,
                   onSet: (value) {
                     widget.onColorChanged(value!);
+                  },
+                ),
+                SettingCard<String>(
+                  key: ValueKey((settingsKey, 'language')),
+                  label: AppLocalizations.of(context)!.language,
+                  name: 'language',
+                  defaultValue: 'System',
+                  choices: {
+                    'System': AppLocalizations.of(context)!.systemLanguage,
+                    for (final lang in AppLocalizations.supportedLocales)
+                      lang.toLanguageTag(): lang.toLanguageTag(),
+                  },
+                  onSet: (value) {
+                    widget.onLanguageChanged(value!);
                   },
                 ),
                 SettingCard<void>(

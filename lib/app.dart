@@ -23,6 +23,7 @@ class _MainAppState extends State<MainApp> {
   Color seedColor = Color(
     prefs.getInt('settings_seedColor') ?? Colors.lightBlue.toARGB32(),
   );
+  String? locale = prefs.getString('settings_language');
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class _MainAppState extends State<MainApp> {
         ...GlobalMaterialLocalizations.delegates,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: locale == null || locale == 'System' ? null : Locale(locale!),
 
       initialRoute: widget.route,
       routes: {
@@ -50,6 +52,11 @@ class _MainAppState extends State<MainApp> {
           onColorChanged: (color) {
             setState(() {
               seedColor = color;
+            });
+          },
+          onLanguageChanged: (language) {
+            setState(() {
+              locale = language;
             });
           },
         ),

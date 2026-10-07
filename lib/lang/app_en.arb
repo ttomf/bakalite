@@ -24,5 +24,7 @@
   "homework": "Homework",
   "current": "Current",
   "start": "start",
-  "end": "end"
+  "end": "end",
+  "language": "Language",
+  "systemLanguage": "System language"
 }
