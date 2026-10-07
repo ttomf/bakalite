@@ -1,5 +1,6 @@
-import 'package:bakalite/screens/login.dart';
 import 'package:bakalite/screens/dashboard.dart';
+import 'package:bakalite/screens/homework.dart';
+import 'package:bakalite/screens/login.dart';
 import 'package:bakalite/screens/marks.dart';
 import 'package:bakalite/screens/settings.dart';
 import 'package:bakalite/theme.dart';
@@ -44,6 +45,7 @@ class _MainAppState extends State<MainApp> {
         '/login': (context) => const LoginScreen(),
         '/dashboard': (context) => const Dashboard(),
         '/marks': (context) => const MarksScreen(),
+        '/homework': (context) => const HomeworkScreen(),
         '/settings': (context) => SettingsScreen(
           onColorChanged: (color) {
             setState(() {

@@ -20,5 +20,9 @@
   "byDate": "By date",
   "bySubject": "By subject",
   "predictor": "Predictor",
-  "average": "Average"
+  "average": "Average",
+  "homework": "Homework",
+  "current": "Current",
+  "start": "start",
+  "end": "end"
 }

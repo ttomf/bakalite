@@ -229,6 +229,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Average'**
   String get average;
+
+  /// No description provided for @homework.
+  ///
+  /// In en, this message translates to:
+  /// **'Homework'**
+  String get homework;
+
+  /// No description provided for @current.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get current;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'start'**
+  String get start;
+
+  /// No description provided for @end.
+  ///
+  /// In en, this message translates to:
+  /// **'end'**
+  String get end;
 }
 
 class _AppLocalizationsDelegate

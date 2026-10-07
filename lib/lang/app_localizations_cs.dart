@@ -74,4 +74,16 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get average => 'Průměr';
+
+  @override
+  String get homework => 'Domácí úkoly';
+
+  @override
+  String get current => 'Aktuální';
+
+  @override
+  String get start => 'začátek';
+
+  @override
+  String get end => 'konec';
 }

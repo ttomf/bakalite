@@ -74,4 +74,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get average => 'Average';
+
+  @override
+  String get homework => 'Homework';
+
+  @override
+  String get current => 'Current';
+
+  @override
+  String get start => 'start';
+
+  @override
+  String get end => 'end';
 }

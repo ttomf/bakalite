@@ -20,5 +20,9 @@
   "byDate": "Podle data",
   "bySubject": "Podle předmětu",
   "predictor": "Předvídač",
-  "average": "Průměr"
+  "average": "Průměr",
+  "homework": "Domácí úkoly",
+  "current": "Aktuální",
+  "start": "začátek",
+  "end": "konec"
 }

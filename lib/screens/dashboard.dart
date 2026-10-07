@@ -77,6 +77,16 @@ class _DashboardState extends State<Dashboard> {
                   Card(
                     child: InkWell(
                       onTap: () {
+                        Navigator.pushNamed(context, '/homework');
+                      },
+                      child: Center(
+                        child: Text(AppLocalizations.of(context)!.homework),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: InkWell(
+                      onTap: () {
                         Navigator.pushNamed(context, '/settings');
                       },
                       child: Center(
