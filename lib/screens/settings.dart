@@ -26,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: ListView(
               children: [
                 SettingCard<Color>(
-                  key: ValueKey(settingsKey),
+                  key: ValueKey((settingsKey, 'seedColor')),
                   label: AppLocalizations.of(context)!.seedColor,
                   name: 'seedColor',
                   defaultValue: Colors.lightBlue,

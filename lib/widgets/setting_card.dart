@@ -29,11 +29,13 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
     super.initState();
     if (widget.name != null) {
       value = load() ?? widget.defaultValue as T;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          widget.onSet?.call(value);
-        }
-      });
+      if (widget.name != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            widget.onSet?.call(value);
+          }
+        });
+      }
     }
   }
 
