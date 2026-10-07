@@ -200,15 +200,17 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: SizedBox(
-            height: 48,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 48),
             child: Row(
               children: [
-                Text(
-                  widget.label,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                Expanded(
+                  child: Text(
+                    widget.label,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 12),
                 getControl(),
               ],
             ),
