@@ -14,7 +14,7 @@ class SettingCard<T> extends StatefulWidget {
   final String label;
   final String? name;
   final T? defaultValue;
-  final List<T>? choices;
+  final Map<T, String>? choices;
   final ValueChanged<T?>? onSet;
 
   @override
@@ -23,6 +23,7 @@ class SettingCard<T> extends StatefulWidget {
 
 class _SettingCardState<T> extends State<SettingCard<T>> {
   late T value;
+  final GlobalKey _key = GlobalKey();
 
   @override
   void initState() {
@@ -108,13 +109,41 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
         );
       },
     ) as T?;
-    if (val != null) {
-      setState(() {
-        value = val;
-      });
-      save();
-      widget.onSet?.call(value);
-    }
+
+    if (val == null) return;
+    setState(() => value = val);
+    save();
+    widget.onSet?.call(val);
+  }
+
+  Future<void> pickString() async {
+    final choices = widget.choices;
+    if (choices == null) return;
+
+    final button = _key.currentContext!.findRenderObject() as RenderBox;
+    final overlay =
+        Navigator.of(context).overlay!.context.findRenderObject() as RenderBox;
+
+    final val = await showMenu<T>(
+      context: context,
+      position: RelativeRect.fromRect(
+        button.localToGlobal(
+              button.size.bottomRight(Offset.zero),
+              ancestor: overlay,
+            ) &
+            button.size,
+        Offset.zero & overlay.size,
+      ),
+      items: [
+        for (final e in choices.entries)
+          PopupMenuItem<T>(value: e.key, child: Text(e.value)),
+      ],
+    );
+
+    if (val == null) return;
+    setState(() => value = val);
+    save();
+    widget.onSet?.call(val);
   }
 
   Widget getControl() {
@@ -134,10 +163,12 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
       );
     }
     if (T == Color) {
-      return InkWell(
-        onTap: pickColor,
-        borderRadius: BorderRadius.circular(24),
-        child: CircleAvatar(backgroundColor: value as Color, radius: 24),
+      return CircleAvatar(backgroundColor: value as Color, radius: 24);
+    }
+    if (T == String && (widget.choices?.isNotEmpty ?? false)) {
+      return Text(
+        (widget.choices?[value] ?? value) as String,
+        style: Theme.of(context).textTheme.labelLarge,
       );
     }
 
@@ -148,6 +179,7 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
+        key: _key,
         onTap: () {
           if (widget.name == null) {
             widget.onSet?.call(null);
@@ -162,16 +194,24 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
             widget.onSet?.call(value);
           } else if (T == Color) {
             pickColor();
+          } else if (T == String) {
+            pickString();
           }
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Text(widget.label, style: Theme.of(context).textTheme.bodyLarge),
-              const Spacer(),
-              getControl(),
-            ],
+          child: SizedBox(
+            height: 48,
+            child: Row(
+              children: [
+                Text(
+                  widget.label,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const Spacer(),
+                getControl(),
+              ],
+            ),
           ),
         ),
       ),
