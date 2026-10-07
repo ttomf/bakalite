@@ -79,26 +79,7 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
             spacing: 12,
             runSpacing: 12,
             children: [
-              for (final color in const [
-                Colors.red,
-                Colors.deepOrange,
-                Colors.orange,
-                Colors.amber,
-                Colors.yellow,
-                Colors.lime,
-                Colors.lightGreen,
-                Colors.green,
-                Colors.teal,
-                Colors.cyan,
-                Colors.lightBlue,
-                Colors.blue,
-                Colors.indigo,
-                Colors.deepPurple,
-                Colors.purple,
-                Colors.pink,
-                Colors.brown,
-                Colors.blueGrey,
-              ])
+              for (final color in Colors.primaries)
                 InkWell(
                   onTap: () => Navigator.pop(context, color),
                   borderRadius: BorderRadius.circular(24),
