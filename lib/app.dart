@@ -24,6 +24,7 @@ class _MainAppState extends State<MainApp> {
     prefs.getInt('settings_seedColor') ?? Colors.lightBlue.toARGB32(),
   );
   String? locale = prefs.getString('settings_language');
+  bool useM3Color = prefs.getBool('settings_useM3Color') ?? true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,16 @@ class _MainAppState extends State<MainApp> {
       title: 'BakaLite',
       debugShowCheckedModeBanner: false,
 
-      theme: AppTheme.getTheme(Brightness.light, seedColor),
-      darkTheme: AppTheme.getTheme(Brightness.dark, seedColor),
+      theme: AppTheme.getTheme(
+        brightness: Brightness.light,
+        seedColor: seedColor,
+        useM3Color: useM3Color,
+      ),
+      darkTheme: AppTheme.getTheme(
+        brightness: Brightness.dark,
+        seedColor: seedColor,
+        useM3Color: useM3Color,
+      ),
       themeMode: ThemeMode.system,
 
       localizationsDelegates: const [
@@ -49,14 +58,19 @@ class _MainAppState extends State<MainApp> {
         '/marks': (context) => const MarksScreen(),
         '/homework': (context) => const HomeworkScreen(),
         '/settings': (context) => SettingsScreen(
-          onColorChanged: (color) {
+          onColorChanged: (value) {
             setState(() {
-              seedColor = color;
+              seedColor = value;
             });
           },
-          onLanguageChanged: (language) {
+          onLanguageChanged: (value) {
             setState(() {
-              locale = language;
+              locale = value;
+            });
+          },
+          onUseM3ColorChanged: (value) {
+            setState(() {
+              useM3Color = value;
             });
           },
         ),

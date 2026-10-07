@@ -26,5 +26,6 @@
   "start": "start",
   "end": "end",
   "language": "Language",
-  "systemLanguage": "System language"
+  "systemLanguage": "System language",
+  "useM3Color": "Use Material 3 color scheme"
 }

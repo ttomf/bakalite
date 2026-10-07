@@ -92,4 +92,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get systemLanguage => 'Systémový jazyk';
+
+  @override
+  String get useM3Color => 'Použít schéma barev Material 3';
 }

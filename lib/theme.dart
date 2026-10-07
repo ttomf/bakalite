@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static ThemeData getTheme(Brightness brightness, Color seedColor) {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: brightness,
-    );
+  static ThemeData getTheme({
+    Brightness brightness = Brightness.light,
+    Color seedColor = Colors.lightBlue,
+    bool useM3Color = true,
+  }) {
+    final colorScheme = useM3Color
+        ? ColorScheme.fromSeed(seedColor: seedColor, brightness: brightness)
+        : brightness == Brightness.light
+        ? ColorScheme.fromSeed(
+            seedColor: seedColor,
+            brightness: brightness,
+            surface: Colors.grey[100],
+            surfaceBright: Colors.white,
+            surfaceContainer: Colors.white,
+            surfaceContainerHigh: Colors.white,
+            surfaceContainerHighest: Colors.white,
+            surfaceContainerLow: Colors.white,
+            surfaceContainerLowest: Colors.white,
+            primary: seedColor,
+          )
+        : ColorScheme.fromSeed(
+            seedColor: seedColor,
+            brightness: brightness,
+            surface: Colors.black,
+            surfaceBright: Colors.grey[900],
+            surfaceContainer: Colors.grey[900],
+            surfaceContainerHigh: Colors.grey[900],
+            surfaceContainerHighest: Colors.grey[900],
+            surfaceContainerLow: Colors.grey[900],
+            surfaceContainerLowest: Colors.grey[900],
+            primary: seedColor,
+          );
 
     return ThemeData(
       useMaterial3: true,

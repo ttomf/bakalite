@@ -26,5 +26,6 @@
   "start": "začátek",
   "end": "konec",
   "language": "Jazyk",
-  "systemLanguage": "Systémový jazyk"
+  "systemLanguage": "Systémový jazyk",
+  "useM3Color": "Použít schéma barev Material 3"
 }

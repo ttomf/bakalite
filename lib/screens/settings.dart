@@ -8,10 +8,12 @@ class SettingsScreen extends StatefulWidget {
     super.key,
     required this.onColorChanged,
     required this.onLanguageChanged,
+    required this.onUseM3ColorChanged,
   });
 
   final ValueChanged<Color> onColorChanged;
   final ValueChanged<String> onLanguageChanged;
+  final ValueChanged<bool> onUseM3ColorChanged;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -51,6 +53,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   },
                   onSet: (value) {
                     widget.onLanguageChanged(value!);
+                  },
+                ),
+                SettingCard<bool>(
+                  key: ValueKey((settingsKey, 'useM3Color')),
+                  label: AppLocalizations.of(context)!.useM3Color,
+                  name: 'useM3Color',
+                  defaultValue: true,
+                  onSet: (value) {
+                    widget.onUseM3ColorChanged(value!);
                   },
                 ),
                 SettingCard<void>(

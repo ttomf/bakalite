@@ -92,4 +92,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get systemLanguage => 'System language';
+
+  @override
+  String get useM3Color => 'Use Material 3 color scheme';
 }

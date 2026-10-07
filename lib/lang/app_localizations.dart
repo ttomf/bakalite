@@ -265,6 +265,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System language'**
   String get systemLanguage;
+
+  /// No description provided for @useM3Color.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Material 3 color scheme'**
+  String get useM3Color;
 }
 
 class _AppLocalizationsDelegate
