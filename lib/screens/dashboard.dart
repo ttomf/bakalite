@@ -104,6 +104,14 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
+                  Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/dev');
+                      },
+                      child: const Center(child: Text('Dev')),
+                    ),
+                  ),
                 ],
               ),
             ),
