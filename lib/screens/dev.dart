@@ -41,13 +41,92 @@ class _DevScreenState extends State<DevScreen> {
             child: Column(
               spacing: 16,
               children: [
-                TextField(
-                  controller: endpointController,
-                  decoration: const InputDecoration(labelText: 'Endpoint'),
-                  keyboardType: TextInputType.url,
-                  onSubmitted: (val) {
-                    send();
+                Autocomplete<String>(
+                  optionsBuilder: (text) {
+                    const options = [
+                      'absence/student',
+                      'classbook',
+                      'classbook/\$ID',
+                      'classbook/lessonTags',
+                      'events',
+                      'events/my',
+                      'events/public',
+                      'gdpr/commissioner',
+                      'gdpr/commissioner/send-objection',
+                      'gdpr/commissioner/send-report',
+                      'gdpr/commissioners',
+                      'gdpr/consent',
+                      'gdpr/consents/person',
+                      'gdpr/consents/person/child',
+                      'gdpr/consents/person/new',
+                      'homeworks',
+                      'homeworks/count-actual',
+                      'komens/attachment/\$ID',
+                      'komens/message',
+                      'komens/message/\$ID',
+                      'komens/message/\$ID/mark-as-read',
+                      'komens/message-types',
+                      'komens/message-types/edit',
+                      'komens/message-types/reply',
+                      'komens/messages/apology',
+                      'komens/messages/noticeboard',
+                      'komens/messages/noticeboard/unread',
+                      'komens/messages/rating',
+                      'komens/messages/received',
+                      'komens/messages/received/\$ID',
+                      'komens/messages/sent/\$ID',
+                      'komens/messages/received/unread',
+                      'komens/messages/sent',
+                      'komens/rating-templates',
+                      'lesson/\$ID/absence',
+                      'lesson/\$ID/past',
+                      'lesson/\$ID/studentsTimetable',
+                      'login',
+                      'logintoken',
+                      'marking/atoms',
+                      'marking/marks/\$ID',
+                      'marks',
+                      'marks/count-new',
+                      'marks/final',
+                      'marks/measures',
+                      'marks/what-if',
+                      'payments/classfund',
+                      'payments/classfund/paymentsinfo',
+                      'payments/classfund/summary',
+                      'register-notification',
+                      'subjects',
+                      'subjects/themes/\$ID',
+                      'substitutions',
+                      'timetable/actual',
+                      'timetable/permanent',
+                      'unregister-user-notification',
+                      'user',
+                      'user/student-at-school',
+                      'webmodule',
+                    ];
+                    return options.where(
+                      (o) => o.toLowerCase().contains(text.text.toLowerCase()),
+                    );
                   },
+                  onSelected: (selection) {
+                    endpointController.text = selection;
+                  },
+                  fieldViewBuilder:
+                      (context, controller, focusNode, onFieldSubmitted) {
+                        controller.text = endpointController.text;
+                        controller.addListener(() {
+                          endpointController.text = controller.text;
+                        });
+
+                        return TextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          decoration: const InputDecoration(
+                            labelText: 'Endpoint',
+                          ),
+                          keyboardType: TextInputType.url,
+                        );
+                      },
                 ),
                 SizedBox(
                   width: double.maxFinite,
@@ -69,10 +148,15 @@ class _DevScreenState extends State<DevScreen> {
                       width: double.maxFinite,
                       child: Stack(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                          SizedBox(
+                            width: double.maxFinite,
                             child: SingleChildScrollView(
-                              child: SelectableText(responseJson),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
+                                child: SelectableText(responseJson),
+                              ),
                             ),
                           ),
                           Positioned(
