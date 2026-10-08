@@ -21,7 +21,7 @@ class BakalariAPI {
       );
 
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        throw BakaLiteException(BakaLiteError.http, 'HTTP ${res.statusCode}');
+        throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
       final json = jsonDecode(res.body);
@@ -73,7 +73,7 @@ class BakalariAPI {
       }
 
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        throw BakaLiteException(BakaLiteError.http, 'HTTP ${res.statusCode}');
+        throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
       final json = jsonDecode(res.body);
@@ -150,6 +150,13 @@ class BakalariAPI {
         },
       );
 
+      if (res.statusCode == 404) {
+        throw const BakaLiteException(
+          BakaLiteError.http,
+          '404, endpoint not found',
+        );
+      }
+
       final json = jsonDecode(res.body);
 
       if (json is! Map) {
@@ -164,7 +171,7 @@ class BakalariAPI {
           throw const BakaLiteException(BakaLiteError.invalidCredentials);
         }
 
-        throw BakaLiteException(BakaLiteError.http, 'HTTP ${res.statusCode}');
+        throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
       if (json['access_token'] is! String) {
@@ -210,6 +217,13 @@ class BakalariAPI {
         },
       );
 
+      if (res.statusCode == 404) {
+        throw const BakaLiteException(
+          BakaLiteError.http,
+          '404, endpoint not found',
+        );
+      }
+
       final json = jsonDecode(res.body);
 
       if (json is! Map<String, dynamic>) {
@@ -227,7 +241,7 @@ class BakalariAPI {
       }
 
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        throw BakaLiteException(BakaLiteError.http, 'HTTP ${res.statusCode}');
+        throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
       return json;
