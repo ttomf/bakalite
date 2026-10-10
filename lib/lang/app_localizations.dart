@@ -271,6 +271,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use Material 3 color scheme'**
   String get useM3Color;
+
+  /// No description provided for @devMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer mode'**
+  String get devMode;
 }
 
 class _AppLocalizationsDelegate

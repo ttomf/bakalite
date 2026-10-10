@@ -23,11 +23,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: ListView(
               children: [
-                SettingCard<Color>(
-                  key: ValueKey((settingsKey, 'seedColor')),
-                  setting: Config.seedColor,
-                  label: AppLocalizations.of(context)!.seedColor,
-                ),
                 SettingCard<String>(
                   key: ValueKey((settingsKey, 'language')),
                   setting: Config.language,
@@ -38,10 +33,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       lang.toLanguageTag(): lang.toLanguageTag(),
                   },
                 ),
+                SettingCard<Color>(
+                  key: ValueKey((settingsKey, 'seedColor')),
+                  setting: Config.seedColor,
+                  label: AppLocalizations.of(context)!.seedColor,
+                ),
                 SettingCard<bool>(
                   key: ValueKey((settingsKey, 'useM3Color')),
                   setting: Config.useM3Color,
                   label: AppLocalizations.of(context)!.useM3Color,
+                ),
+                SettingCard<bool>(
+                  key: ValueKey((settingsKey, 'devMode')),
+                  setting: Config.devMode,
+                  label: AppLocalizations.of(context)!.devMode,
                 ),
                 SettingCard<void>(
                   label: AppLocalizations.of(context)!.resetSettings,

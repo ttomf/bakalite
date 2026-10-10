@@ -41,18 +41,22 @@ class Config {
   static final useM3Color = ValueNotifier(
     prefs.getBool('settings_useM3Color') ?? true,
   );
+  static final devMode = ValueNotifier(
+    prefs.getBool('settings_devMode') ?? false,
+  );
 
   static void init() {
     seedColor.addListener(() {
       save('seedColor', seedColor.value);
     });
-
     language.addListener(() {
       save('language', language.value);
     });
-
     useM3Color.addListener(() {
       save('useM3Color', useM3Color.value);
+    });
+    devMode.addListener(() {
+      save('devMode', devMode.value);
     });
   }
 
@@ -60,9 +64,11 @@ class Config {
     await prefs.remove('settings_seedColor');
     await prefs.remove('settings_language');
     await prefs.remove('settings_useM3Color');
+    await prefs.remove('settings_devMode');
     seedColor.value = Colors.lightBlue;
     language.value = 'System';
     useM3Color.value = true;
+    devMode.value = false;
   }
 
   static Future<void> save<T>(String? key, T value) async {

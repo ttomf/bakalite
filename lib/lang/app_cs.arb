@@ -27,5 +27,6 @@
   "end": "konec",
   "language": "Jazyk",
   "systemLanguage": "Systémový jazyk",
-  "useM3Color": "Použít schéma barev Material 3"
+  "useM3Color": "Použít schéma barev Material 3",
+  "devMode": "Vývojářský mód"
 }

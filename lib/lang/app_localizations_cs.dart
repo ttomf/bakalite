@@ -95,4 +95,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get useM3Color => 'Použít schéma barev Material 3';
+
+  @override
+  String get devMode => 'Vývojářský mód';
 }

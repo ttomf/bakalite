@@ -1,5 +1,6 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -59,60 +60,67 @@ class _DashboardState extends State<Dashboard> {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: ScrollConfiguration(
               behavior: const ScrollBehavior().copyWith(overscroll: false),
-              child: GridView(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 300,
-                ),
-                children: [
-                  Card(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/marks');
-                      },
-                      child: Center(
-                        child: Text(AppLocalizations.of(context)!.marks),
+              child: ValueListenableBuilder(
+                valueListenable: Config.devMode,
+                builder: (context, value, child) {
+                  return GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 300,
+                        ),
+                    children: [
+                      Card(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/marks');
+                          },
+                          child: Center(
+                            child: Text(AppLocalizations.of(context)!.marks),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Card(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/homework');
-                      },
-                      child: Center(
-                        child: Text(AppLocalizations.of(context)!.homework),
+                      Card(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/homework');
+                          },
+                          child: Center(
+                            child: Text(AppLocalizations.of(context)!.homework),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Card(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/settings');
-                      },
-                      child: Center(
-                        child: Text(AppLocalizations.of(context)!.settings),
+                      Card(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/settings');
+                          },
+                          child: Center(
+                            child: Text(AppLocalizations.of(context)!.settings),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Card(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
-                      child: Center(
-                        child: Text(AppLocalizations.of(context)!.login),
+                      Card(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                          child: Center(
+                            child: Text(AppLocalizations.of(context)!.login),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Card(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/dev');
-                      },
-                      child: const Center(child: Text('Dev')),
-                    ),
-                  ),
-                ],
+                      if (Config.devMode.value)
+                        Card(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/dev');
+                            },
+                            child: const Center(child: Text('Dev')),
+                          ),
+                        ),
+                    ],
+                  );
+                },
               ),
             ),
           ),

@@ -27,5 +27,6 @@
   "end": "end",
   "language": "Language",
   "systemLanguage": "System language",
-  "useM3Color": "Use Material 3 color scheme"
+  "useM3Color": "Use Material 3 color scheme",
+  "devMode": "Developer mode"
 }
