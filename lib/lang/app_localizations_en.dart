@@ -98,4 +98,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get devMode => 'Developer mode';
+
+  @override
+  String get totalWeight => 'Total weight';
 }

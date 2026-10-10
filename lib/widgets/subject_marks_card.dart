@@ -18,6 +18,10 @@ class SubjectMarksCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int totalWeight = 0;
+    for (final mark in marks) {
+      totalWeight += int.tryParse(mark['Weight']) ?? 0;
+    }
     return Card(
       child: ExpansionTile(
         key: PageStorageKey(subject),
@@ -32,6 +36,7 @@ class SubjectMarksCard extends StatelessWidget {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 RichText(
                   text: TextSpan(
@@ -48,7 +53,23 @@ class SubjectMarksCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-                const SizedBox(width: 24),
+                if (totalWeight != 0)
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              '${AppLocalizations.of(context)!.totalWeight}: ',
+                          style: TextStyle(color: Theme.of(context).hintColor),
+                        ),
+                        TextSpan(
+                          text: totalWeight.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
                 RichText(
                   text: TextSpan(
                     children: [

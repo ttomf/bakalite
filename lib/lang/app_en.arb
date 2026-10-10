@@ -28,5 +28,6 @@
   "language": "Language",
   "systemLanguage": "System language",
   "useM3Color": "Use Material 3 color scheme",
-  "devMode": "Developer mode"
+  "devMode": "Developer mode",
+  "totalWeight": "Total weight"
 }

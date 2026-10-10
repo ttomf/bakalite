@@ -98,4 +98,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get devMode => 'Vývojářský mód';
+
+  @override
+  String get totalWeight => 'Celková váha';
 }

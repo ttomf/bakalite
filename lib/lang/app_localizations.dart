@@ -277,6 +277,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Developer mode'**
   String get devMode;
+
+  /// No description provided for @totalWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Total weight'**
+  String get totalWeight;
 }
 
 class _AppLocalizationsDelegate
