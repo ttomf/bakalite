@@ -21,61 +21,50 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  Color seedColor = Color(
-    prefs.getInt('settings_seedColor') ?? Colors.lightBlue.toARGB32(),
-  );
-  String? locale = prefs.getString('settings_language');
-  bool useM3Color = prefs.getBool('settings_useM3Color') ?? true;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BakaLite',
-      debugShowCheckedModeBanner: false,
+    return AnimatedBuilder(
+      animation: Listenable.merge([
+        Config.seedColor,
+        Config.language,
+        Config.useM3Color,
+      ]),
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'BakaLite',
+          debugShowCheckedModeBanner: false,
 
-      theme: AppTheme.getTheme(
-        brightness: Brightness.light,
-        seedColor: seedColor,
-        useM3Color: useM3Color,
-      ),
-      darkTheme: AppTheme.getTheme(
-        brightness: Brightness.dark,
-        seedColor: seedColor,
-        useM3Color: useM3Color,
-      ),
-      themeMode: ThemeMode.system,
+          theme: AppTheme.getTheme(
+            brightness: Brightness.light,
+            seedColor: Config.seedColor.value,
+            useM3Color: Config.useM3Color.value,
+          ),
+          darkTheme: AppTheme.getTheme(
+            brightness: Brightness.dark,
+            seedColor: Config.seedColor.value,
+            useM3Color: Config.useM3Color.value,
+          ),
+          themeMode: ThemeMode.system,
 
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        ...GlobalMaterialLocalizations.delegates,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: locale == null || locale == 'System' ? null : Locale(locale!),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            ...GlobalMaterialLocalizations.delegates,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: Config.language.value == 'System'
+              ? null
+              : Locale(Config.language.value),
 
-      initialRoute: widget.route,
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/dashboard': (context) => const Dashboard(),
-        '/marks': (context) => const MarksScreen(),
-        '/homework': (context) => const HomeworkScreen(),
-        '/dev': (context) => const DevScreen(),
-        '/settings': (context) => SettingsScreen(
-          onColorChanged: (value) {
-            setState(() {
-              seedColor = value;
-            });
+          initialRoute: widget.route,
+          routes: {
+            '/login': (context) => const LoginScreen(),
+            '/dashboard': (context) => const Dashboard(),
+            '/marks': (context) => const MarksScreen(),
+            '/homework': (context) => const HomeworkScreen(),
+            '/dev': (context) => const DevScreen(),
+            '/settings': (context) => const SettingsScreen(),
           },
-          onLanguageChanged: (value) {
-            setState(() {
-              locale = value;
-            });
-          },
-          onUseM3ColorChanged: (value) {
-            setState(() {
-              useM3Color = value;
-            });
-          },
-        ),
+        );
       },
     );
   }

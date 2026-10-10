@@ -4,16 +4,7 @@ import 'package:bakalite/widgets/setting_card.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({
-    super.key,
-    required this.onColorChanged,
-    required this.onLanguageChanged,
-    required this.onUseM3ColorChanged,
-  });
-
-  final ValueChanged<Color> onColorChanged;
-  final ValueChanged<String> onLanguageChanged;
-  final ValueChanged<bool> onUseM3ColorChanged;
+  const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -34,40 +25,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 SettingCard<Color>(
                   key: ValueKey((settingsKey, 'seedColor')),
+                  setting: Config.seedColor,
                   label: AppLocalizations.of(context)!.seedColor,
-                  name: 'seedColor',
-                  defaultValue: Colors.lightBlue,
-                  onSet: (value) {
-                    widget.onColorChanged(value!);
-                  },
                 ),
                 SettingCard<String>(
                   key: ValueKey((settingsKey, 'language')),
+                  setting: Config.language,
                   label: AppLocalizations.of(context)!.language,
-                  name: 'language',
-                  defaultValue: 'System',
                   choices: {
                     'System': AppLocalizations.of(context)!.systemLanguage,
                     for (final lang in AppLocalizations.supportedLocales)
                       lang.toLanguageTag(): lang.toLanguageTag(),
                   },
-                  onSet: (value) {
-                    widget.onLanguageChanged(value!);
-                  },
                 ),
                 SettingCard<bool>(
                   key: ValueKey((settingsKey, 'useM3Color')),
+                  setting: Config.useM3Color,
                   label: AppLocalizations.of(context)!.useM3Color,
-                  name: 'useM3Color',
-                  defaultValue: true,
-                  onSet: (value) {
-                    widget.onUseM3ColorChanged(value!);
-                  },
                 ),
                 SettingCard<void>(
                   label: AppLocalizations.of(context)!.resetSettings,
-                  onSet: (value) {
-                    prefs.clear();
+                  onSet: (value) async {
+                    await Config.reset();
                     setState(() {
                       settingsKey++;
                     });

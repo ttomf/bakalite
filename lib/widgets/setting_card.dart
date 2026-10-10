@@ -1,19 +1,16 @@
-import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 
 class SettingCard<T> extends StatefulWidget {
   const SettingCard({
     super.key,
     required this.label,
-    this.name,
-    this.defaultValue,
+    this.setting,
     this.choices,
     this.onSet,
   });
 
   final String label;
-  final String? name;
-  final T? defaultValue;
+  final ValueNotifier<T>? setting;
   final Map<T, String>? choices;
   final ValueChanged<T?>? onSet;
 
@@ -22,52 +19,7 @@ class SettingCard<T> extends StatefulWidget {
 }
 
 class _SettingCardState<T> extends State<SettingCard<T>> {
-  late T value;
   final GlobalKey _key = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.name != null) {
-      value = load() ?? widget.defaultValue as T;
-      if (widget.name != null) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            widget.onSet?.call(value);
-          }
-        });
-      }
-    }
-  }
-
-  void save() {
-    if (T == bool) {
-      prefs.setBool('settings_${widget.name}', value as bool);
-    }
-    if (T == String) {
-      prefs.setString('settings_${widget.name}', value as String);
-    }
-    if (T == Color) {
-      prefs.setInt('settings_${widget.name}', (value as Color).toARGB32());
-    }
-  }
-
-  T? load() {
-    if (widget.name == null || !prefs.containsKey('settings_${widget.name}')) {
-      return null;
-    }
-    if (T == bool) {
-      return prefs.getBool('settings_${widget.name}')! as T;
-    }
-    if (T == String) {
-      return prefs.getString('settings_${widget.name}')! as T;
-    }
-    if (T == Color) {
-      return Color(prefs.getInt('settings_${widget.name}')!) as T;
-    }
-
-    throw ArgumentError('Unsupported setting type: $T');
-  }
 
   Future<void> pickColor() async {
     final val = await showAdaptiveDialog<Color>(
@@ -92,9 +44,10 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
     ) as T?;
 
     if (val == null) return;
-    setState(() => value = val);
-    save();
-    widget.onSet?.call(val);
+    setState(() {
+      widget.setting!.value = val;
+    });
+    widget.onSet?.call(widget.setting!.value);
   }
 
   Future<void> pickString() async {
@@ -122,33 +75,37 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
     );
 
     if (val == null) return;
-    setState(() => value = val);
-    save();
-    widget.onSet?.call(val);
+    setState(() {
+      widget.setting!.value = val;
+    });
+    widget.onSet?.call(widget.setting!.value);
   }
 
   Widget getControl() {
-    if (widget.name == null) {
+    if (widget.setting == null) {
       return SizedBox.fromSize(size: const Size(0, 48));
     }
     if (T == bool) {
       return Switch(
-        value: value as bool,
+        value: widget.setting!.value as bool,
         onChanged: (val) {
           setState(() {
-            value = val as T;
+            widget.setting!.value = val as T;
           });
-          save();
-          widget.onSet?.call(value);
+          widget.onSet?.call(widget.setting!.value);
         },
       );
     }
     if (T == Color) {
-      return CircleAvatar(backgroundColor: value as Color, radius: 24);
+      return CircleAvatar(
+        backgroundColor: widget.setting!.value as Color,
+        radius: 24,
+      );
     }
     if (T == String && (widget.choices?.isNotEmpty ?? false)) {
       return Text(
-        (widget.choices?[value] ?? value) as String,
+        (widget.choices?[widget.setting!.value] ?? widget.setting!.value)
+            as String,
         style: Theme.of(context).textTheme.labelLarge,
       );
     }
@@ -162,17 +119,16 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
       child: InkWell(
         key: _key,
         onTap: () {
-          if (widget.name == null) {
+          if (widget.setting == null) {
             widget.onSet?.call(null);
             return;
           }
 
           if (T == bool) {
             setState(() {
-              value = !(value as bool) as T;
+              widget.setting!.value = !(widget.setting!.value as bool) as T;
             });
-            save();
-            widget.onSet?.call(value);
+            widget.onSet?.call(widget.setting!.value);
           } else if (T == Color) {
             pickColor();
           } else if (T == String) {

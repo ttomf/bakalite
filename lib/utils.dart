@@ -30,3 +30,68 @@ void showError(BuildContext context, BakaLiteException error) {
       ),
     );
 }
+
+class Config {
+  static final seedColor = ValueNotifier(
+    Color(prefs.getInt('settings_seedColor') ?? Colors.lightBlue.toARGB32()),
+  );
+  static final language = ValueNotifier(
+    prefs.getString('settings_language') ?? 'System',
+  );
+  static final useM3Color = ValueNotifier(
+    prefs.getBool('settings_useM3Color') ?? true,
+  );
+
+  static void init() {
+    seedColor.addListener(() {
+      save('seedColor', seedColor.value);
+    });
+
+    language.addListener(() {
+      save('language', language.value);
+    });
+
+    useM3Color.addListener(() {
+      save('useM3Color', useM3Color.value);
+    });
+  }
+
+  static Future<void> reset() async {
+    await prefs.remove('settings_seedColor');
+    await prefs.remove('settings_language');
+    await prefs.remove('settings_useM3Color');
+    seedColor.value = Colors.lightBlue;
+    language.value = 'System';
+    useM3Color.value = true;
+  }
+
+  static Future<void> save<T>(String? key, T value) async {
+    if (key == null) {
+      return;
+    }
+    final storageKey = 'settings_$key';
+
+    switch (value) {
+      case Color color:
+        await prefs.setInt(storageKey, color.toARGB32());
+        break;
+      case bool boolean:
+        await prefs.setBool(storageKey, boolean);
+        break;
+      case int integer:
+        await prefs.setInt(storageKey, integer);
+        break;
+      case double decimal:
+        await prefs.setDouble(storageKey, decimal);
+        break;
+      case String string:
+        await prefs.setString(storageKey, string);
+        break;
+      case List<String> list:
+        await prefs.setStringList(storageKey, list);
+        break;
+      default:
+        throw ArgumentError('Unsupported setting type: ${value.runtimeType}');
+    }
+  }
+}
