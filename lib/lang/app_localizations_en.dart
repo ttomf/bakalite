@@ -101,4 +101,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get totalWeight => 'Total weight';
+
+  @override
+  String get afterDeadline => 'After deadline';
+
+  @override
+  String get closed => 'Closed';
 }

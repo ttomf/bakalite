@@ -101,4 +101,10 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get totalWeight => 'Celková váha';
+
+  @override
+  String get afterDeadline => 'Po odevzdání';
+
+  @override
+  String get closed => 'Uzavřené';
 }

@@ -29,5 +29,7 @@
   "systemLanguage": "System language",
   "useM3Color": "Use Material 3 color scheme",
   "devMode": "Developer mode",
-  "totalWeight": "Total weight"
+  "totalWeight": "Total weight",
+  "afterDeadline": "After deadline",
+  "closed": "Closed"
 }

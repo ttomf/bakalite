@@ -283,6 +283,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Total weight'**
   String get totalWeight;
+
+  /// No description provided for @afterDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'After deadline'**
+  String get afterDeadline;
+
+  /// No description provided for @closed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get closed;
 }
 
 class _AppLocalizationsDelegate

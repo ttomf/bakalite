@@ -45,7 +45,11 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.homework),
           bottom: TabBar(
-            tabs: [Tab(icon: Text(AppLocalizations.of(context)!.current))],
+            tabs: [
+              Tab(icon: Text(AppLocalizations.of(context)!.current)),
+              Tab(icon: Text(AppLocalizations.of(context)!.afterDeadline)),
+              Tab(icon: Text(AppLocalizations.of(context)!.closed)),
+            ],
           ),
         ),
         body: SafeArea(
@@ -65,7 +69,8 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                                 .format(DateTime.parse(homework['DateStart'])),
                             dateEnd: DateFormat('d. M. yyyy')
                                 .format(DateTime.parse(homework['DateEnd'])),
-                            canFinish: true,
+                            closed: homework['Closed'],
+                            finished: homework['Finished'],
                           ),
                     ],
                   ),

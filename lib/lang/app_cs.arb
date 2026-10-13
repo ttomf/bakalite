@@ -29,5 +29,7 @@
   "systemLanguage": "Systémový jazyk",
   "useM3Color": "Použít schéma barev Material 3",
   "devMode": "Vývojářský mód",
-  "totalWeight": "Celková váha"
+  "totalWeight": "Celková váha",
+  "afterDeadline": "Po odevzdání",
+  "closed": "Uzavřené"
 }
