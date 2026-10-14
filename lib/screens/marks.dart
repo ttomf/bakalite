@@ -14,7 +14,7 @@ class MarksScreen extends StatefulWidget {
 
 class _MarksScreenState extends State<MarksScreen> {
   Map<String, dynamic>? _marks;
-  List<Map<String, dynamic>>? _marksLast;
+  List<Map<String, dynamic>> _marksLast = [];
   Map<String, dynamic>? _marksSubjects;
   Map<String, dynamic>? _subjects;
 
@@ -47,7 +47,7 @@ class _MarksScreenState extends State<MarksScreen> {
                 'Theme': mark['Theme'].trim(),
               },
         ];
-        _marksLast!.sort(
+        _marksLast.sort(
           (a, b) =>
               DateTime.parse(b['MarkDate'])
                   .compareTo(DateTime.parse(a['MarkDate'])),
@@ -101,17 +101,16 @@ class _MarksScreenState extends State<MarksScreen> {
                 children: [
                   ListView(
                     children: [
-                      if (_marksLast != null)
-                        for (final mark in _marksLast!)
-                          MarkCard(
-                            mark: mark['MarkText'],
-                            weight: mark['Weight'],
-                            subject: mark['SubjectName'],
-                            date: DateFormat('d. M. yyyy')
-                                .format(DateTime.parse(mark['MarkDate'])),
-                            caption: mark['Caption'],
-                            theme: mark['Theme'],
-                          ),
+                      for (final mark in _marksLast)
+                        MarkCard(
+                          mark: mark['MarkText'],
+                          weight: mark['Weight'],
+                          subject: mark['SubjectName'],
+                          date: DateFormat('d. M. yyyy')
+                              .format(DateTime.parse(mark['MarkDate'])),
+                          caption: mark['Caption'],
+                          theme: mark['Theme'],
+                        ),
                     ],
                   ),
                   ListView(
