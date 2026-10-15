@@ -1,5 +1,6 @@
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeworkCard extends StatefulWidget {
   const HomeworkCard({
@@ -8,15 +9,15 @@ class HomeworkCard extends StatefulWidget {
     required this.content,
     required this.dateStart,
     required this.dateEnd,
-    required this.closed,
+    required this.done,
     this.finished,
   });
 
   final String subject;
   final String content;
-  final String dateStart;
-  final String dateEnd;
-  final bool closed;
+  final DateTime dateStart;
+  final DateTime dateEnd;
+  final bool done;
   final bool? finished;
 
   @override
@@ -60,7 +61,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                     ],
                   ),
                 ),
-                if (!widget.closed)
+                if (!widget.done)
                   Checkbox(value: finished, onChanged: (val) {}),
               ],
             ),
@@ -75,13 +76,18 @@ class _HomeworkCardState extends State<HomeworkCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${AppLocalizations.of(context)!.start}: ${widget.dateStart}',
+                  '${AppLocalizations.of(context)!.start}: ${DateFormat('d. M. yyyy').format(widget.dateStart)}',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '${AppLocalizations.of(context)!.end}: ${widget.dateEnd}',
+                  '${AppLocalizations.of(context)!.end}: ${DateFormat('d. M. yyyy').format(widget.dateEnd)}',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
+                if (!widget.done)
+                  Text(
+                    '${widget.dateEnd.difference(DateTime.now()).inDays}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
               ],
             ),
           ],
