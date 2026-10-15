@@ -196,6 +196,30 @@ class BakalariAPI {
 
   Future<Map<String, dynamic>> fetch(String endpoint) async {
     try {
+      final json = jsonDecode(await request(endpoint));
+
+      if (json is! Map<String, dynamic>) {
+        throw const BakaLiteException(
+          BakaLiteError.invalidResponse,
+          'Expected a JSON dict',
+        );
+      }
+
+      return json;
+    } on FormatException {
+      throw const BakaLiteException(
+        BakaLiteError.invalidResponse,
+        'Invalid JSON',
+      );
+    }
+  }
+
+  Future<String> request(
+    String endpoint, {
+    String method = 'GET',
+    String? body,
+  }) async {
+    try {
       if (baseUrl?.isEmpty ?? true) {
         throw const BakaLiteException(
           BakaLiteError.invalidInput,
@@ -209,27 +233,20 @@ class BakalariAPI {
         );
       }
 
-      final res = await client.get(
-        Uri.parse('$baseUrl/3/$endpoint'),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Bearer $accessToken',
-        },
-      );
+      final req = http.Request(method, Uri.parse('$baseUrl/3/$endpoint'));
+      req.headers.addAll({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer $accessToken',
+      });
+      if (body != null) {
+        req.body = body;
+      }
+      final res = await http.Response.fromStream(await req.send());
 
       if (res.statusCode == 404) {
         throw const BakaLiteException(
           BakaLiteError.http,
           '404, endpoint not found',
-        );
-      }
-
-      final json = jsonDecode(res.body);
-
-      if (json is! Map<String, dynamic>) {
-        throw const BakaLiteException(
-          BakaLiteError.invalidResponse,
-          'Expected a JSON dict',
         );
       }
 
@@ -244,14 +261,9 @@ class BakalariAPI {
         throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
-      return json;
+      return res.body;
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
-    } on FormatException {
-      throw const BakaLiteException(
-        BakaLiteError.invalidResponse,
-        'Invalid JSON',
-      );
     }
   }
 }
