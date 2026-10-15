@@ -19,9 +19,14 @@ class _DevScreenState extends State<DevScreen> {
 
   Future<void> send() async {
     try {
-      final res = await api.fetch(endpointController.text);
+      final res = await api.request(endpointController.text);
       setState(() {
-        responseJson = const JsonEncoder.withIndent('  ').convert(res);
+        try {
+          responseJson = const JsonEncoder.withIndent('  ')
+              .convert(jsonDecode(res));
+        } on FormatException {
+          responseJson = const JsonEncoder.withIndent('  ').convert(res);
+        }
       });
     } on BakaLiteException catch (e) {
       setState(() {
