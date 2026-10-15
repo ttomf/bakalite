@@ -1,5 +1,6 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/mark_card.dart';
 import 'package:bakalite/widgets/subject_marks_card.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +50,7 @@ class _MarksScreenState extends State<MarksScreen> {
         ];
         _marksLast.sort(
           (a, b) =>
-              DateTime.parse(b['MarkDate'])
-                  .compareTo(DateTime.parse(a['MarkDate'])),
+              parseTime(b['MarkDate']).compareTo(parseTime(a['MarkDate'])),
         );
         _marksSubjects = {};
         for (final subject in _marks?['Subjects'] ?? []) {
@@ -107,7 +107,7 @@ class _MarksScreenState extends State<MarksScreen> {
                           weight: mark['Weight'],
                           subject: mark['SubjectName'],
                           date: DateFormat('d. M. yyyy')
-                              .format(DateTime.parse(mark['MarkDate'])),
+                              .format(parseTime(mark['MarkDate'])),
                           caption: mark['Caption'],
                           theme: mark['Theme'],
                         ),

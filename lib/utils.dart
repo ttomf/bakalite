@@ -31,6 +31,10 @@ void showError(BuildContext context, BakaLiteException error) {
     );
 }
 
+DateTime parseTime(String time) {
+  return DateTime.parse(time).toLocal();
+}
+
 class Config {
   static final seedColor = ValueNotifier(
     Color(prefs.getInt('settings_seedColor') ?? Colors.lightBlue.toARGB32()),
