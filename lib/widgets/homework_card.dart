@@ -33,7 +33,6 @@ class _HomeworkCardState extends State<HomeworkCard> {
     super.initState();
   }
 
-  // TODO timeline
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -66,11 +65,25 @@ class _HomeworkCardState extends State<HomeworkCard> {
               ],
             ),
             const SizedBox(height: 8),
-            Divider(
-              height: 1,
-              thickness: 1.5,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            if (widget.done || widget.dateEnd.isBefore(DateTime.now())) ...[
+              Divider(
+                height: 1,
+                thickness: 1.5,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ] else ...[
+              LinearProgressIndicator(
+                value:
+                    DateTime.now().difference(widget.dateStart).inDays /
+                    (widget.dateEnd.difference(widget.dateStart).inDays),
+                stopIndicatorRadius: 0,
+                trackGap: 0,
+                minHeight: 5,
+                color: Colors.red[600],
+                backgroundColor: Colors.green[300],
+                year2023: false, // Deprecated, but still defaults to true
+              ),
+            ],
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
