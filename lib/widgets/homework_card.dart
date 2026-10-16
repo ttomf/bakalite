@@ -85,7 +85,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                 ),
                 if (!widget.done)
                   Text(
-                    '${widget.dateEnd.difference(DateTime.now()).inDays}',
+                    '${(widget.dateEnd.difference(DateTime.now()).inHours / 24).ceil()}',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
               ],
