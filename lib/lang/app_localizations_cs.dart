@@ -107,4 +107,16 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get closed => 'Uzavřené';
+
+  @override
+  String days(num daysCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      daysCount,
+      locale: localeName,
+      other: '$daysCount dní',
+      few: '$daysCount dny',
+      one: '1 den',
+    );
+    return '$_temp0';
+  }
 }

@@ -31,5 +31,6 @@
   "devMode": "Vývojářský mód",
   "totalWeight": "Celková váha",
   "afterDeadline": "Po odevzdání",
-  "closed": "Uzavřené"
+  "closed": "Uzavřené",
+  "days": "{daysCount, plural, one{1 den} few{{daysCount} dny} other{{daysCount} dní}}"
 }

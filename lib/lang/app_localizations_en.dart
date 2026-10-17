@@ -107,4 +107,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get closed => 'Closed';
+
+  @override
+  String days(num daysCount) {
+    String _temp0 = intl.Intl.pluralLogic(
+      daysCount,
+      locale: localeName,
+      other: '$daysCount days',
+      one: '$daysCount day',
+    );
+    return '$_temp0';
+  }
 }

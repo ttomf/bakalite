@@ -35,6 +35,8 @@ class _HomeworkCardState extends State<HomeworkCard> {
 
   @override
   Widget build(BuildContext context) {
+    final remainingDays =
+        (widget.dateEnd.difference(DateTime.now()).inHours / 24).ceil();
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -74,8 +76,9 @@ class _HomeworkCardState extends State<HomeworkCard> {
             ] else ...[
               LinearProgressIndicator(
                 value:
-                    DateTime.now().difference(widget.dateStart).inDays /
-                    (widget.dateEnd.difference(widget.dateStart).inDays),
+                    1 -
+                    remainingDays /
+                        widget.dateEnd.difference(widget.dateStart).inDays,
                 stopIndicatorRadius: 0,
                 trackGap: 0,
                 minHeight: 5,
@@ -96,11 +99,15 @@ class _HomeworkCardState extends State<HomeworkCard> {
                   '${AppLocalizations.of(context)!.end}: ${DateFormat('d. M. yyyy').format(widget.dateEnd)}',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                if (!widget.done)
-                  Text(
-                    '${(widget.dateEnd.difference(DateTime.now()).inHours / 24).ceil()}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                Text(
+                  AppLocalizations.of(context)!.days(remainingDays),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: remainingDays <= 2 && remainingDays > 0
+                        ? Colors.deepOrange
+                        : null,
                   ),
+                ),
               ],
             ),
           ],

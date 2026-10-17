@@ -295,6 +295,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Closed'**
   String get closed;
+
+  /// No description provided for @days.
+  ///
+  /// In en, this message translates to:
+  /// **'{daysCount, plural, one{{daysCount} day} other{{daysCount} days}}'**
+  String days(num daysCount);
 }
 
 class _AppLocalizationsDelegate

@@ -31,5 +31,6 @@
   "devMode": "Developer mode",
   "totalWeight": "Total weight",
   "afterDeadline": "After deadline",
-  "closed": "Closed"
+  "closed": "Closed",
+  "days": "{daysCount, plural, one{{daysCount} day} other{{daysCount} days}}"
 }
