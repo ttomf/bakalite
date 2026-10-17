@@ -11,6 +11,7 @@ class HomeworkCard extends StatefulWidget {
     required this.dateEnd,
     required this.done,
     this.finished,
+    this.onFinishedChange,
   });
 
   final String subject;
@@ -19,6 +20,7 @@ class HomeworkCard extends StatefulWidget {
   final DateTime dateEnd;
   final bool done;
   final bool? finished;
+  final Future<bool> Function(bool)? onFinishedChange;
 
   @override
   State<HomeworkCard> createState() => _HomeworkCardState();
@@ -63,7 +65,17 @@ class _HomeworkCardState extends State<HomeworkCard> {
                   ),
                 ),
                 if (!widget.done)
-                  Checkbox(value: finished, onChanged: (val) {}),
+                  Checkbox(
+                    value: finished,
+                    onChanged: (val) async {
+                      if (await widget.onFinishedChange?.call(val ?? false) ??
+                          false) {
+                        setState(() {
+                          finished = val;
+                        });
+                      }
+                    },
+                  ),
               ],
             ),
             const SizedBox(height: 8),

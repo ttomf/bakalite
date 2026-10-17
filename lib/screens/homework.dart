@@ -41,33 +41,68 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               'DateEnd': parseTime(homework['DateEnd']),
               'Closed': homework['Closed'] && homework['Done'],
               'Finished': homework['Finished'],
+              'ID': homework['ID'],
             },
         ];
-        final now = DateTime.now();
-        _homeworkParsed.sort((a, b) {
-          final aExpired = a['DateEnd'].isBefore(now);
-          final bExpired = b['DateEnd'].isBefore(now);
-          final aFinished = a['Finished'];
-          final bFinished = b['Finished'];
-
-          if (aFinished != bFinished) {
-            return aFinished ? 1 : -1;
-          }
-
-          if (aExpired != bExpired) {
-            return aExpired ? 1 : -1;
-          }
-
-          if (aExpired) {
-            return b['DateEnd'].compareTo(a['DateEnd']);
-          }
-
-          return a['DateEnd'].compareTo(b['DateEnd']);
-        });
+        sortHomework();
       });
     } catch (e) {
       if (!mounted) return;
     }
+  }
+
+  void sortHomework() {
+    final now = DateTime.now();
+    _homeworkParsed.sort((a, b) {
+      final aExpired = a['DateEnd'].isBefore(now);
+      final bExpired = b['DateEnd'].isBefore(now);
+      final aFinished = a['Finished'];
+      final bFinished = b['Finished'];
+
+      if (aFinished != bFinished) {
+        return aFinished ? 1 : -1;
+      }
+
+      if (aExpired != bExpired) {
+        return aExpired ? 1 : -1;
+      }
+
+      if (aExpired && bExpired) {
+        return b['DateEnd'].compareTo(a['DateEnd']);
+      }
+
+      if (a['DateEnd'] == b['DateEnd']) {
+        return a['DateStart'].compareTo(b['DateStart']);
+      }
+      return a['DateEnd'].compareTo(b['DateEnd']);
+    });
+  }
+
+  Future<bool> _setHomeworkFinished(String id, bool finished) async {
+    final res = await api.request(
+      'homeworks/$id/student-done/$finished',
+      method: 'PUT',
+    );
+
+    if (res.isEmpty || !mounted) {
+      return false;
+    }
+
+    final index = _homeworkParsed.indexWhere((hw) => hw['ID'] == id);
+
+    if (index == -1) {
+      return false;
+    }
+
+    setState(() {
+      _homeworkParsed[index] = {
+        ..._homeworkParsed[index],
+        'Finished': finished,
+      };
+      sortHomework();
+    });
+
+    return true;
   }
 
   @override
@@ -97,12 +132,15 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                         if (!homework['Closed'] &&
                             homework['DateEnd'].isAfter(DateTime.now()))
                           HomeworkCard(
+                            key: ValueKey(homework['ID']),
                             subject: homework['SubjectName'],
                             content: homework['Content'],
                             dateStart: homework['DateStart'],
                             dateEnd: homework['DateEnd'],
                             done: homework['Closed'],
                             finished: homework['Finished'],
+                            onFinishedChange: (val) =>
+                                _setHomeworkFinished(homework['ID'], val),
                           ),
                     ],
                   ),
@@ -112,12 +150,15 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                         if (!homework['Closed'] &&
                             homework['DateEnd'].isBefore(DateTime.now()))
                           HomeworkCard(
+                            key: ValueKey(homework['ID']),
                             subject: homework['SubjectName'],
                             content: homework['Content'],
                             dateStart: homework['DateStart'],
                             dateEnd: homework['DateEnd'],
                             done: homework['Closed'],
                             finished: homework['Finished'],
+                            onFinishedChange: (val) =>
+                                _setHomeworkFinished(homework['ID'], val),
                           ),
                     ],
                   ),
@@ -126,12 +167,12 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                       for (final homework in _homeworkParsed)
                         if (homework['Closed'])
                           HomeworkCard(
+                            key: ValueKey(homework['ID']),
                             subject: homework['SubjectName'],
                             content: homework['Content'],
                             dateStart: homework['DateStart'],
                             dateEnd: homework['DateEnd'],
                             done: homework['Closed'],
-                            finished: homework['Finished'],
                           ),
                     ],
                   ),
