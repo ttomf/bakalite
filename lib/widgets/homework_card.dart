@@ -94,8 +94,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                 stopIndicatorRadius: 0,
                 trackGap: 0,
                 minHeight: 5,
-                color: Colors.red[600],
-                backgroundColor: Colors.green[300],
+                color: Colors.red[700],
                 year2023: false, // Deprecated, but still defaults to true
               ),
             ],
@@ -103,20 +102,46 @@ class _HomeworkCardState extends State<HomeworkCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '${AppLocalizations.of(context)!.start}: ${DateFormat('d. M. yyyy').format(widget.dateStart)}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${AppLocalizations.of(context)!.start}: ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: DateFormat(
+                          'EE d. M. yyyy',
+                          Localizations.localeOf(context).languageCode,
+                        ).format(widget.dateStart),
+                      ),
+                    ],
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
-                Text(
-                  '${AppLocalizations.of(context)!.end}: ${DateFormat('d. M. yyyy').format(widget.dateEnd)}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${AppLocalizations.of(context)!.end}: ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: DateFormat(
+                          'EE d. M. yyyy',
+                          Localizations.localeOf(context).languageCode,
+                        ).format(widget.dateEnd),
+                      ),
+                    ],
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
                 Text(
                   AppLocalizations.of(context)!.days(remainingDays),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: remainingDays <= 2 && remainingDays > 0
-                        ? Colors.deepOrange
+                        ? Colors.red[700]
                         : null,
                   ),
                 ),
