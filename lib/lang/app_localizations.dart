@@ -301,6 +301,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{daysCount, plural, one{{daysCount} day} other{{daysCount} days}}'**
   String days(num daysCount);
+
+  /// No description provided for @timetable.
+  ///
+  /// In en, this message translates to:
+  /// **'Timetable'**
+  String get timetable;
+
+  /// No description provided for @dayNames.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'**
+  String get dayNames;
 }
 
 class _AppLocalizationsDelegate

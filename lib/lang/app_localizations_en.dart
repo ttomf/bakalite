@@ -118,4 +118,11 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get timetable => 'Timetable';
+
+  @override
+  String get dayNames =>
+      'Monday Tuesday Wednesday Thursday Friday Saturday Sunday';
 }

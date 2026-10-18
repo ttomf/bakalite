@@ -119,4 +119,10 @@ class AppLocalizationsCs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get timetable => 'Rozvrh hodin';
+
+  @override
+  String get dayNames => 'Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle';
 }

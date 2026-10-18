@@ -102,6 +102,18 @@ class _DashboardState extends State<Dashboard> {
                       Card(
                         child: InkWell(
                           onTap: () {
+                            Navigator.pushNamed(context, '/timetable');
+                          },
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context)!.timetable,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: InkWell(
+                          onTap: () {
                             Navigator.pushNamed(context, '/login');
                           },
                           child: Center(

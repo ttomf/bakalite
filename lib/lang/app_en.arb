@@ -32,5 +32,7 @@
   "totalWeight": "Total weight",
   "afterDeadline": "After deadline",
   "closed": "Closed",
-  "days": "{daysCount, plural, one{{daysCount} day} other{{daysCount} days}}"
+  "days": "{daysCount, plural, one{{daysCount} day} other{{daysCount} days}}",
+  "timetable": "Timetable",
+  "dayNames": "Monday Tuesday Wednesday Thursday Friday Saturday Sunday"
 }
