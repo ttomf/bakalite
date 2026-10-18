@@ -53,9 +53,9 @@ class MarkCard extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      if (caption.isNotEmpty) Text(caption),
+                      if (caption.isNotEmpty) SelectableText(caption),
                       if (theme.isNotEmpty)
-                        Text(
+                        SelectableText(
                           theme,
                           style: TextStyle(color: Theme.of(context).hintColor),
                         ),

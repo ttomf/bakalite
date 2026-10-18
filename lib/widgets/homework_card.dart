@@ -60,7 +60,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      Text(widget.content),
+                      SelectableText(widget.content),
                     ],
                   ),
                 ),
