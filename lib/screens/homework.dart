@@ -114,9 +114,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
           title: Text(AppLocalizations.of(context)!.homework),
           bottom: TabBar(
             tabs: [
-              Tab(icon: Text(AppLocalizations.of(context)!.current)),
-              Tab(icon: Text(AppLocalizations.of(context)!.afterDeadline)),
-              Tab(icon: Text(AppLocalizations.of(context)!.closed)),
+              Tab(child: Text(AppLocalizations.of(context)!.current)),
+              Tab(child: Text(AppLocalizations.of(context)!.afterDeadline)),
+              Tab(child: Text(AppLocalizations.of(context)!.closed)),
             ],
           ),
         ),

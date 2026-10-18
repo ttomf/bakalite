@@ -104,8 +104,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
           title: Text(AppLocalizations.of(context)!.timetable),
           bottom: TabBar(
             tabs: [
-              Tab(icon: Text(AppLocalizations.of(context)!.actual)),
-              Tab(icon: Text(AppLocalizations.of(context)!.permanent)),
+              Tab(child: Text(AppLocalizations.of(context)!.actual)),
+              Tab(child: Text(AppLocalizations.of(context)!.permanent)),
             ],
           ),
         ),

@@ -87,9 +87,9 @@ class _MarksScreenState extends State<MarksScreen> {
           title: Text(AppLocalizations.of(context)!.marks),
           bottom: TabBar(
             tabs: [
-              Tab(icon: Text(AppLocalizations.of(context)!.byDate)),
-              Tab(icon: Text(AppLocalizations.of(context)!.bySubject)),
-              Tab(icon: Text(AppLocalizations.of(context)!.predictor)),
+              Tab(child: Text(AppLocalizations.of(context)!.byDate)),
+              Tab(child: Text(AppLocalizations.of(context)!.bySubject)),
+              Tab(child: Text(AppLocalizations.of(context)!.predictor)),
             ],
           ),
         ),
