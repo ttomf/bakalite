@@ -125,4 +125,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dayNames =>
       'Monday Tuesday Wednesday Thursday Friday Saturday Sunday';
+
+  @override
+  String get permanent => 'Permanent';
+
+  @override
+  String get actual => 'Actual';
 }

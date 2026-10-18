@@ -313,6 +313,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'**
   String get dayNames;
+
+  /// No description provided for @permanent.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanent'**
+  String get permanent;
+
+  /// No description provided for @actual.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual'**
+  String get actual;
 }
 
 class _AppLocalizationsDelegate

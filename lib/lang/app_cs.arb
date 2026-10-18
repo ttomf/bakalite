@@ -34,5 +34,7 @@
   "closed": "Uzavřené",
   "days": "{daysCount, plural, one{1 den} few{{daysCount} dny} other{{daysCount} dní}}",
   "timetable": "Rozvrh hodin",
-  "dayNames": "Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle"
+  "dayNames": "Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle",
+  "permanent": "Stálý",
+  "actual": "Aktuální"
 }
