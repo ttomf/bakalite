@@ -130,7 +130,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                     children: [
                       for (final homework in _homeworkParsed)
                         if (!homework['Closed'] &&
-                            homework['DateEnd'].isAfter(DateTime.now()))
+                            homework['DateEnd']
+                                .add(const Duration(days: 1))
+                                .isAfter(DateTime.now()))
                           HomeworkCard(
                             key: ValueKey(homework['ID']),
                             subject: homework['SubjectName'],
@@ -148,7 +150,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                     children: [
                       for (final homework in _homeworkParsed)
                         if (!homework['Closed'] &&
-                            homework['DateEnd'].isBefore(DateTime.now()))
+                            homework['DateEnd']
+                                .add(const Duration(days: 1))
+                                .isBefore(DateTime.now()))
                           HomeworkCard(
                             key: ValueKey(homework['ID']),
                             subject: homework['SubjectName'],

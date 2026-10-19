@@ -79,7 +79,10 @@ class _HomeworkCardState extends State<HomeworkCard> {
               ],
             ),
             const SizedBox(height: 8),
-            if (widget.done || widget.dateEnd.isBefore(DateTime.now())) ...[
+            if (widget.done ||
+                widget.dateEnd
+                    .add(const Duration(days: 1))
+                    .isBefore(DateTime.now())) ...[
               Divider(
                 height: 1,
                 thickness: 1.5,
