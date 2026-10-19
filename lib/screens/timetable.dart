@@ -49,7 +49,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
               return matchingHour;
             }),
         ];
-        print(_timetableParsed[0]);
         _idMaps = {
           for (final category in [
             'Classes',

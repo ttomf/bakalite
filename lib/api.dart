@@ -241,7 +241,7 @@ class BakalariAPI {
       if (body != null) {
         req.body = body;
       }
-      final res = await http.Response.fromStream(await req.send());
+      final res = await http.Response.fromStream(await client.send(req));
 
       if (res.statusCode == 404) {
         throw const BakaLiteException(

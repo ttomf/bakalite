@@ -17,7 +17,7 @@ class MarksScreen extends StatefulWidget {
 class _MarksScreenState extends State<MarksScreen> {
   Map<String, dynamic>? _marks;
   List<Map<String, dynamic>> _marksLast = [];
-  Map<String, dynamic>? _marksSubjects;
+  Map<String, dynamic> _marksSubjects = {};
   Map<String, dynamic>? _subjects;
 
   @override
@@ -105,11 +105,11 @@ class _MarksScreenState extends State<MarksScreen> {
         ),
         ListView(
           children: [
-            if (_marksSubjects != null && _subjects != null)
-              for (final subject in _marksSubjects!.keys)
+            if (_subjects != null)
+              for (final subject in _marksSubjects.keys)
                 SubjectMarksCard(
                   subject: subject,
-                  marks: _marksSubjects![subject],
+                  marks: _marksSubjects[subject],
                   average: _subjects![subject]['AverageText'],
                   note: _subjects![subject]['SubjectNote'],
                 ),

@@ -22,7 +22,7 @@ class Account {
     'baseUrl': baseUrl,
   };
 
-  factory Account.fromJson(Map<String, dynamic> json) {
+  factory Account.fromMap(Map<String, dynamic> json) {
     return Account(
       id: json['id'],
       username: json['username'],
@@ -54,10 +54,7 @@ class AccountManager {
       return [];
     }
 
-    return json
-        .whereType<Map<String, dynamic>>()
-        .map(Account.fromJson)
-        .toList();
+    return json.whereType<Map<String, dynamic>>().map(Account.fromMap).toList();
   }
 
   Future<String> saveAccount(Account account) async {
