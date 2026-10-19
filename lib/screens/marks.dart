@@ -1,5 +1,6 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/mark_card.dart';
 import 'package:bakalite/widgets/subject_marks_card.dart';
@@ -80,58 +81,42 @@ class _MarksScreenState extends State<MarksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.marks),
-          bottom: TabBar(
-            tabs: [
-              Tab(child: Text(AppLocalizations.of(context)!.byDate)),
-              Tab(child: Text(AppLocalizations.of(context)!.bySubject)),
-              Tab(child: Text(AppLocalizations.of(context)!.predictor)),
-            ],
-          ),
-        ),
-        body: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: TabBarView(
-                children: [
-                  ListView(
-                    children: [
-                      for (final mark in _marksLast)
-                        MarkCard(
-                          mark: mark['MarkText'],
-                          weight: mark['Weight'],
-                          subject: mark['SubjectName'],
-                          date: DateFormat('d. M. yyyy')
-                              .format(parseTime(mark['MarkDate'])),
-                          caption: mark['Caption'],
-                          theme: mark['Theme'],
-                        ),
-                    ],
-                  ),
-                  ListView(
-                    children: [
-                      if (_marksSubjects != null && _subjects != null)
-                        for (final subject in _marksSubjects!.keys)
-                          SubjectMarksCard(
-                            subject: subject,
-                            marks: _marksSubjects![subject],
-                            average: _subjects![subject]['AverageText'],
-                            note: _subjects![subject]['SubjectNote'],
-                          ),
-                    ],
-                  ),
-                  ListView(children: [Text('todo')]),
-                ],
+    return Wrapper(
+      title: AppLocalizations.of(context)!.marks,
+      tabs: [
+        AppLocalizations.of(context)!.byDate,
+        AppLocalizations.of(context)!.bySubject,
+        AppLocalizations.of(context)!.predictor,
+      ],
+      children: [
+        ListView(
+          children: [
+            for (final mark in _marksLast)
+              MarkCard(
+                mark: mark['MarkText'],
+                weight: mark['Weight'],
+                subject: mark['SubjectName'],
+                date: DateFormat('d. M. yyyy')
+                    .format(parseTime(mark['MarkDate'])),
+                caption: mark['Caption'],
+                theme: mark['Theme'],
               ),
-            ),
-          ),
+          ],
         ),
-      ),
+        ListView(
+          children: [
+            if (_marksSubjects != null && _subjects != null)
+              for (final subject in _marksSubjects!.keys)
+                SubjectMarksCard(
+                  subject: subject,
+                  marks: _marksSubjects![subject],
+                  average: _subjects![subject]['AverageText'],
+                  note: _subjects![subject]['SubjectNote'],
+                ),
+          ],
+        ),
+        ListView(children: [Text('todo')]),
+      ],
     );
   }
 }

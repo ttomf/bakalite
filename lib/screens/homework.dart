@@ -1,5 +1,6 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/homework_card.dart';
 import 'package:flutter/material.dart';
@@ -107,85 +108,69 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.homework),
-          bottom: TabBar(
-            tabs: [
-              Tab(child: Text(AppLocalizations.of(context)!.current)),
-              Tab(child: Text(AppLocalizations.of(context)!.afterDeadline)),
-              Tab(child: Text(AppLocalizations.of(context)!.closed)),
-            ],
-          ),
+    return Wrapper(
+      title: AppLocalizations.of(context)!.homework,
+      tabs: [
+        AppLocalizations.of(context)!.current,
+        AppLocalizations.of(context)!.afterDeadline,
+        AppLocalizations.of(context)!.closed,
+      ],
+      children: [
+        ListView(
+          children: [
+            for (final homework in _homeworkParsed)
+              if (!homework['Closed'] &&
+                  homework['DateEnd']
+                      .add(const Duration(days: 1))
+                      .isAfter(DateTime.now()))
+                HomeworkCard(
+                  key: ValueKey(homework['ID']),
+                  subject: homework['SubjectName'],
+                  content: homework['Content'],
+                  dateStart: homework['DateStart'],
+                  dateEnd: homework['DateEnd'],
+                  done: homework['Closed'],
+                  finished: homework['Finished'],
+                  onFinishedChange: (val) =>
+                      _setHomeworkFinished(homework['ID'], val),
+                ),
+          ],
         ),
-        body: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: TabBarView(
-                children: [
-                  ListView(
-                    children: [
-                      for (final homework in _homeworkParsed)
-                        if (!homework['Closed'] &&
-                            homework['DateEnd']
-                                .add(const Duration(days: 1))
-                                .isAfter(DateTime.now()))
-                          HomeworkCard(
-                            key: ValueKey(homework['ID']),
-                            subject: homework['SubjectName'],
-                            content: homework['Content'],
-                            dateStart: homework['DateStart'],
-                            dateEnd: homework['DateEnd'],
-                            done: homework['Closed'],
-                            finished: homework['Finished'],
-                            onFinishedChange: (val) =>
-                                _setHomeworkFinished(homework['ID'], val),
-                          ),
-                    ],
-                  ),
-                  ListView(
-                    children: [
-                      for (final homework in _homeworkParsed)
-                        if (!homework['Closed'] &&
-                            homework['DateEnd']
-                                .add(const Duration(days: 1))
-                                .isBefore(DateTime.now()))
-                          HomeworkCard(
-                            key: ValueKey(homework['ID']),
-                            subject: homework['SubjectName'],
-                            content: homework['Content'],
-                            dateStart: homework['DateStart'],
-                            dateEnd: homework['DateEnd'],
-                            done: homework['Closed'],
-                            finished: homework['Finished'],
-                            onFinishedChange: (val) =>
-                                _setHomeworkFinished(homework['ID'], val),
-                          ),
-                    ],
-                  ),
-                  ListView(
-                    children: [
-                      for (final homework in _homeworkParsed)
-                        if (homework['Closed'])
-                          HomeworkCard(
-                            key: ValueKey(homework['ID']),
-                            subject: homework['SubjectName'],
-                            content: homework['Content'],
-                            dateStart: homework['DateStart'],
-                            dateEnd: homework['DateEnd'],
-                            done: homework['Closed'],
-                          ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+        ListView(
+          children: [
+            for (final homework in _homeworkParsed)
+              if (!homework['Closed'] &&
+                  homework['DateEnd']
+                      .add(const Duration(days: 1))
+                      .isBefore(DateTime.now()))
+                HomeworkCard(
+                  key: ValueKey(homework['ID']),
+                  subject: homework['SubjectName'],
+                  content: homework['Content'],
+                  dateStart: homework['DateStart'],
+                  dateEnd: homework['DateEnd'],
+                  done: homework['Closed'],
+                  finished: homework['Finished'],
+                  onFinishedChange: (val) =>
+                      _setHomeworkFinished(homework['ID'], val),
+                ),
+          ],
         ),
-      ),
+        ListView(
+          children: [
+            for (final homework in _homeworkParsed)
+              if (homework['Closed'])
+                HomeworkCard(
+                  key: ValueKey(homework['ID']),
+                  subject: homework['SubjectName'],
+                  content: homework['Content'],
+                  dateStart: homework['DateStart'],
+                  dateEnd: homework['DateEnd'],
+                  done: homework['Closed'],
+                ),
+          ],
+        ),
+      ],
     );
   }
 }
