@@ -1,6 +1,7 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
+import 'package:bakalite/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
 
 class TimetableScreen extends StatefulWidget {
@@ -48,6 +49,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
               return matchingHour;
             }),
         ];
+        print(_timetableParsed[0]);
         _idMaps = {
           for (final category in [
             'Classes',
@@ -107,82 +109,91 @@ class _TimetableScreenState extends State<TimetableScreen> {
       children: [
         Row(
           children: [
-            for (final (index, day) in _timetableParsed.indexed)
-              Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceDim,
-                        border: Border.all(color: Colors.black12, width: 0.5),
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context)!.dayNames
-                            .split(' ')[index],
-                      ),
-                    ),
-                    for (final hour in day)
-                      Expanded(
-                        child: Container(
-                          width: double.maxFinite,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surfaceDim,
-                            border: Border.all(
-                              color: Colors.black12,
-                              width: 0.5,
+            IntrinsicWidth(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (final (index, day) in _timetableParsed.indexed)
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.outlineVariant,
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(context)!.dayNamesShort
+                                  .split(' ')[index],
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
                             ),
                           ),
-                          child: Text(
-                            _idMaps?['Subjects']?[hour?['SubjectId']]?[0] ??
-                                'Error',
-                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (final (index, day) in _timetableParsed.indexed)
+                      Expanded(
+                        child: Row(
+                          children: [
+                            for (final hour in day)
+                              Container(
+                                constraints: const BoxConstraints(minWidth: 70),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceDim,
+                                  border: Border.all(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .outlineVariant,
+                                    width: 0.5,
+                                  ),
+                                ),
+                                child: hour != null
+                                    ? SubjectCard(
+                                        subject:
+                                            _idMaps?['Subjects']?[hour['SubjectId']]?[0] ??
+                                            'Error',
+                                        teacher:
+                                            _idMaps?['Teachers']?[hour['TeacherId']]?[0] ??
+                                            'Error',
+                                        room:
+                                            _idMaps?['Rooms']?[hour['RoomId']]?[0] ??
+                                            'Error',
+                                        changeType:
+                                            hour['Change']?['ChangeType'],
+                                        change: hour['Change']?['Description'],
+                                      )
+                                    : null,
+                              ),
+                          ],
                         ),
                       ),
                   ],
                 ),
               ),
+            ),
           ],
         ),
-        Row(
-          children: [
-            for (final (index, day) in _timetablePermanentParsed.indexed)
-              Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceDim,
-                        border: Border.all(color: Colors.black12, width: 0.5),
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context)!.dayNames
-                            .split(' ')[index],
-                      ),
-                    ),
-                    for (final hour in day)
-                      Expanded(
-                        child: Container(
-                          width: double.maxFinite,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surfaceDim,
-                            border: Border.all(
-                              color: Colors.black12,
-                              width: 0.5,
-                            ),
-                          ),
-                          child: Text(
-                            _idMapsPermanent?['Subjects']?[hour?['SubjectId']]?[0] ??
-                                'Error',
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-          ],
-        ),
+        Text('todo'),
       ],
     );
   }

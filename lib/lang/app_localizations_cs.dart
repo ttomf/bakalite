@@ -127,6 +127,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get dayNames => 'Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle';
 
   @override
+  String get dayNamesShort => 'PO ÚT ST ČT PÁ SO NE';
+
+  @override
   String get permanent => 'Stálý';
 
   @override

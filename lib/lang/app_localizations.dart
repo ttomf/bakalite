@@ -314,6 +314,12 @@ abstract class AppLocalizations {
   /// **'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'**
   String get dayNames;
 
+  /// No description provided for @dayNamesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon Tue Wed Thu Fri Sat Sun'**
+  String get dayNamesShort;
+
   /// No description provided for @permanent.
   ///
   /// In en, this message translates to:

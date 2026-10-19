@@ -35,6 +35,7 @@
   "days": "{daysCount, plural, one{1 den} few{{daysCount} dny} other{{daysCount} dní}}",
   "timetable": "Rozvrh hodin",
   "dayNames": "Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle",
+  "dayNamesShort": "PO ÚT ST ČT PÁ SO NE",
   "permanent": "Stálý",
   "actual": "Aktuální"
 }
