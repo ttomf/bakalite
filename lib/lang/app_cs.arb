@@ -26,7 +26,7 @@
   "start": "začátek",
   "end": "konec",
   "language": "Jazyk",
-  "systemLanguage": "Systémový jazyk",
+  "systemDefault": "Podle systému",
   "useM3Color": "Použít schéma barev Material 3",
   "devMode": "Vývojářský mód",
   "totalWeight": "Celková váha",
@@ -37,5 +37,8 @@
   "dayNames": "Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle",
   "dayNamesShort": "PO ÚT ST ČT PÁ SO NE",
   "permanent": "Stálý",
-  "actual": "Aktuální"
+  "actual": "Aktuální",
+  "theme": "Motiv",
+  "light": "Světlý",
+  "dark": "Tmavý"
 }

@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   setting: Config.language,
                   label: AppLocalizations.of(context)!.language,
                   choices: {
-                    'System': AppLocalizations.of(context)!.systemLanguage,
+                    'System': AppLocalizations.of(context)!.systemDefault,
                     for (final lang in AppLocalizations.supportedLocales)
                       lang.toLanguageTag(): lang.toLanguageTag(),
                   },
@@ -42,6 +42,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   key: ValueKey((settingsKey, 'useM3Color')),
                   setting: Config.useM3Color,
                   label: AppLocalizations.of(context)!.useM3Color,
+                ),
+                SettingCard<String>(
+                  key: ValueKey((settingsKey, 'brightness')),
+                  setting: Config.brightness,
+                  label: AppLocalizations.of(context)!.theme,
+                  choices: {
+                    'System': AppLocalizations.of(context)!.systemDefault,
+                    'light': AppLocalizations.of(context)!.light,
+                    'dark': AppLocalizations.of(context)!.dark,
+                  },
                 ),
                 SettingCard<bool>(
                   key: ValueKey((settingsKey, 'devMode')),

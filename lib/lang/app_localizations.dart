@@ -260,11 +260,11 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get language;
 
-  /// No description provided for @systemLanguage.
+  /// No description provided for @systemDefault.
   ///
   /// In en, this message translates to:
-  /// **'System language'**
-  String get systemLanguage;
+  /// **'System default'**
+  String get systemDefault;
 
   /// No description provided for @useM3Color.
   ///
@@ -331,6 +331,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Actual'**
   String get actual;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
 }
 
 class _AppLocalizationsDelegate

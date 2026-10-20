@@ -91,7 +91,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language => 'Language';
 
   @override
-  String get systemLanguage => 'System language';
+  String get systemDefault => 'System default';
 
   @override
   String get useM3Color => 'Use Material 3 color scheme';
@@ -134,4 +134,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actual => 'Actual';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get dark => 'Dark';
 }

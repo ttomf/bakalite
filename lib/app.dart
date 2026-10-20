@@ -29,6 +29,7 @@ class _MainAppState extends State<MainApp> {
         Config.seedColor,
         Config.language,
         Config.useM3Color,
+        Config.brightness,
       ]),
       builder: (context, child) {
         return MaterialApp(
@@ -45,7 +46,12 @@ class _MainAppState extends State<MainApp> {
             seedColor: Config.seedColor.value,
             useM3Color: Config.useM3Color.value,
           ),
-          themeMode: ThemeMode.system,
+          themeMode: switch (Config.brightness.value) {
+            'System' => ThemeMode.system,
+            'light' => ThemeMode.light,
+            'dark' => ThemeMode.dark,
+            _ => ThemeMode.system,
+          },
 
           localizationsDelegates: const [
             AppLocalizations.delegate,

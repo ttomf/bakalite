@@ -45,6 +45,9 @@ class Config {
   static final useM3Color = ValueNotifier(
     prefs.getBool('settings_useM3Color') ?? true,
   );
+  static final brightness = ValueNotifier(
+    prefs.getString('settings_brightness') ?? 'System',
+  );
   static final devMode = ValueNotifier(
     prefs.getBool('settings_devMode') ?? false,
   );
@@ -59,6 +62,9 @@ class Config {
     useM3Color.addListener(() {
       save('useM3Color', useM3Color.value);
     });
+    brightness.addListener(() {
+      save('brightness', brightness.value);
+    });
     devMode.addListener(() {
       save('devMode', devMode.value);
     });
@@ -68,10 +74,12 @@ class Config {
     await prefs.remove('settings_seedColor');
     await prefs.remove('settings_language');
     await prefs.remove('settings_useM3Color');
+    await prefs.remove('settings_brightness');
     await prefs.remove('settings_devMode');
     seedColor.value = Colors.lightBlue;
     language.value = 'System';
     useM3Color.value = true;
+    brightness.value = 'System';
     devMode.value = false;
   }
 
