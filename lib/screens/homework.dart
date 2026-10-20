@@ -23,7 +23,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   }
 
   Future<void> _load() async {
-    try {
+    // try {
       Map<String, dynamic>? homeworkData = _homework;
 
       if (_homework == null) {
@@ -47,16 +47,15 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         ];
         sortHomework();
       });
-    } catch (e) {
-      if (!mounted) return;
-    }
+    // } catch (e) {
+    //   if (!mounted) return;
+    // }
   }
 
   void sortHomework() {
     final now = DateTime.now();
+
     _homeworkParsed.sort((a, b) {
-      final aExpired = a['DateEnd'].isBefore(now);
-      final bExpired = b['DateEnd'].isBefore(now);
       final aFinished = a['Finished'];
       final bFinished = b['Finished'];
 
@@ -64,18 +63,24 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         return aFinished ? 1 : -1;
       }
 
+      final aEnd = a['DateEnd'];
+      final bEnd = b['DateEnd'];
+      final aExpired = aEnd.isBefore(now);
+      final bExpired = bEnd.isBefore(now);
+
       if (aExpired != bExpired) {
         return aExpired ? 1 : -1;
       }
 
-      if (aExpired && bExpired) {
-        return b['DateEnd'].compareTo(a['DateEnd']);
+      final dateComparison = aExpired
+          ? bEnd.compareTo(aEnd)
+          : aEnd.compareTo(bEnd);
+
+      if (dateComparison != 0) {
+        return dateComparison;
       }
 
-      if (a['DateEnd'] == b['DateEnd']) {
-        return a['DateStart'].compareTo(b['DateStart']);
-      }
-      return a['DateEnd'].compareTo(b['DateEnd']);
+      return a['ID'].compareTo(b['ID']);
     });
   }
 
