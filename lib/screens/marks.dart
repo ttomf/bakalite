@@ -55,7 +55,7 @@ class _MarksScreenState extends State<MarksScreen> {
         );
         _marksSubjects = {};
         for (final subject in _marks?['Subjects'] ?? []) {
-          _marksSubjects![subject['Subject']['Name']] = [
+          _marksSubjects[subject['Subject']['Name']] = [
             for (final mark in subject['Marks'] ?? [])
               {
                 'MarkText': mark['MarkText'],
