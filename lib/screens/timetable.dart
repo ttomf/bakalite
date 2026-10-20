@@ -13,11 +13,11 @@ class TimetableScreen extends StatefulWidget {
 
 class _TimetableScreenState extends State<TimetableScreen> {
   Map<String, dynamic>? _timetable;
-  List<List<Map?>> _timetableParsed = [[], [], [], [], []];
-  Map<String, Map<String?, List<String>>>? _idMaps;
-  Map<String, dynamic>? _timetablePermanent;
-  List<List<Map?>> _timetablePermanentParsed = [[], [], [], [], []];
-  Map<String, Map<String?, List<String>>>? _idMapsPermanent;
+  List<List<Map<String, dynamic>?>> _timetableParsed = [[], [], [], [], []];
+  Map<String, Map<String?, List<String>>> _idMaps = {};
+  Map<String, dynamic>? _timetablePerm;
+  List<List<Map<String, dynamic>?>> _timetablePermParsed = [[], [], [], [], []];
+  Map<String, Map<String?, List<String>>> _idMapsPerm = {};
 
   @override
   void initState() {
@@ -28,27 +28,16 @@ class _TimetableScreenState extends State<TimetableScreen> {
   Future<void> _load() async {
     try {
       Map<String, dynamic>? timetableData = _timetable;
-      Map<String, dynamic>? timetablePermanentData = _timetablePermanent;
+      Map<String, dynamic>? timetablePermData = _timetablePerm;
 
       if (_timetable == null) {
         timetableData = await api.fetch('timetable/actual');
-        timetablePermanentData = await api.fetch('timetable/permanent');
+        timetablePermData = await api.fetch('timetable/permanent');
       }
       if (!mounted) return;
 
       setState(() {
         _timetable = timetableData;
-        _timetableParsed = [
-          for (final day in _timetable!['Days'])
-            List.generate(_timetable!['Hours'].length, (index) {
-              final hour = _timetable!['Hours'][index];
-              final matchingHour = day['Atoms'].firstWhere(
-                (h) => h['HourId'] == hour['Id'],
-                orElse: () => null,
-              );
-              return matchingHour;
-            }),
-        ];
         _idMaps = {
           for (final category in [
             'Classes',
@@ -64,33 +53,28 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 subject['Id']: [subject['Abbrev'], subject['Name']],
             },
         };
-        _timetablePermanent = timetablePermanentData;
-        _timetablePermanentParsed = [
-          for (final day in _timetablePermanent!['Days'])
-            List.generate(_timetablePermanent!['Hours'].length, (index) {
-              final hour = _timetablePermanent!['Hours'][index];
+        _timetableParsed = [
+          for (final day in _timetable!['Days'])
+            List.generate(_timetable!['Hours'].length, (index) {
+              final hour = _timetable!['Hours'][index];
               final matchingHour = day['Atoms'].firstWhere(
                 (h) => h['HourId'] == hour['Id'],
                 orElse: () => null,
               );
-              return matchingHour;
+              if (matchingHour == null) {
+                return null;
+              }
+              return {
+                'Subject':
+                    _idMaps['Subjects']?[matchingHour['SubjectId']] ?? ['', ''],
+                'Teacher':
+                    _idMaps['Teachers']?[matchingHour['TeacherId']] ?? ['', ''],
+                'Room': _idMaps['Rooms']?[matchingHour['RoomId']] ?? ['', ''],
+                'Change': matchingHour['Change'],
+              };
             }),
         ];
-        _idMapsPermanent = {
-          for (final category in [
-            'Classes',
-            'Groups',
-            'Subjects',
-            'Teachers',
-            'Rooms',
-            'Cycles',
-          ])
-            category: {
-              null: ['', ''],
-              for (final subject in _timetablePermanent![category])
-                subject['Id']: [subject['Abbrev'], subject['Name']],
-            },
-        };
+        // TODO: permanent timetable
       });
     } catch (e) {
       if (!mounted) return;
@@ -154,7 +138,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                           children: [
                             for (final hour in day)
                               Container(
-                                constraints: const BoxConstraints(minWidth: 70),
+                                width: 70,
                                 decoration: BoxDecoration(
                                   color: Theme.of(context)
                                       .colorScheme
@@ -166,22 +150,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                     width: 0.5,
                                   ),
                                 ),
-                                child: hour != null
-                                    ? SubjectCard(
-                                        subject:
-                                            _idMaps?['Subjects']?[hour['SubjectId']]?[0] ??
-                                            'Error',
-                                        teacher:
-                                            _idMaps?['Teachers']?[hour['TeacherId']]?[0] ??
-                                            'Error',
-                                        room:
-                                            _idMaps?['Rooms']?[hour['RoomId']]?[0] ??
-                                            'Error',
-                                        changeType:
-                                            hour['Change']?['ChangeType'],
-                                        change: hour['Change']?['Description'],
-                                      )
-                                    : null,
+                                child: hour != null ? SubjectCard(hour) : null,
                               ),
                           ],
                         ),
