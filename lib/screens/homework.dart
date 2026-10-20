@@ -23,7 +23,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   }
 
   Future<void> _load() async {
-    // try {
+    try {
       Map<String, dynamic>? homeworkData = _homework;
 
       if (_homework == null) {
@@ -47,9 +47,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         ];
         sortHomework();
       });
-    // } catch (e) {
-    //   if (!mounted) return;
-    // }
+    } catch (e) {
+      if (!mounted) return;
+    }
   }
 
   void sortHomework() {
