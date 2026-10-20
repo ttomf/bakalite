@@ -17,6 +17,5 @@ Future<void> main() async {
       activeAccount = null;
     }
   }
-  Config.init();
   runApp(MainApp(route: activeAccount == null ? '/login' : '/dashboard'));
 }

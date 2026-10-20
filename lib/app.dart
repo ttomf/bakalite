@@ -1,3 +1,4 @@
+import 'package:bakalite/config.dart';
 import 'package:bakalite/screens/dashboard.dart';
 import 'package:bakalite/screens/dev.dart';
 import 'package:bakalite/screens/homework.dart';
@@ -6,7 +7,6 @@ import 'package:bakalite/screens/marks.dart';
 import 'package:bakalite/screens/settings.dart';
 import 'package:bakalite/screens/timetable.dart';
 import 'package:bakalite/theme.dart';
-import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
