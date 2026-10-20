@@ -40,5 +40,7 @@
   "actual": "Actual",
   "theme": "Theme",
   "light": "Light",
-  "dark": "Dark"
+  "dark": "Dark",
+  "about": "About",
+  "aboutText": "This is an open-source client for the Bakaláři school system, without ads and tracking. If you like it, please consider giving it a star on GitHub. Bug reports and suggestions for improvement are also welcome."
 }

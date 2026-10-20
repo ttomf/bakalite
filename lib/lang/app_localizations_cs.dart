@@ -143,4 +143,11 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get dark => 'Tmavý';
+
+  @override
+  String get about => 'O aplikaci';
+
+  @override
+  String get aboutText =>
+      'Toto je open-source klient pro školní systém Bakaláři, bez reklam a sledování. Pokud se vám líbí, zvažte prosím udělení hvězdičky na GitHubu. Budu rád také za nahlášení případných chyb nebo návrhy na vylepšení.';
 }

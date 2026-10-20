@@ -349,6 +349,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get dark;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @aboutText.
+  ///
+  /// In en, this message translates to:
+  /// **'This is an open-source client for the Bakaláři school system, without ads and tracking. If you like it, please consider giving it a star on GitHub. Bug reports and suggestions for improvement are also welcome.'**
+  String get aboutText;
 }
 
 class _AppLocalizationsDelegate

@@ -40,5 +40,7 @@
   "actual": "Aktuální",
   "theme": "Motiv",
   "light": "Světlý",
-  "dark": "Tmavý"
+  "dark": "Tmavý",
+  "about": "O aplikaci",
+  "aboutText": "Toto je open-source klient pro školní systém Bakaláři, bez reklam a sledování. Pokud se vám líbí, zvažte prosím udělení hvězdičky na GitHubu. Budu rád také za nahlášení případných chyb nebo návrhy na vylepšení."
 }

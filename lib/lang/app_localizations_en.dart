@@ -143,4 +143,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dark => 'Dark';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get aboutText =>
+      'This is an open-source client for the Bakaláři school system, without ads and tracking. If you like it, please consider giving it a star on GitHub. Bug reports and suggestions for improvement are also welcome.';
 }
