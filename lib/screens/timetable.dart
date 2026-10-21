@@ -71,6 +71,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     _idMaps['Teachers']?[matchingHour['TeacherId']] ?? ['', ''],
                 'Room': _idMaps['Rooms']?[matchingHour['RoomId']] ?? ['', ''],
                 'Change': matchingHour['Change'],
+                'Theme': matchingHour['Theme'] ?? '',
+                'Groups': matchingHour['GroupIds'].map(
+                  (id) => _idMaps['Groups']?[id] ?? ['', ''],
+                ),
               };
             }),
         ];
@@ -138,7 +142,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                           children: [
                             for (final hour in day)
                               Container(
-                                width: 70,
+                                width: 80,
                                 decoration: BoxDecoration(
                                   color: Theme.of(context)
                                       .colorScheme
