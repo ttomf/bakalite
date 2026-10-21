@@ -33,6 +33,10 @@ class SubjectSheet extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
+                subject['Change']?['TypeName'] ?? '',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Text(
                 subject['Groups'].map((group) => group[0]).join(', '),
                 style: Theme.of(context).textTheme.bodyLarge,
               ),

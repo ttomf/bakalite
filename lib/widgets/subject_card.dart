@@ -26,16 +26,38 @@ class SubjectCard extends StatelessWidget {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.all(2),
+          child: Stack(
             children: [
-              Text(
-                subject['Subject'][0],
-                style: Theme.of(context).textTheme.titleLarge,
+              Align(
+                alignment: AlignmentGeometry.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (subject['Subject'][0].isNotEmpty)
+                      Text(
+                        subject['Subject'][0],
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    if (subject['Teacher'][0].isNotEmpty)
+                      Text(subject['Teacher'][0]),
+                    if (subject['Room'][0].isNotEmpty) Text(subject['Room'][0]),
+
+                    if ((subject['Change']?['TypeAbbrev'] ?? '').isNotEmpty)
+                      Text(
+                        subject['Change']['TypeAbbrev'],
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                  ],
+                ),
               ),
-              Text(subject['Room'][0]),
-              Text(subject['Teacher'][0]),
+              Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: Text(
+                  subject['Groups'].map((group) => group[0]).join(', '),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
             ],
           ),
         ),
