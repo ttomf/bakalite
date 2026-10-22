@@ -31,24 +31,44 @@ class SubjectCard extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (subject['Subject'][0].isNotEmpty)
-                      Text(
-                        subject['Subject'][0],
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    if (subject['Teacher'][0].isNotEmpty)
-                      Text(subject['Teacher'][0]),
-                    if (subject['Room'][0].isNotEmpty) Text(subject['Room'][0]),
-
-                    if ((subject['Change']?['TypeAbbrev'] ?? '').isNotEmpty)
-                      Text(
-                        subject['Change']['TypeAbbrev'],
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                  ],
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isCompact = constraints.maxHeight < 100;
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (subject['Subject'][0].isNotEmpty)
+                          Text(
+                            subject['Subject'][0],
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        if ((subject['Change']?['TypeAbbrev'] ?? '').isNotEmpty)
+                          Text(
+                            subject['Change']['TypeAbbrev'],
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        isCompact
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                spacing: 10,
+                                children: [
+                                  if (subject['Teacher'][0].isNotEmpty)
+                                    Text(subject['Teacher'][0]),
+                                  if (subject['Room'][0].isNotEmpty)
+                                    Text(subject['Room'][0]),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  if (subject['Teacher'][0].isNotEmpty)
+                                    Text(subject['Teacher'][0]),
+                                  if (subject['Room'][0].isNotEmpty)
+                                    Text(subject['Room'][0]),
+                                ],
+                              ),
+                      ],
+                    );
+                  },
                 ),
               ),
               Align(
