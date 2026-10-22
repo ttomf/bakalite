@@ -1,7 +1,7 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
-import 'package:bakalite/widgets/subject_card.dart';
+import 'package:bakalite/widgets/timetable_grid.dart';
 import 'package:flutter/material.dart';
 
 class TimetableScreen extends StatefulWidget {
@@ -16,7 +16,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
   List<List<Map<String, dynamic>?>> _timetableParsed = [[], [], [], [], []];
   Map<String, Map<String?, List<String>>> _idMaps = {};
   Map<String, dynamic>? _timetablePerm;
-  List<List<Map<String, dynamic>?>> _timetablePermParsed = [[], [], [], [], []];
+  List<List<List<Map<String, dynamic>>>> _timetablePermParsed = [
+    [],
+    [],
+    [],
+    [],
+    [],
+  ];
   Map<String, Map<String?, List<String>>> _idMapsPerm = {};
 
   @override
@@ -78,7 +84,48 @@ class _TimetableScreenState extends State<TimetableScreen> {
               };
             }),
         ];
-        // TODO: permanent timetable
+        _timetablePerm = timetablePermData;
+        _idMapsPerm = {
+          for (final category in [
+            'Classes',
+            'Groups',
+            'Subjects',
+            'Teachers',
+            'Rooms',
+            'Cycles',
+          ])
+            category: {
+              null: ['', ''],
+              for (final subject in _timetablePerm![category])
+                subject['Id']: [subject['Abbrev'], subject['Name']],
+            },
+        };
+        _timetablePermParsed = [
+          for (final day in _timetablePerm!['Days'])
+            List.generate(_timetablePerm!['Hours'].length, (index) {
+              final hour = _timetablePerm!['Hours'][index];
+              final matchingHours = day['Atoms'].where(
+                (h) => h['HourId'] == hour['Id'],
+              );
+              return [
+                for (final matchingHour in matchingHours)
+                  {
+                    'Subject':
+                        _idMapsPerm['Subjects']?[matchingHour['SubjectId']] ??
+                        ['', ''],
+                    'Teacher':
+                        _idMapsPerm['Teachers']?[matchingHour['TeacherId']] ??
+                        ['', ''],
+                    'Room':
+                        _idMapsPerm['Rooms']?[matchingHour['RoomId']] ??
+                        ['', ''],
+                    'Groups': matchingHour['GroupIds'].map(
+                      (id) => _idMapsPerm['Groups']?[id] ?? ['', ''],
+                    ),
+                  },
+              ];
+            }),
+        ];
       });
     } catch (e) {
       if (!mounted) return;
@@ -94,78 +141,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
         AppLocalizations.of(context)!.permanent,
       ],
       children: [
-        Row(
-          children: [
-            IntrinsicWidth(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (final (index, day) in _timetableParsed.indexed)
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                            width: 0.5,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Center(
-                            child: Text(
-                              AppLocalizations.of(context)!.dayNamesShort
-                                  .split(' ')[index],
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (final (index, day) in _timetableParsed.indexed)
-                      Expanded(
-                        child: Row(
-                          children: [
-                            for (final hour in day)
-                              Container(
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surfaceDim,
-                                  border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .outlineVariant,
-                                    width: 0.5,
-                                  ),
-                                ),
-                                child: hour != null ? SubjectCard(hour) : null,
-                              ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        Text('todo'),
+        TimetableGrid(_timetableParsed),
+        TimetableGrid(_timetablePermParsed),
       ],
     );
   }
