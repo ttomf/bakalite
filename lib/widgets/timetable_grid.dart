@@ -9,7 +9,6 @@ class TimetableGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(timetable);
     return Row(
       children: [
         IntrinsicWidth(

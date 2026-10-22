@@ -30,7 +30,7 @@ class SubjectCard extends StatelessWidget {
           child: Stack(
             children: [
               Align(
-                alignment: AlignmentGeometry.center,
+                alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -52,7 +52,7 @@ class SubjectCard extends StatelessWidget {
                 ),
               ),
               Align(
-                alignment: AlignmentGeometry.topLeft,
+                alignment: Alignment.topLeft,
                 child: Text(
                   subject['Groups'].map((group) => group[0]).join(', '),
                   style: Theme.of(context).textTheme.bodySmall,
