@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 
@@ -262,6 +263,59 @@ class BakalariAPI {
       }
 
       return res.body;
+    } on http.ClientException catch (e) {
+      throw BakaLiteException(BakaLiteError.network, e.toString());
+    }
+  }
+
+  Future<Uint8List> requestBytes(
+    String endpoint, {
+    String method = 'GET',
+    String? body,
+  }) async {
+    try {
+      if (baseUrl?.isEmpty ?? true) {
+        throw const BakaLiteException(
+          BakaLiteError.invalidInput,
+          'Base URL cannot be empty',
+        );
+      }
+      if (accessToken?.isEmpty ?? true) {
+        throw const BakaLiteException(
+          BakaLiteError.invalidCredentials,
+          'Invalid accessToken',
+        );
+      }
+
+      final req = http.Request(method, Uri.parse('$baseUrl/3/$endpoint'));
+      req.headers.addAll({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer $accessToken',
+      });
+      if (body != null) {
+        req.body = body;
+      }
+      final res = await http.Response.fromStream(await client.send(req));
+
+      if (res.statusCode == 404) {
+        throw const BakaLiteException(
+          BakaLiteError.http,
+          '404, endpoint not found',
+        );
+      }
+
+      if (res.statusCode == 401) {
+        throw const BakaLiteException(
+          BakaLiteError.invalidCredentials,
+          'Unauthorized, invalid accessToken',
+        );
+      }
+
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
+      }
+
+      return res.bodyBytes;
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
     }

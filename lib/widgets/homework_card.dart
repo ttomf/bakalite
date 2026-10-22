@@ -1,4 +1,5 @@
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/widgets/attachment_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,6 +13,7 @@ class HomeworkCard extends StatefulWidget {
     required this.done,
     this.finished,
     this.onFinishedChange,
+    this.attachments,
   });
 
   final String subject;
@@ -21,6 +23,7 @@ class HomeworkCard extends StatefulWidget {
   final bool done;
   final bool? finished;
   final Future<bool> Function(bool)? onFinishedChange;
+  final List<dynamic>? attachments;
 
   @override
   State<HomeworkCard> createState() => _HomeworkCardState();
@@ -40,7 +43,6 @@ class _HomeworkCardState extends State<HomeworkCard> {
     final remainingDays =
         (widget.dateEnd.difference(DateTime.now()).inHours / 24).ceil();
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -150,6 +152,20 @@ class _HomeworkCardState extends State<HomeworkCard> {
                 ),
               ],
             ),
+            if (widget.attachments != null)
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (final attachment in widget.attachments!)
+                      AttachmentCard(
+                        id: attachment['Id'],
+                        name: attachment['Name'],
+                        mime: attachment['Type'],
+                      ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

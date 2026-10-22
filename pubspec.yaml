@@ -7,6 +7,7 @@ environment:
   sdk: ^3.13.4
 
 dependencies:
+  file_saver: ^0.7.0
   flutter:
     sdk: flutter
   flutter_localizations:

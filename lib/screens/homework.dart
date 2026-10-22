@@ -40,9 +40,10 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               'Content': homework['Content'].trim(),
               'DateStart': parseTime(homework['DateStart']),
               'DateEnd': parseTime(homework['DateEnd']),
-              'Closed': homework['Closed'] && homework['Done'],
+              'Closed': homework['Closed'] || homework['Done'],
               'Finished': homework['Finished'],
               'ID': homework['ID'],
+              'Attachments': homework['Attachments'],
             },
         ];
         sortHomework();
@@ -138,6 +139,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                   finished: homework['Finished'],
                   onFinishedChange: (val) =>
                       _setHomeworkFinished(homework['ID'], val),
+                  attachments: homework['Attachments'],
                 ),
           ],
         ),
@@ -158,6 +160,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                   finished: homework['Finished'],
                   onFinishedChange: (val) =>
                       _setHomeworkFinished(homework['ID'], val),
+                  attachments: homework['Attachments'],
                 ),
           ],
         ),
@@ -172,6 +175,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                   dateStart: homework['DateStart'],
                   dateEnd: homework['DateEnd'],
                   done: homework['Closed'],
+                  attachments: homework['Attachments'],
                 ),
           ],
         ),
