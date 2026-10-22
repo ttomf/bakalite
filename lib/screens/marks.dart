@@ -5,7 +5,6 @@ import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/mark_card.dart';
 import 'package:bakalite/widgets/subject_marks_card.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class MarksScreen extends StatefulWidget {
   const MarksScreen({super.key});
@@ -44,15 +43,12 @@ class _MarksScreenState extends State<MarksScreen> {
                 'MarkText': mark['MarkText'],
                 'Weight': mark['Weight'].toString(),
                 'SubjectName': subject['Subject']['Name'],
-                'MarkDate': mark['MarkDate'],
+                'MarkDate': parseTime(mark['MarkDate']),
                 'Caption': mark['Caption'].trim(),
                 'Theme': mark['Theme'].trim(),
               },
         ];
-        _marksLast.sort(
-          (a, b) =>
-              parseTime(b['MarkDate']).compareTo(parseTime(a['MarkDate'])),
-        );
+        _marksLast.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
         _marksSubjects = {};
         for (final subject in _marks?['Subjects'] ?? []) {
           _marksSubjects[subject['Subject']['Name']] = [
@@ -60,7 +56,7 @@ class _MarksScreenState extends State<MarksScreen> {
               {
                 'MarkText': mark['MarkText'],
                 'Weight': mark['Weight'].toString(),
-                'MarkDate': mark['MarkDate'],
+                'MarkDate': parseTime(mark['MarkDate']),
                 'Caption': mark['Caption'].trim(),
                 'Theme': mark['Theme'].trim(),
               },
@@ -89,20 +85,7 @@ class _MarksScreenState extends State<MarksScreen> {
         AppLocalizations.of(context)!.predictor,
       ],
       children: [
-        ListView(
-          children: [
-            for (final mark in _marksLast)
-              MarkCard(
-                mark: mark['MarkText'],
-                weight: mark['Weight'],
-                subject: mark['SubjectName'],
-                date: DateFormat('d. M. yyyy')
-                    .format(parseTime(mark['MarkDate'])),
-                caption: mark['Caption'],
-                theme: mark['Theme'],
-              ),
-          ],
-        ),
+        ListView(children: [for (final mark in _marksLast) MarkCard(mark)]),
         ListView(
           children: [
             if (_subjects != null)

@@ -4,26 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HomeworkCard extends StatefulWidget {
-  const HomeworkCard({
-    super.key,
-    required this.subject,
-    required this.content,
-    required this.dateStart,
-    required this.dateEnd,
-    required this.done,
-    this.finished,
-    this.onFinishedChange,
-    this.attachments,
-  });
+  const HomeworkCard(this.homework, {super.key, this.onFinishedChange});
 
-  final String subject;
-  final String content;
-  final DateTime dateStart;
-  final DateTime dateEnd;
-  final bool done;
-  final bool? finished;
+  final Map<String, dynamic> homework;
   final Future<bool> Function(bool)? onFinishedChange;
-  final List<dynamic>? attachments;
 
   @override
   State<HomeworkCard> createState() => _HomeworkCardState();
@@ -34,14 +18,15 @@ class _HomeworkCardState extends State<HomeworkCard> {
 
   @override
   void initState() {
-    finished = widget.finished;
+    finished = widget.homework['Finished'];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final remainingDays =
-        (widget.dateEnd.difference(DateTime.now()).inHours / 24).ceil();
+    final int remainingDays =
+        (widget.homework['DateEnd'].difference(DateTime.now()).inHours / 24)
+            .ceil();
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -55,18 +40,18 @@ class _HomeworkCardState extends State<HomeworkCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.subject,
+                        widget.homework['SubjectName'],
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      SelectableText(widget.content),
+                      SelectableText(widget.homework['Content']),
                     ],
                   ),
                 ),
-                if (!widget.done)
+                if (!widget.homework['Closed'])
                   Checkbox(
                     value: finished,
                     onChanged: (val) async {
@@ -81,8 +66,8 @@ class _HomeworkCardState extends State<HomeworkCard> {
               ],
             ),
             const SizedBox(height: 8),
-            if (widget.done ||
-                widget.dateEnd
+            if (widget.homework['Closed'] ||
+                widget.homework['DateEnd']
                     .add(const Duration(days: 1))
                     .isBefore(DateTime.now())) ...[
               Divider(
@@ -95,7 +80,9 @@ class _HomeworkCardState extends State<HomeworkCard> {
                 value:
                     1 -
                     remainingDays /
-                        widget.dateEnd.difference(widget.dateStart).inDays,
+                        widget.homework['DateEnd']
+                            .difference(widget.homework['DateStart'])
+                            .inDays,
                 stopIndicatorRadius: 0,
                 trackGap: 0,
                 minHeight: 5,
@@ -118,7 +105,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                         text: DateFormat(
                           'EE d. M. yyyy',
                           Localizations.localeOf(context).languageCode,
-                        ).format(widget.dateStart),
+                        ).format(widget.homework['DateStart']),
                       ),
                     ],
                     style: Theme.of(context).textTheme.bodyMedium,
@@ -135,7 +122,7 @@ class _HomeworkCardState extends State<HomeworkCard> {
                         text: DateFormat(
                           'EE d. M. yyyy',
                           Localizations.localeOf(context).languageCode,
-                        ).format(widget.dateEnd),
+                        ).format(widget.homework['DateEnd']),
                       ),
                     ],
                     style: Theme.of(context).textTheme.bodyMedium,
@@ -152,12 +139,12 @@ class _HomeworkCardState extends State<HomeworkCard> {
                 ),
               ],
             ),
-            if (widget.attachments != null)
+            if (widget.homework['Attachments'] != null)
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (final attachment in widget.attachments!)
+                    for (final attachment in widget.homework['Attachments'])
                       AttachmentCard(
                         id: attachment['Id'],
                         name: attachment['Name'],

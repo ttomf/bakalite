@@ -1,5 +1,4 @@
 import 'package:bakalite/lang/app_localizations.dart';
-import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -117,8 +116,7 @@ class SubjectMarksCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    DateFormat('d. M. yyyy')
-                        .format(parseTime(mark['MarkDate'])),
+                    DateFormat('d. M. yyyy').format(mark['MarkDate']),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   Text(

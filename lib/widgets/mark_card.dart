@@ -1,23 +1,11 @@
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MarkCard extends StatelessWidget {
-  const MarkCard({
-    super.key,
-    required this.mark,
-    required this.weight,
-    required this.subject,
-    required this.date,
-    this.caption = '',
-    this.theme = '',
-  });
+  const MarkCard(this.mark, {super.key});
 
-  final String mark;
-  final String weight;
-  final String subject;
-  final String date;
-  final String caption;
-  final String theme;
+  final Map<String, dynamic> mark;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +20,7 @@ class MarkCard extends StatelessWidget {
                 SizedBox(
                   width: 50,
                   child: Text(
-                    mark,
+                    mark['MarkText'],
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.red,
                       fontWeight: FontWeight.w500,
@@ -45,17 +33,18 @@ class MarkCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        subject,
+                        mark['SubjectName'],
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                      if (caption.isNotEmpty) SelectableText(caption),
-                      if (theme.isNotEmpty)
+                      if (mark['Caption']?.isNotEmpty ?? false)
+                        SelectableText(mark['Caption']),
+                      if (mark['Theme']?.isNotEmpty ?? false)
                         SelectableText(
-                          theme,
+                          mark['Theme'],
                           style: TextStyle(color: Theme.of(context).hintColor),
                         ),
                     ],
@@ -73,8 +62,10 @@ class MarkCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(date),
-                Text('${AppLocalizations.of(context)!.weight}: $weight'),
+                Text(DateFormat('d. M. yyyy').format(mark['MarkDate'])),
+                Text(
+                  '${AppLocalizations.of(context)!.weight}: ${mark['Weight']}',
+                ),
               ],
             ),
           ],
