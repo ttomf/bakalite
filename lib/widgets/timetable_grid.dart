@@ -1,11 +1,12 @@
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TimetableGrid extends StatelessWidget {
   const TimetableGrid(this.timetable, {super.key});
 
-  final List<List<dynamic>> timetable;
+  final List<Map<String, dynamic>> timetable;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +29,25 @@ class TimetableGrid extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Center(
-                        child: Text(
-                          AppLocalizations.of(context)!.dayNamesShort
-                              .split(' ')[index],
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.dayNamesShort
+                                  .split(' ')[index],
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
+                            ),
+                            if (day['Date'] != null)
+                              Text(
+                                DateFormat('d. M.').format(day['Date']),
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
+                          ],
                         ),
                       ),
                     ),
@@ -55,7 +66,7 @@ class TimetableGrid extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        for (final hour in day)
+                        for (final hour in day['Atoms'])
                           Container(
                             width: 80,
                             decoration: BoxDecoration(
