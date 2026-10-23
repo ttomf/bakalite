@@ -12,18 +12,23 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'lang/app_localizations.dart';
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatelessWidget {
   const MainApp({super.key, this.route = '/login'});
 
   final String route;
 
   @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  @override
   Widget build(BuildContext context) {
+    final routes = {
+      '/login': (context) => const LoginScreen(),
+      '/dashboard': (context) => const Dashboard(),
+      '/marks': (context) => const MarksScreen(),
+      '/homework': (context) => const HomeworkScreen(),
+      '/timetable': (context) => const TimetableScreen(),
+      '/dev': (context) => const DevScreen(),
+      '/settings': (context) => const SettingsScreen(),
+    };
+
     return AnimatedBuilder(
       animation: Listenable.merge([
         Config.seedColor,
@@ -62,16 +67,19 @@ class _MainAppState extends State<MainApp> {
               ? null
               : Locale(Config.language.value),
 
-          initialRoute: widget.route,
-          routes: {
-            '/login': (context) => const LoginScreen(),
-            '/dashboard': (context) => const Dashboard(),
-            '/marks': (context) => const MarksScreen(),
-            '/homework': (context) => const HomeworkScreen(),
-            '/timetable': (context) => const TimetableScreen(),
-            '/dev': (context) => const DevScreen(),
-            '/settings': (context) => const SettingsScreen(),
-          },
+          initialRoute: route,
+          onGenerateInitialRoutes: (initialRoute) => [
+            if (initialRoute != '/dashboard')
+              MaterialPageRoute(
+                builder: (context) => const Dashboard(),
+                settings: const RouteSettings(name: '/dashboard'),
+              ),
+            MaterialPageRoute(
+              builder: (context) => routes[initialRoute]!(context),
+              settings: RouteSettings(name: initialRoute),
+            ),
+          ],
+          routes: routes,
         );
       },
     );

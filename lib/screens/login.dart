@@ -346,7 +346,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         final id = await accountManager.saveAccount(account);
                         await accountManager.setActiveAccount(id);
                         if (!context.mounted) return;
-                        Navigator.pushReplacementNamed(context, '/dashboard');
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/dashboard',
+                          (route) => false,
+                        );
                       } on BakaLiteException catch (e) {
                         if (!context.mounted) return;
                         showError(context, e);
