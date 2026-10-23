@@ -162,18 +162,21 @@ class _TimetableScreenState extends State<TimetableScreen> {
         Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 3,
               children: [
-                FilledButton(
-                  child: const Icon(Icons.exposure_minus_1),
-                  onPressed: () {
-                    setState(() {
-                      _selectedDate = _addDays(_selectedDate, -7);
-                      _timetable = null;
-                      _timetableParsed = null;
-                    });
-                    _load();
-                  },
+                Expanded(
+                  child: FilledButton(
+                    child: const Icon(Icons.exposure_minus_1),
+                    onPressed: () {
+                      setState(() {
+                        _selectedDate = _addDays(_selectedDate, -7);
+                        _timetable = null;
+                        _timetableParsed = null;
+                      });
+                      _load();
+                    },
+                  ),
                 ),
                 OutlinedButton.icon(
                   icon: const Icon(Icons.date_range),
@@ -194,29 +197,31 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     _load();
                   },
                 ),
-                FilledButton(
-                  child: const Icon(Icons.exposure_plus_1),
-                  onPressed: () {
-                    setState(() {
-                      _selectedDate = _addDays(_selectedDate, 7);
-                      _timetable = null;
-                      _timetableParsed = null;
-                    });
-                    _load();
-                  },
+                Expanded(
+                  child: FilledButton(
+                    child: const Icon(Icons.exposure_plus_1),
+                    onPressed: () {
+                      setState(() {
+                        _selectedDate = _addDays(_selectedDate, 7);
+                        _timetable = null;
+                        _timetableParsed = null;
+                      });
+                      _load();
+                    },
+                  ),
                 ),
               ],
             ),
-            if (_timetableParsed != null)
-              Expanded(child: TimetableGrid(_timetableParsed!)),
+            Expanded(
+              child: _timetableParsed != null
+                  ? TimetableGrid(_timetableParsed!)
+                  : const Center(child: CircularProgressIndicator()),
+            ),
           ],
         ),
-        Column(
-          children: [
-            if (_timetableParsed != null)
-              Expanded(child: TimetableGrid(_timetablePermParsed!)),
-          ],
-        ),
+        _timetablePermParsed != null
+            ? TimetableGrid(_timetablePermParsed!)
+            : const Center(child: CircularProgressIndicator()),
       ],
     );
   }
