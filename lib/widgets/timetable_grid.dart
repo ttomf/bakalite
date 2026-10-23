@@ -45,7 +45,12 @@ class TimetableGrid extends StatelessWidget {
                             if (day['Date'] != null)
                               Text(
                                 DateFormat('d. M.').format(day['Date']),
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                    ),
                               ),
                           ],
                         ),

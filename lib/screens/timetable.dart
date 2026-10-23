@@ -23,7 +23,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
   late DateTime _selectedDate;
 
-  int _loadId = 0; // TODO: fix race in _load
+  int _loadId = 0;
 
   @override
   void initState() {
@@ -34,19 +34,22 @@ class _TimetableScreenState extends State<TimetableScreen> {
   }
 
   Future<void> _load() async {
+    final loadId = ++_loadId;
+    final selectedDate = _selectedDate;
+
     try {
       Map<String, dynamic>? timetableData = _timetable;
       Map<String, dynamic>? timetablePermData = _timetablePerm;
 
       if (_timetable == null) {
         timetableData = await api.fetch(
-          'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(_selectedDate)}',
+          'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(selectedDate)}',
         );
       }
       if (_timetablePerm == null) {
         timetablePermData = await api.fetch('timetable/permanent');
       }
-      if (!mounted) return;
+      if (!mounted || loadId != _loadId) return;
 
       setState(() {
         _timetable = timetableData;
@@ -141,7 +144,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
         ];
       });
     } catch (e) {
-      if (!mounted) return;
+      if (!mounted || loadId != _loadId) return;
     }
   }
 
