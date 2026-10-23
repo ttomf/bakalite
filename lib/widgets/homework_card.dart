@@ -132,8 +132,10 @@ class _HomeworkCardState extends State<HomeworkCard> {
                   AppLocalizations.of(context)!.days(remainingDays),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: remainingDays <= 2 && remainingDays > 0
+                    color: remainingDays <= 2 && remainingDays >= 0
                         ? Colors.red[700]
+                        : remainingDays <= 5 && remainingDays > 2
+                        ? Colors.orange[800]
                         : null,
                   ),
                 ),
