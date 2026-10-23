@@ -27,11 +27,8 @@ class _MarksScreenState extends State<MarksScreen> {
 
   Future<void> _load() async {
     try {
-      Map<String, dynamic>? marksData = _marks;
+      final marksData = _marks ?? await api.fetch('marks');
 
-      if (_marks == null) {
-        marksData = await api.fetch('marks');
-      }
       if (!mounted) return;
 
       setState(() {

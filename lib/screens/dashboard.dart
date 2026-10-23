@@ -21,11 +21,7 @@ class _DashboardState extends State<Dashboard> {
 
   Future<void> _load() async {
     try {
-      Map<String, dynamic>? userData = _user;
-
-      if (_user == null) {
-        userData = await api.fetch('user');
-      }
+      final userData = _user ?? await api.fetch('user');
 
       if (!mounted) return;
 

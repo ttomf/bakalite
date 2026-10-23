@@ -24,11 +24,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
 
   Future<void> _load() async {
     try {
-      Map<String, dynamic>? homeworkData = _homework;
+      final homeworkData =
+          _homework ?? await api.fetch('homeworks?from=2000-01-01');
 
-      if (_homework == null) {
-        homeworkData = await api.fetch('homeworks?from=2000-01-01');
-      }
       if (!mounted) return;
 
       setState(() {

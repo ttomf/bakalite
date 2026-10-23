@@ -38,17 +38,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
     final selectedDate = _selectedDate;
 
     try {
-      Map<String, dynamic>? timetableData = _timetable;
-      Map<String, dynamic>? timetablePermData = _timetablePerm;
+      final timetableData =
+          _timetable ??
+          await api.fetch(
+            'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(selectedDate)}',
+          );
 
-      if (_timetable == null) {
-        timetableData = await api.fetch(
-          'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(selectedDate)}',
-        );
-      }
-      if (_timetablePerm == null) {
-        timetablePermData = await api.fetch('timetable/permanent');
-      }
+      final timetablePermData =
+          _timetablePerm ?? await api.fetch('timetable/permanent');
+
       if (!mounted || loadId != _loadId) return;
 
       setState(() {
