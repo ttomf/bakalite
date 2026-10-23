@@ -25,6 +25,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
   int _loadId = 0;
 
+  DateTime _addDays(DateTime date, int days) {
+    return DateTime(date.year, date.month, date.day + days);
+  }
+
   @override
   void initState() {
     final now = DateTime.now();
@@ -164,11 +168,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   child: const Icon(Icons.exposure_minus_1),
                   onPressed: () {
                     setState(() {
-                      _selectedDate = DateTime(
-                        _selectedDate.year,
-                        _selectedDate.month,
-                        _selectedDate.day - 7,
-                      );
+                      _selectedDate = _addDays(_selectedDate, -7);
                       _timetable = null;
                       _timetableParsed = null;
                     });
@@ -178,7 +178,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 OutlinedButton.icon(
                   icon: const Icon(Icons.date_range),
                   label: Text(
-                    '${DateFormat('d. M. yyyy').format(_selectedDate)} – ${DateFormat('d. M. yyyy').format(_selectedDate.add(const Duration(days: 4)))}',
+                    '${DateFormat('d. M. yyyy').format(_selectedDate)} – ${DateFormat('d. M. yyyy').format(_addDays(_selectedDate, 4))}',
                   ),
                   onPressed: () {
                     setState(() {
@@ -198,11 +198,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   child: const Icon(Icons.exposure_plus_1),
                   onPressed: () {
                     setState(() {
-                      _selectedDate = DateTime(
-                        _selectedDate.year,
-                        _selectedDate.month,
-                        _selectedDate.day + 7,
-                      );
+                      _selectedDate = _addDays(_selectedDate, 7);
                       _timetable = null;
                       _timetableParsed = null;
                     });
