@@ -165,32 +165,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 3,
               children: [
-                Expanded(
-                  child: FilledButton(
-                    child: const Icon(Icons.exposure_minus_1),
-                    onPressed: () {
-                      setState(() {
-                        _selectedDate = _addDays(_selectedDate, -7);
-                        _timetable = null;
-                        _timetableParsed = null;
-                      });
-                      _load();
-                    },
-                  ),
-                ),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.date_range),
-                  label: Text(
-                    '${DateFormat('d. M. yyyy').format(_selectedDate)} – ${DateFormat('d. M. yyyy').format(_addDays(_selectedDate, 4))}',
-                  ),
+                FilledButton(
+                  child: const Icon(Icons.keyboard_arrow_left),
                   onPressed: () {
                     setState(() {
-                      final now = DateTime.now();
-                      _selectedDate = DateTime(
-                        now.year,
-                        now.month,
-                        now.day - now.weekday + 1,
-                      );
+                      _selectedDate = _addDays(_selectedDate, -7);
                       _timetable = null;
                       _timetableParsed = null;
                     });
@@ -198,17 +177,36 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   },
                 ),
                 Expanded(
-                  child: FilledButton(
-                    child: const Icon(Icons.exposure_plus_1),
+                  child: OutlinedButton.icon(
+                    icon: const Icon(Icons.date_range),
+                    label: Text(
+                      '${DateFormat('d. M. yyyy').format(_selectedDate)} – ${DateFormat('d. M. yyyy').format(_addDays(_selectedDate, 4))}',
+                    ),
                     onPressed: () {
                       setState(() {
-                        _selectedDate = _addDays(_selectedDate, 7);
+                        final now = DateTime.now();
+                        _selectedDate = DateTime(
+                          now.year,
+                          now.month,
+                          now.day - now.weekday + 1,
+                        );
                         _timetable = null;
                         _timetableParsed = null;
                       });
                       _load();
                     },
                   ),
+                ),
+                FilledButton(
+                  child: const Icon(Icons.keyboard_arrow_right),
+                  onPressed: () {
+                    setState(() {
+                      _selectedDate = _addDays(_selectedDate, 7);
+                      _timetable = null;
+                      _timetableParsed = null;
+                    });
+                    _load();
+                  },
                 ),
               ],
             ),
