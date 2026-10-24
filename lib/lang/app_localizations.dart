@@ -379,6 +379,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next week'**
   String get nextWeek;
+
+  /// No description provided for @relativeDateLabels.
+  ///
+  /// In en, this message translates to:
+  /// **'Relative date labels'**
+  String get relativeDateLabels;
 }
 
 class _AppLocalizationsDelegate

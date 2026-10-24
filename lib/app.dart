@@ -31,9 +31,10 @@ class MainApp extends StatelessWidget {
 
     return AnimatedBuilder(
       animation: Listenable.merge([
-        Config.seedColor,
         Config.language,
+        Config.seedColor,
         Config.useM3Color,
+        Config.relativeDateLabels,
         Config.brightness,
       ]),
       builder: (context, child) {

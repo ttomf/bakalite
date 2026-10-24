@@ -1,4 +1,5 @@
 import 'package:bakalite/api.dart';
+import 'package:bakalite/config.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
@@ -182,9 +183,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.date_range),
-                    label: Text(switch (_selectedDate
-                        .difference(_weekStart(DateTime.now()))
-                        .inDays) {
+                    label: Text(switch (Config.relativeDateLabels.value
+                        ? _selectedDate
+                              .difference(_weekStart(DateTime.now()))
+                              .inDays
+                        : null) {
                       -7 => AppLocalizations.of(context)!.previousWeek,
                       0 => AppLocalizations.of(context)!.thisWeek,
                       7 => AppLocalizations.of(context)!.nextWeek,

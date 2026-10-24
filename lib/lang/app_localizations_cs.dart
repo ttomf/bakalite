@@ -159,4 +159,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get nextWeek => 'Příští týden';
+
+  @override
+  String get relativeDateLabels => 'Relativní názvy dat';
 }

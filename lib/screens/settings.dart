@@ -59,6 +59,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   setting: Config.devMode,
                   label: AppLocalizations.of(context)!.devMode,
                 ),
+                SettingCard<bool>(
+                  key: ValueKey((settingsKey, 'relativeDateLabels')),
+                  setting: Config.relativeDateLabels,
+                  label: AppLocalizations.of(context)!.relativeDateLabels,
+                ),
                 SettingCard<void>(
                   label: AppLocalizations.of(context)!.resetSettings,
                   onSet: (value) async {

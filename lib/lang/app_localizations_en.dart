@@ -159,4 +159,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextWeek => 'Next week';
+
+  @override
+  String get relativeDateLabels => 'Relative date labels';
 }

@@ -61,18 +61,20 @@ class ConfigOption<T> extends ValueNotifier<T> {
 }
 
 class Config {
-  static final seedColor = ConfigOption('seedColor', Colors.lightBlue as Color);
   static final language = ConfigOption('language', 'System');
+  static final seedColor = ConfigOption('seedColor', Colors.lightBlue as Color);
   static final useM3Color = ConfigOption('useM3Color', true);
   static final brightness = ConfigOption('brightness', 'System');
+  static final relativeDateLabels = ConfigOption('relativeDateLabels', true);
   static final devMode = ConfigOption('devMode', false);
 
   static Future<void> reset() async {
     await Future.wait([
-      seedColor.reset(),
       language.reset(),
+      seedColor.reset(),
       useM3Color.reset(),
       brightness.reset(),
+      relativeDateLabels.reset(),
       devMode.reset(),
     ]);
   }
