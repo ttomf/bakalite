@@ -182,7 +182,30 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     label: Text(
                       '${DateFormat('d. M. yyyy').format(_selectedDate)} – ${DateFormat('d. M. yyyy').format(_addDays(_selectedDate, 4))}',
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      final date = await showDatePicker(
+                        context: context,
+                        initialDate: _selectedDate,
+                        firstDate: DateTime.now().subtract(
+                          const Duration(days: 365 * 2),
+                        ),
+                        lastDate: DateTime.now().add(
+                          const Duration(days: 365 * 2),
+                        ),
+                      );
+                      if (date == null || !mounted) return;
+                      setState(() {
+                        _selectedDate = DateTime(
+                          date.year,
+                          date.month,
+                          date.day - date.weekday + 1,
+                        );
+                        _timetable = null;
+                        _timetableParsed = null;
+                      });
+                      _load();
+                    },
+                    onLongPress: () {
                       setState(() {
                         final now = DateTime.now();
                         _selectedDate = DateTime(
