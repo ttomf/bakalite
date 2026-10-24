@@ -150,4 +150,13 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get aboutText =>
       'Toto je open-source klient pro školní systém Bakaláři, bez reklam a sledování. Pokud se vám líbí, zvažte prosím udělení hvězdičky na GitHubu. Budu rád také za nahlášení případných chyb nebo návrhy na vylepšení.';
+
+  @override
+  String get previousWeek => 'Minulý týden';
+
+  @override
+  String get thisWeek => 'Tento týden';
+
+  @override
+  String get nextWeek => 'Příští týden';
 }

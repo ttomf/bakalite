@@ -29,10 +29,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
     return DateTime(date.year, date.month, date.day + days);
   }
 
+  DateTime _weekStart(DateTime date) {
+    return DateTime(date.year, date.month, date.day - date.weekday + 1);
+  }
+
   @override
   void initState() {
-    final now = DateTime.now();
-    _selectedDate = DateTime(now.year, now.month, now.day - now.weekday + 1);
+    _selectedDate = _weekStart(DateTime.now());
     super.initState();
     _load();
   }
@@ -179,9 +182,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.date_range),
-                    label: Text(
-                      '${DateFormat('d. M. yyyy').format(_selectedDate)} – ${DateFormat('d. M. yyyy').format(_addDays(_selectedDate, 4))}',
-                    ),
+                    label: Text(switch (_selectedDate
+                        .difference(_weekStart(DateTime.now()))
+                        .inDays) {
+                      -7 => AppLocalizations.of(context)!.previousWeek,
+                      0 => AppLocalizations.of(context)!.thisWeek,
+                      7 => AppLocalizations.of(context)!.nextWeek,
+                      _ =>
+                        '${DateFormat('d. M. yyyy').format(_selectedDate)} – ${DateFormat('d. M. yyyy').format(_addDays(_selectedDate, 4))}',
+                    }),
                     onPressed: () async {
                       final date = await showDatePicker(
                         context: context,
@@ -195,11 +204,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       );
                       if (date == null || !mounted) return;
                       setState(() {
-                        _selectedDate = DateTime(
-                          date.year,
-                          date.month,
-                          date.day - date.weekday + 1,
-                        );
+                        _selectedDate = _weekStart(date);
                         _timetable = null;
                         _timetableParsed = null;
                       });
@@ -207,12 +212,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     },
                     onLongPress: () {
                       setState(() {
-                        final now = DateTime.now();
-                        _selectedDate = DateTime(
-                          now.year,
-                          now.month,
-                          now.day - now.weekday + 1,
-                        );
+                        _selectedDate = _weekStart(DateTime.now());
                         _timetable = null;
                         _timetableParsed = null;
                       });

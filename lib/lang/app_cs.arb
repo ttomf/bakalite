@@ -42,5 +42,8 @@
   "light": "Světlý",
   "dark": "Tmavý",
   "about": "O aplikaci",
-  "aboutText": "Toto je open-source klient pro školní systém Bakaláři, bez reklam a sledování. Pokud se vám líbí, zvažte prosím udělení hvězdičky na GitHubu. Budu rád také za nahlášení případných chyb nebo návrhy na vylepšení."
+  "aboutText": "Toto je open-source klient pro školní systém Bakaláři, bez reklam a sledování. Pokud se vám líbí, zvažte prosím udělení hvězdičky na GitHubu. Budu rád také za nahlášení případných chyb nebo návrhy na vylepšení.",
+  "previousWeek": "Minulý týden",
+  "thisWeek": "Tento týden",
+  "nextWeek": "Příští týden"
 }

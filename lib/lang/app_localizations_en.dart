@@ -150,4 +150,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aboutText =>
       'This is an open-source client for the Bakaláři school system, without ads and tracking. If you like it, please consider giving it a star on GitHub. Bug reports and suggestions for improvement are also welcome.';
+
+  @override
+  String get previousWeek => 'Previous week';
+
+  @override
+  String get thisWeek => 'This week';
+
+  @override
+  String get nextWeek => 'Next week';
 }
