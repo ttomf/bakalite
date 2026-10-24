@@ -82,20 +82,28 @@ class _MarksScreenState extends State<MarksScreen> {
         AppLocalizations.of(context)!.predictor,
       ],
       children: [
-        ListView(children: [for (final mark in _marksLast) MarkCard(mark)]),
-        ListView(
-          children: [
-            if (_subjects != null)
-              for (final subject in _marksSubjects.keys)
-                SubjectMarksCard(
-                  subject: subject,
-                  marks: _marksSubjects[subject],
-                  average: _subjects![subject]['AverageText'],
-                  note: _subjects![subject]['SubjectNote'],
-                ),
-          ],
-        ),
-        ListView(children: [Text('todo')]),
+        _marks != null
+            ? ListView(
+                children: [for (final mark in _marksLast) MarkCard(mark)],
+              )
+            : const Center(child: CircularProgressIndicator()),
+        _marks != null
+            ? ListView(
+                children: [
+                  if (_subjects != null)
+                    for (final subject in _marksSubjects.keys)
+                      SubjectMarksCard(
+                        subject: subject,
+                        marks: _marksSubjects[subject],
+                        average: _subjects![subject]['AverageText'],
+                        note: _subjects![subject]['SubjectNote'],
+                      ),
+                ],
+              )
+            : const Center(child: CircularProgressIndicator()),
+        _marks != null
+            ? ListView(children: [Text('todo')])
+            : const Center(child: CircularProgressIndicator()),
       ],
     );
   }

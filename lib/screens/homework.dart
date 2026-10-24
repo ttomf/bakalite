@@ -120,43 +120,51 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         AppLocalizations.of(context)!.closed,
       ],
       children: [
-        ListView(
-          children: [
-            for (final homework in _homeworkParsed)
-              if (!homework['Closed'] &&
-                  homework['DateEnd']
-                      .add(const Duration(days: 1))
-                      .isAfter(DateTime.now()))
-                HomeworkCard(
-                  homework,
-                  key: ValueKey(homework['ID']),
-                  onFinishedChange: (val) =>
-                      _setHomeworkFinished(homework['ID'], val),
-                ),
-          ],
-        ),
-        ListView(
-          children: [
-            for (final homework in _homeworkParsed)
-              if (!homework['Closed'] &&
-                  homework['DateEnd']
-                      .add(const Duration(days: 1))
-                      .isBefore(DateTime.now()))
-                HomeworkCard(
-                  homework,
-                  key: ValueKey(homework['ID']),
-                  onFinishedChange: (val) =>
-                      _setHomeworkFinished(homework['ID'], val),
-                ),
-          ],
-        ),
-        ListView(
-          children: [
-            for (final homework in _homeworkParsed)
-              if (homework['Closed'])
-                HomeworkCard(homework, key: ValueKey(homework['ID'])),
-          ],
-        ),
+        _homework != null
+            ? ListView(
+                children: [
+                  if (_homework == null)
+                    const Center(child: CircularProgressIndicator()),
+                  for (final homework in _homeworkParsed)
+                    if (!homework['Closed'] &&
+                        homework['DateEnd']
+                            .add(const Duration(days: 1))
+                            .isAfter(DateTime.now()))
+                      HomeworkCard(
+                        homework,
+                        key: ValueKey(homework['ID']),
+                        onFinishedChange: (val) =>
+                            _setHomeworkFinished(homework['ID'], val),
+                      ),
+                ],
+              )
+            : const Center(child: CircularProgressIndicator()),
+        _homework != null
+            ? ListView(
+                children: [
+                  for (final homework in _homeworkParsed)
+                    if (!homework['Closed'] &&
+                        homework['DateEnd']
+                            .add(const Duration(days: 1))
+                            .isBefore(DateTime.now()))
+                      HomeworkCard(
+                        homework,
+                        key: ValueKey(homework['ID']),
+                        onFinishedChange: (val) =>
+                            _setHomeworkFinished(homework['ID'], val),
+                      ),
+                ],
+              )
+            : const Center(child: CircularProgressIndicator()),
+        _homework != null
+            ? ListView(
+                children: [
+                  for (final homework in _homeworkParsed)
+                    if (homework['Closed'])
+                      HomeworkCard(homework, key: ValueKey(homework['ID'])),
+                ],
+              )
+            : const Center(child: CircularProgressIndicator()),
       ],
     );
   }
