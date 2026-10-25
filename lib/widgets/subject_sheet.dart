@@ -7,44 +7,37 @@ class SubjectSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomSheet(
-      builder: (context) {
-        return SafeArea(
-          child: Column(
-            children: [
-              Text(
-                subject['Subject'][1],
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              Text(
-                subject['Teacher'][1],
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text(
-                '${subject['Room'][0]} ${subject['Room'][1]}',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text(
-                subject['Theme'] ?? '',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text(
-                subject['Change']?['Description'] ?? '',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text(
-                subject['Change']?['TypeName'] ?? '',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text(
-                subject['Groups'].map((group) => group[0]).join(', '),
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ],
-          ),
-        );
-      },
-      onClosing: () {},
+    return Column(
+      children: [
+        Text(
+          subject['Subject'][1],
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        Text(
+          subject['Teacher'][1],
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          '${subject['Room'][0]} ${subject['Room'][1]}',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          subject['Theme'] ?? '',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          subject['Change']?['Description'] ?? '',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          subject['Change']?['TypeName'] ?? '',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        Text(
+          subject['Groups'].map((group) => group[0]).join(', '),
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ],
     );
   }
 }

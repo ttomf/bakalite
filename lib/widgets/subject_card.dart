@@ -20,9 +20,10 @@ class SubjectCard extends StatelessWidget {
           showModalBottomSheet(
             showDragHandle: true,
             context: context,
-            builder: (context) {
-              return SubjectSheet(subject);
-            },
+            enableDrag: true,
+            useSafeArea: true,
+            constraints: const BoxConstraints(minWidth: double.infinity),
+            builder: (context) => SubjectSheet(subject),
           );
         },
         child: Padding(
