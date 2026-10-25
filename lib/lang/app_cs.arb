@@ -47,5 +47,8 @@
   "thisWeek": "Tento týden",
   "nextWeek": "Příští týden",
   "relativeDateLabels": "Relativní názvy dat",
-  "accounts": "Účty"
+  "accounts": "Účty",
+  "yes": "Ano",
+  "no": "Ne",
+  "confirmDeletion": "Opravdu chcete smazat tento účet?"
 }

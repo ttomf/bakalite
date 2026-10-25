@@ -391,6 +391,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accounts'**
   String get accounts;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @confirmDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want to delete this account?'**
+  String get confirmDeletion;
 }
 
 class _AppLocalizationsDelegate

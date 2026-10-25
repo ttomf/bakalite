@@ -8,11 +8,14 @@ class AccountCard<T> extends StatelessWidget {
     required this.username,
     required this.url,
     required this.id,
+    required this.onDelete
   });
 
   final String username;
   final String url;
   final String id;
+
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +34,21 @@ class AccountCard<T> extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 48),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        username,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Text(url, style: Theme.of(context).textTheme.bodySmall),
-                    ],
-                  ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      username,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Text(url, style: Theme.of(context).textTheme.bodySmall),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              IconButton(icon: const Icon(Icons.delete), onPressed: onDelete),
+            ],
           ),
         ),
       ),

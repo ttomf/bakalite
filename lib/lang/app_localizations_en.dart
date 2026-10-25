@@ -165,4 +165,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accounts => 'Accounts';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get confirmDeletion => 'Do you really want to delete this account?';
 }

@@ -47,5 +47,8 @@
   "thisWeek": "This week",
   "nextWeek": "Next week",
   "relativeDateLabels": "Relative date labels",
-  "accounts": "Accounts"
+  "accounts": "Accounts",
+  "yes": "Yes",
+  "no": "No",
+  "confirmDeletion": "Do you really want to delete this account?"
 }

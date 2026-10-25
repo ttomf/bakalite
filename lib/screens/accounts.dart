@@ -34,14 +34,60 @@ class _AccountsScreenState extends State<AccountsScreen> {
       title: AppLocalizations.of(context)!.accounts,
       tabs: const [],
       children: [
-        ListView(
+        Column(
           children: [
-            for (final account in _accounts)
-              AccountCard(
-                username: account.username,
-                url: account.baseUrl,
-                id: account.id,
+            Expanded(
+              child: ListView(
+                children: [
+                  for (final account in _accounts)
+                    AccountCard(
+                      username: account.username,
+                      url: account.baseUrl,
+                      id: account.id,
+                      onDelete: () async {
+                        final delete = await showDialog<bool>(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                AppLocalizations.of(context)!.confirmDeletion,
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: Text(AppLocalizations.of(context)!.no),
+                                  onPressed: () =>
+                                      Navigator.pop(context, false),
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.yes,
+                                  ),
+                                  onPressed: () => Navigator.pop(context, true),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        if (!mounted) return;
+                        if (delete ?? false) {
+                          await accountManager.deleteAccount(account.id);
+                          _load();
+                        }
+                      },
+                    ),
+                ],
               ),
+            ),
+            SizedBox(
+              width: double.maxFinite,
+              height: 64,
+              child: FilledButton(
+                child: Text(AppLocalizations.of(context)!.login),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
+              ),
+            ),
           ],
         ),
       ],

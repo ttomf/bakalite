@@ -165,4 +165,13 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get accounts => 'Účty';
+
+  @override
+  String get yes => 'Ano';
+
+  @override
+  String get no => 'Ne';
+
+  @override
+  String get confirmDeletion => 'Opravdu chcete smazat tento účet?';
 }
