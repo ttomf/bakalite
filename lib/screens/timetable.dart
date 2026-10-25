@@ -167,10 +167,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 3,
               children: [
-                FilledButton(
-                  child: const Icon(Icons.keyboard_arrow_left),
+                IconButton.filled(
+                  icon: const Icon(Icons.keyboard_arrow_left),
                   onPressed: () {
                     setState(() {
                       _selectedDate = _addDays(_selectedDate, -7);
@@ -181,7 +180,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   },
                 ),
                 Expanded(
-                  child: OutlinedButton.icon(
+                  child: TextButton.icon(
                     icon: const Icon(Icons.date_range),
                     label: Text(switch (Config.relativeDateLabels.value
                         ? _selectedDate
@@ -223,8 +222,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     },
                   ),
                 ),
-                FilledButton(
-                  child: const Icon(Icons.keyboard_arrow_right),
+                IconButton.filled(
+                  icon: const Icon(Icons.keyboard_arrow_right),
                   onPressed: () {
                     setState(() {
                       _selectedDate = _addDays(_selectedDate, 7);
