@@ -4,7 +4,7 @@ class Wrapper extends StatelessWidget {
   const Wrapper({
     super.key,
     required this.title,
-    required this.tabs,
+    this.tabs = const [],
     required this.children,
   });
 
@@ -19,7 +19,9 @@ class Wrapper extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(title),
-          bottom: TabBar(tabs: [for (final tab in tabs) Tab(child: Text(tab))]),
+          bottom: tabs.isNotEmpty
+              ? TabBar(tabs: [for (final tab in tabs) Tab(child: Text(tab))])
+              : null,
         ),
         body: SafeArea(
           child: Center(
