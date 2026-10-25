@@ -385,6 +385,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Relative date labels'**
   String get relativeDateLabels;
+
+  /// No description provided for @accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accounts;
 }
 
 class _AppLocalizationsDelegate

@@ -110,10 +110,10 @@ class _DashboardState extends State<Dashboard> {
                       Card(
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, '/login');
+                            Navigator.pushNamed(context, '/accounts');
                           },
                           child: Center(
-                            child: Text(AppLocalizations.of(context)!.login),
+                            child: Text(AppLocalizations.of(context)!.accounts),
                           ),
                         ),
                       ),

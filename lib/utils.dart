@@ -1,5 +1,8 @@
+import 'package:bakalite/accounts.dart';
+import 'package:bakalite/api.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/mocks/mock_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,4 +36,22 @@ void showError(BuildContext context, BakaLiteException error) {
 
 DateTime parseTime(String time) {
   return DateTime.parse(time).toLocal();
+}
+
+Future<bool> setupApi() async {
+  Account? activeAccount = await accountManager.getActiveAccount();
+  if (activeAccount != null) {
+    try {
+      if (activeAccount.baseUrl == 'https://debug/api') {
+        api = BakalariAPI(client: MockHttpClient());
+      } else {
+        api = BakalariAPI();
+      }
+      api.baseUrl = activeAccount.baseUrl;
+      await api.login(activeAccount.username, activeAccount.password);
+    } catch (e) {
+      activeAccount = null;
+    }
+  }
+  return activeAccount != null;
 }

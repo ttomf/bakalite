@@ -1,7 +1,4 @@
-import 'package:bakalite/accounts.dart';
-import 'package:bakalite/api.dart';
 import 'package:bakalite/app.dart';
-import 'package:bakalite/mocks/mock_http_client.dart';
 import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,17 +8,5 @@ Future<void> main() async {
   prefs = await SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(),
   );
-  Account? activeAccount = await accountManager.getActiveAccount();
-  if (activeAccount != null) {
-    try {
-      if (activeAccount.baseUrl == 'https://debug/api') {
-        api = BakalariAPI(client: MockHttpClient());
-      }
-      api.baseUrl = activeAccount.baseUrl;
-      await api.login(activeAccount.username, activeAccount.password);
-    } catch (e) {
-      activeAccount = null;
-    }
-  }
-  runApp(MainApp(route: activeAccount == null ? '/login' : '/dashboard'));
+  runApp(MainApp(route: await setupApi() ? '/dashboard' : '/login'));
 }

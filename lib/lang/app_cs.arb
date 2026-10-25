@@ -46,5 +46,6 @@
   "previousWeek": "Minulý týden",
   "thisWeek": "Tento týden",
   "nextWeek": "Příští týden",
-  "relativeDateLabels": "Relativní názvy dat"
+  "relativeDateLabels": "Relativní názvy dat",
+  "accounts": "Účty"
 }

@@ -1,4 +1,5 @@
 import 'package:bakalite/config.dart';
+import 'package:bakalite/screens/accounts.dart';
 import 'package:bakalite/screens/dashboard.dart';
 import 'package:bakalite/screens/dev.dart';
 import 'package:bakalite/screens/homework.dart';
@@ -27,6 +28,7 @@ class MainApp extends StatelessWidget {
       '/timetable': (context) => const TimetableScreen(),
       '/dev': (context) => const DevScreen(),
       '/settings': (context) => const SettingsScreen(),
+      '/accounts': (context) => const AccountsScreen(),
     };
 
     return AnimatedBuilder(

@@ -162,4 +162,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get relativeDateLabels => 'Relative date labels';
+
+  @override
+  String get accounts => 'Accounts';
 }

@@ -46,5 +46,6 @@
   "previousWeek": "Previous week",
   "thisWeek": "This week",
   "nextWeek": "Next week",
-  "relativeDateLabels": "Relative date labels"
+  "relativeDateLabels": "Relative date labels",
+  "accounts": "Accounts"
 }

@@ -162,4 +162,7 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get relativeDateLabels => 'Relativní názvy dat';
+
+  @override
+  String get accounts => 'Účty';
 }
