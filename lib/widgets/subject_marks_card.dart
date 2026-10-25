@@ -90,7 +90,7 @@ class SubjectMarksCard extends StatelessWidget {
           ],
         ),
         children: [
-          for (final mark in marks.reversed) ...[
+          for (final mark in marks) ...[
             Divider(
               height: 0,
               color: Theme.of(context).colorScheme.primary,

@@ -16,7 +16,7 @@ class MarksScreen extends StatefulWidget {
 class _MarksScreenState extends State<MarksScreen> {
   Map<String, dynamic>? _marks;
   List<Map<String, dynamic>> _marksLast = [];
-  Map<String, dynamic> _marksSubjects = {};
+  Map<String, List<Map<String, dynamic>>> _marksSubjects = {};
   Map<String, dynamic>? _subjects;
 
   @override
@@ -58,6 +58,9 @@ class _MarksScreenState extends State<MarksScreen> {
                 'Theme': mark['Theme'].trim(),
               },
           ];
+        _marksSubjects[subject['Subject']['Name']]!.sort(
+          (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
+        );
         }
         _subjects = {};
         for (final subject in _marks?['Subjects'] ?? []) {
@@ -94,7 +97,7 @@ class _MarksScreenState extends State<MarksScreen> {
                     for (final subject in _marksSubjects.keys)
                       SubjectMarksCard(
                         subject: subject,
-                        marks: _marksSubjects[subject],
+                        marks: _marksSubjects[subject]!,
                         average: _subjects![subject]['AverageText'],
                         note: _subjects![subject]['SubjectNote'],
                       ),
