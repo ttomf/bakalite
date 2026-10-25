@@ -1,4 +1,5 @@
 import 'package:bakalite/api.dart';
+import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
@@ -58,9 +59,9 @@ class _MarksScreenState extends State<MarksScreen> {
                 'Theme': mark['Theme'].trim(),
               },
           ];
-        _marksSubjects[subject['Subject']['Name']]!.sort(
-          (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
-        );
+          _marksSubjects[subject['Subject']['Name']]!.sort(
+            (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
+          );
         }
         _subjects = {};
         for (final subject in _marks?['Subjects'] ?? []) {
@@ -70,8 +71,9 @@ class _MarksScreenState extends State<MarksScreen> {
           };
         }
       });
-    } catch (e) {
+    } on BakaLiteException catch (e) {
       if (!mounted) return;
+      showError(context, e);
     }
   }
 
@@ -105,7 +107,7 @@ class _MarksScreenState extends State<MarksScreen> {
               )
             : const Center(child: CircularProgressIndicator()),
         _marks != null
-            ? ListView(children: [Text('todo')])
+            ? ListView(children: const [Text('todo')])
             : const Center(child: CircularProgressIndicator()),
       ],
     );

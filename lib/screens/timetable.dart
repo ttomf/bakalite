@@ -1,5 +1,6 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/config.dart';
+import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
@@ -149,8 +150,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
             },
         ];
       });
-    } catch (e) {
+    } on BakaLiteException catch (e) {
       if (!mounted || loadId != _loadId) return;
+      showError(context, e);
     }
   }
 

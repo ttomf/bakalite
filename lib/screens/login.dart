@@ -65,8 +65,9 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
         _schools = schoolsMap;
         _isLoading = false;
       });
-    } catch (e) {
+    } on BakaLiteException catch (e) {
       if (!mounted || request != _searchRequest) return;
+      showError(context, e);
 
       setState(() {
         _isLoading = false;

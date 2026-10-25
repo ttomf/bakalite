@@ -1,6 +1,8 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/config.dart';
+import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -28,8 +30,9 @@ class _DashboardState extends State<Dashboard> {
       setState(() {
         _user = userData;
       });
-    } catch (e) {
+    } on BakaLiteException catch (e) {
       if (!mounted) return;
+      showError(context, e);
     }
   }
 
