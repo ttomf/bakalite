@@ -58,7 +58,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       final aFinished = a['Finished'];
       final bFinished = b['Finished'];
 
-      if (aFinished != bFinished) {
+      if (aFinished != bFinished && !a['Closed'] && !b['Closed']) {
         return aFinished ? 1 : -1;
       }
 
