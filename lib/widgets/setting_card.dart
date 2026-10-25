@@ -22,10 +22,10 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
   final GlobalKey _key = GlobalKey();
 
   Future<void> pickColor() async {
-    final val = await showAdaptiveDialog<Color>(
+    final val = await showDialog<Color>(
       context: context,
       builder: (context) {
-        return AlertDialog.adaptive(
+        return AlertDialog(
           title: Text(widget.label),
           content: Wrap(
             spacing: 12,
