@@ -237,13 +237,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
             ),
             Expanded(
               child: _timetable != null
-                  ? TimetableGrid(_timetableParsed!)
+                  ? TimetableGrid(_timetableParsed!, _timetable!['Hours'])
                   : const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
         _timetablePerm != null
-            ? TimetableGrid(_timetablePermParsed!)
+            ? TimetableGrid(_timetablePermParsed!, _timetablePerm!['Hours'])
             : const Center(child: CircularProgressIndicator()),
       ],
     );

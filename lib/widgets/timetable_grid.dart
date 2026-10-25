@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimetableGrid extends StatelessWidget {
-  const TimetableGrid(this.timetable, {super.key});
+  const TimetableGrid(this.timetable, this.hours, {super.key});
 
   final List<Map<String, dynamic>> timetable;
+  final List<dynamic> hours;
+
+  static const double containerWidth = 80;
+  static const double headerHeight = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +20,7 @@ class TimetableGrid extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: headerHeight),
               for (final (index, day) in timetable.indexed)
                 Expanded(
                   child: Container(
@@ -45,8 +50,9 @@ class TimetableGrid extends StatelessWidget {
                             if (day['Date'] != null)
                               Text(
                                 DateFormat('d. M.').format(day['Date']),
-                                style: Theme.of(context).textTheme.bodySmall
+                                style: Theme.of(context).textTheme.labelSmall
                                     ?.copyWith(
+                                      fontWeight: FontWeight.normal,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onPrimaryContainer,
@@ -67,13 +73,52 @@ class TimetableGrid extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    for (final hour in hours)
+                      Container(
+                        width: containerWidth,
+                        height: headerHeight,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.outlineVariant,
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              hour['Caption'],
+                              style: Theme.of(context).textTheme.titleSmall
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
+                            ),
+                            Text(
+                              '${hour['BeginTime']} – ${hour['EndTime']}',
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
                 for (final (index, day) in timetable.indexed)
                   Expanded(
                     child: Row(
                       children: [
                         for (final hour in day['Atoms'])
                           Container(
-                            width: 80,
+                            width: containerWidth,
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.surfaceDim,
                               border: Border.all(
