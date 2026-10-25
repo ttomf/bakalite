@@ -4,6 +4,7 @@ import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/mocks/mock_http_client.dart';
 import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/v4.dart';
@@ -329,6 +330,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
 
                       final url = _urlController.text;
+                      if (url == 'debug') {
+                        await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Debug mode'),
+                            content: const Text(
+                              'Using mock HTTP client, all requests will be simulated.',
+                            ),
+                            actions: [
+                              TextButton(
+                                child: const Text('OK'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          ),
+                        );
+                        api = BakalariAPI(client: MockHttpClient());
+                      }
                       final baseUrl =
                           '${url.startsWith('https://') ? '' : 'https://'}${url.endsWith('/') ? url : '$url/'}api';
                       api.baseUrl = baseUrl;
