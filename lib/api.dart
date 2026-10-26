@@ -25,9 +25,9 @@ class BakalariAPI {
         throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
-      final json = jsonDecode(res.body);
+      final content = jsonDecode(res.body);
 
-      if (json is! List) {
+      if (content is! List) {
         throw const BakaLiteException(
           BakaLiteError.invalidResponse,
           'Expected a JSON list',
@@ -36,7 +36,7 @@ class BakalariAPI {
 
       final map = <String, int>{};
 
-      for (final city in json) {
+      for (final city in content) {
         if (city is! Map<String, dynamic>) {
           throw const BakaLiteException(
             BakaLiteError.invalidResponse,
@@ -77,16 +77,16 @@ class BakalariAPI {
         throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
-      final json = jsonDecode(res.body);
+      final content = jsonDecode(res.body);
 
-      if (json is! Map) {
+      if (content is! Map) {
         throw const BakaLiteException(
           BakaLiteError.invalidResponse,
           'Expected a JSON dict',
         );
       }
 
-      if (json['schools'] is! List) {
+      if (content['schools'] is! List) {
         throw const BakaLiteException(
           BakaLiteError.invalidResponse,
           'Expected schools to be a JSON list',
@@ -95,7 +95,7 @@ class BakalariAPI {
 
       final map = <String, String>{};
 
-      for (final school in json['schools']) {
+      for (final school in content['schools']) {
         if (school is! Map<String, dynamic>) {
           throw const BakaLiteException(
             BakaLiteError.invalidResponse,
@@ -158,9 +158,9 @@ class BakalariAPI {
         );
       }
 
-      final json = jsonDecode(res.body);
+      final content = jsonDecode(res.body);
 
-      if (json is! Map) {
+      if (content is! Map) {
         throw const BakaLiteException(
           BakaLiteError.invalidResponse,
           'Expected a JSON dict',
@@ -168,23 +168,23 @@ class BakalariAPI {
       }
 
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        if (json['error'] == 'invalid_grant') {
+        if (content['error'] == 'invalid_grant') {
           throw const BakaLiteException(BakaLiteError.invalidCredentials);
         }
 
         throw BakaLiteException(BakaLiteError.http, '${res.statusCode}');
       }
 
-      if (json['access_token'] is! String) {
+      if (content['access_token'] is! String) {
         throw const BakaLiteException(
           BakaLiteError.invalidResponse,
           'Expected access_token to be a string',
         );
       }
 
-      accessToken = json['access_token'];
+      accessToken = content['access_token'];
 
-      return json['access_token'];
+      return content['access_token'];
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
     } on FormatException {
@@ -197,16 +197,16 @@ class BakalariAPI {
 
   Future<Map<String, dynamic>> fetch(String endpoint) async {
     try {
-      final json = jsonDecode(await request(endpoint));
+      final content = jsonDecode(await request(endpoint));
 
-      if (json is! Map<String, dynamic>) {
+      if (content is! Map<String, dynamic>) {
         throw const BakaLiteException(
           BakaLiteError.invalidResponse,
           'Expected a JSON dict',
         );
       }
 
-      return json;
+      return content;
     } on FormatException {
       throw const BakaLiteException(
         BakaLiteError.invalidResponse,
