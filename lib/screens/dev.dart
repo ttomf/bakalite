@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bakalite/api.dart';
-import 'package:bakalite/cache.dart';
+import 'package:bakalite/cache/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

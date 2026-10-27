@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:bakalite/cache.dart';
+import 'package:bakalite/cache/cache.dart';
 import 'package:http/http.dart' as http;
 
 import 'exceptions.dart';
