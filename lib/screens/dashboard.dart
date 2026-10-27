@@ -5,6 +5,7 @@ import 'package:bakalite/config.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/utils.dart';
+import 'package:bakalite/widgets/module_card.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -77,73 +78,62 @@ class _DashboardState extends State<Dashboard> {
               child: ValueListenableBuilder(
                 valueListenable: Config.devMode,
                 builder: (context, value, child) {
-                  return GridView(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 300,
-                        ),
+                  return Column(
                     children: [
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/marks');
-                          },
-                          child: Center(
-                            child: Text(AppLocalizations.of(context)!.marks),
-                          ),
-                        ),
-                      ),
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/homework');
-                          },
-                          child: Center(
-                            child: Text(AppLocalizations.of(context)!.homework),
-                          ),
-                        ),
-                      ),
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/settings');
-                          },
-                          child: Center(
-                            child: Text(AppLocalizations.of(context)!.settings),
-                          ),
-                        ),
-                      ),
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/timetable');
-                          },
-                          child: Center(
-                            child: Text(
-                              AppLocalizations.of(context)!.timetable,
+                      Expanded(
+                        child: GridView(
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 300,
+                              ),
+                          children: [
+                            ModuleCard(
+                              route: '/marks',
+                              label: AppLocalizations.of(context)!.marks,
+                              icon: Icons.grade,
                             ),
-                          ),
+                            ModuleCard(
+                              route: '/homework',
+                              label: AppLocalizations.of(context)!.homework,
+                              icon: Icons.assignment,
+                            ),
+                            ModuleCard(
+                              route: '/timetable',
+                              label: AppLocalizations.of(context)!.timetable,
+                              icon: Icons.calendar_month,
+                            ),
+                          ],
                         ),
                       ),
-                      Card(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/accounts');
-                          },
-                          child: Center(
-                            child: Text(AppLocalizations.of(context)!.accounts),
-                          ),
+                      SizedBox(
+                        height: 100,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ModuleCard(
+                                route: '/accounts',
+                                label: AppLocalizations.of(context)!.accounts,
+                                icon: Icons.account_circle,
+                              ),
+                            ),
+                            Expanded(
+                              child: ModuleCard(
+                                route: '/settings',
+                                label: AppLocalizations.of(context)!.settings,
+                                icon: Icons.settings,
+                              ),
+                            ),
+                            if (Config.devMode.value)
+                              const Expanded(
+                                child: ModuleCard(
+                                  route: '/dev',
+                                  label: 'Dev',
+                                  icon: Icons.developer_mode,
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                      if (Config.devMode.value)
-                        Card(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/dev');
-                            },
-                            child: const Center(child: Text('Dev')),
-                          ),
-                        ),
                     ],
                   );
                 },
