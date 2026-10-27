@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bakalite/api.dart';
+import 'package:bakalite/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,7 @@ class _DevScreenState extends State<DevScreen> {
           responseJson = const JsonEncoder.withIndent('  ')
               .convert(jsonDecode(res ?? ''));
         } on FormatException {
-          responseJson = const JsonEncoder.withIndent('  ').convert(res);
+          responseJson = res ?? '';
         }
       });
     } on BakaLiteException catch (e) {
@@ -44,8 +45,16 @@ class _DevScreenState extends State<DevScreen> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
-              spacing: 16,
+              spacing: 4,
               children: [
+                Row(
+                  children: [
+                    OutlinedButton(
+                      child: const Text('Clear cache'),
+                      onPressed: () => cache.clear(),
+                    ),
+                  ],
+                ),
                 Autocomplete<String>(
                   optionsBuilder: (text) {
                     const options = [

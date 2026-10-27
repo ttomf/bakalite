@@ -50,6 +50,16 @@ class Cache {
 
     return content;
   }
+
+  Future<void> clear() async {
+    if (id == '') return;
+
+    final dir = Directory('${_dir.path}/$id');
+
+    if (await dir.exists()) {
+      await dir.delete(recursive: true);
+    }
+  }
 }
 
 Cache cache = const Cache('');

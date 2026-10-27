@@ -133,7 +133,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
   Future<void> _loadPerm([bool useCache = true]) async {
     try {
       final cached = useCache ? await cache.load('timetable/permanent') : null;
-
       final timetablePermData =
           cached?['data'] ?? await api.fetch('timetable/permanent');
 
