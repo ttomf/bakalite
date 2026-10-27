@@ -1,5 +1,6 @@
 import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
+import 'package:bakalite/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/mocks/mock_http_client.dart';
@@ -18,6 +19,7 @@ void showError(BuildContext context, BakaLiteException error) {
         BakaLiteError.invalidCredentials => lang.invalidCredentials,
         BakaLiteError.invalidResponse => lang.invalidResponse,
         BakaLiteError.invalidInput => lang.invalidInput,
+        BakaLiteError.noInternet => lang.noInternet,
       } +
       ((error.info?.isNotEmpty ?? false) ? ': ${error.info}' : '');
 
@@ -38,20 +40,18 @@ DateTime parseTime(String time) {
   return DateTime.parse(time).toLocal();
 }
 
-Future<bool> setupApi() async {
-  Account? activeAccount = await accountManager.getActiveAccount();
-  if (activeAccount != null) {
-    try {
-      if (activeAccount.baseUrl == 'https://debug/api') {
-        api = BakalariAPI(client: MockHttpClient());
-      } else {
-        api = BakalariAPI();
-      }
-      api.baseUrl = activeAccount.baseUrl;
-      await api.login(activeAccount.username, activeAccount.password);
-    } catch (e) {
-      activeAccount = null;
-    }
+Future<void> setupApi(Account account, bool throwErrors) async {
+  if (account.baseUrl == 'https://debug/api') {
+    api = BakalariAPI(client: MockHttpClient());
+    cache = const Cache('');
+  } else {
+    api = BakalariAPI();
+    cache = Cache(account.id);
   }
-  return activeAccount != null;
+  api.baseUrl = account.baseUrl;
+  try {
+    await api.login(account.username, account.password);
+  } on BakaLiteException {
+    if (throwErrors) rethrow;
+  }
 }

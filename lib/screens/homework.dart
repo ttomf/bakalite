@@ -91,7 +91,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       method: 'PUT',
     );
 
-    if (res.isEmpty || !mounted) {
+    if ((res?.isEmpty ?? true) || !mounted) {
       return false;
     }
 

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bakalite/cache.dart';
 import 'package:http/http.dart' as http;
 
 import 'exceptions.dart';
@@ -185,6 +187,8 @@ class BakalariAPI {
       accessToken = content['access_token'];
 
       return content['access_token'];
+    } on SocketException {
+      throw const BakaLiteException(BakaLiteError.noInternet);
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
     } on FormatException {
@@ -195,9 +199,12 @@ class BakalariAPI {
     }
   }
 
-  Future<Map<String, dynamic>> fetch(String endpoint) async {
+  Future<Map<String, dynamic>?> fetch(String endpoint) async {
     try {
-      final content = jsonDecode(await request(endpoint));
+      final res = await request(endpoint);
+      if (res == null) return null;
+
+      final content = jsonDecode(res);
 
       if (content is! Map<String, dynamic>) {
         throw const BakaLiteException(
@@ -205,6 +212,8 @@ class BakalariAPI {
           'Expected a JSON dict',
         );
       }
+
+      cache.save(endpoint, content);
 
       return content;
     } on FormatException {
@@ -215,19 +224,20 @@ class BakalariAPI {
     }
   }
 
-  Future<String> request(
+  Future<String?> request(
     String endpoint, {
     String method = 'GET',
     String? body,
   }) async {
     try {
+      if (accessToken == null) return null;
       if (baseUrl?.isEmpty ?? true) {
         throw const BakaLiteException(
           BakaLiteError.invalidInput,
           'Base URL cannot be empty',
         );
       }
-      if (accessToken?.isEmpty ?? true) {
+      if (accessToken!.isEmpty) {
         throw const BakaLiteException(
           BakaLiteError.invalidCredentials,
           'Invalid accessToken',
@@ -268,19 +278,20 @@ class BakalariAPI {
     }
   }
 
-  Future<Uint8List> requestBytes(
+  Future<Uint8List?> requestBytes(
     String endpoint, {
     String method = 'GET',
     String? body,
   }) async {
     try {
+      if (accessToken == null) return null;
       if (baseUrl?.isEmpty ?? true) {
         throw const BakaLiteException(
           BakaLiteError.invalidInput,
           'Base URL cannot be empty',
         );
       }
-      if (accessToken?.isEmpty ?? true) {
+      if (accessToken!.isEmpty) {
         throw const BakaLiteException(
           BakaLiteError.invalidCredentials,
           'Invalid accessToken',

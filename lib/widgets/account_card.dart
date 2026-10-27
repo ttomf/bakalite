@@ -1,4 +1,5 @@
 import 'package:bakalite/accounts.dart';
+import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class AccountCard<T> extends StatelessWidget {
     required this.username,
     required this.url,
     required this.id,
-    required this.onDelete
+    required this.onDelete,
   });
 
   final String username;
@@ -23,8 +24,21 @@ class AccountCard<T> extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           await accountManager.setActiveAccount(id);
+          final account = await accountManager.getAccount(id);
           if (!context.mounted) return;
-          await setupApi();
+          if (account != null) {
+            try {
+              await setupApi(account, true);
+            } on BakaLiteException catch (e) {
+              if (e.error != BakaLiteError.noInternet) {
+                if (!context.mounted) return;
+                showError(context, e);
+                return;
+              }
+            }
+          } else {
+            return;
+          }
           if (!context.mounted) return;
           Navigator.pushNamedAndRemoveUntil(
             context,

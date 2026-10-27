@@ -50,5 +50,6 @@
   "accounts": "Accounts",
   "yes": "Yes",
   "no": "No",
-  "confirmDeletion": "Do you really want to delete this account?"
+  "confirmDeletion": "Do you really want to delete this account?",
+  "noInternet": "No internet connection"
 }

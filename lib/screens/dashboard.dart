@@ -1,4 +1,5 @@
 import 'package:bakalite/api.dart';
+import 'package:bakalite/cache.dart';
 import 'package:bakalite/config.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
@@ -21,15 +22,21 @@ class _DashboardState extends State<Dashboard> {
     _load();
   }
 
-  Future<void> _load() async {
+  Future<void> _load([bool useCache = true]) async {
     try {
-      final userData = _user ?? await api.fetch('user');
+      final cached = useCache ? await cache.load('user') : null;
+      final userData = cached?['data'] ?? await api.fetch('user');
 
       if (!mounted) return;
 
-      setState(() {
-        _user = userData;
-      });
+      if (userData != null) {
+        setState(() {
+          _user = userData;
+        });
+      }
+      if (cached != null) {
+        _load(false);
+      }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
       showError(context, e);

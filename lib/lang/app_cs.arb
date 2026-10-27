@@ -50,5 +50,6 @@
   "accounts": "Účty",
   "yes": "Ano",
   "no": "Ne",
-  "confirmDeletion": "Opravdu chcete smazat tento účet?"
+  "confirmDeletion": "Opravdu chcete smazat tento účet?",
+  "noInternet": "Žádné připojení k internetu"
 }

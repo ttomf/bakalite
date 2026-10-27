@@ -23,7 +23,7 @@ class _DevScreenState extends State<DevScreen> {
       setState(() {
         try {
           responseJson = const JsonEncoder.withIndent('  ')
-              .convert(jsonDecode(res));
+              .convert(jsonDecode(res ?? ''));
         } on FormatException {
           responseJson = const JsonEncoder.withIndent('  ').convert(res);
         }

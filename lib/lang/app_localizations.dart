@@ -409,6 +409,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Do you really want to delete this account?'**
   String get confirmDeletion;
+
+  /// No description provided for @noInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get noInternet;
 }
 
 class _AppLocalizationsDelegate
