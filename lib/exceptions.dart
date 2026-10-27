@@ -4,7 +4,6 @@ enum BakaLiteError {
   invalidCredentials,
   invalidResponse,
   invalidInput,
-  noInternet,
 }
 
 class BakaLiteException implements Exception {

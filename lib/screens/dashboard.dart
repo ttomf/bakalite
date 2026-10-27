@@ -48,6 +48,7 @@ class _DashboardState extends State<Dashboard> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
+      if (e.error == BakaLiteError.network) return;
       showError(context, e);
     }
   }

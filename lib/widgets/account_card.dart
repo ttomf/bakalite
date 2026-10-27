@@ -30,7 +30,7 @@ class AccountCard<T> extends StatelessWidget {
             try {
               await setupApi(account, true);
             } on BakaLiteException catch (e) {
-              if (e.error != BakaLiteError.noInternet) {
+              if (e.error != BakaLiteError.network) {
                 if (!context.mounted) return;
                 showError(context, e);
                 return;

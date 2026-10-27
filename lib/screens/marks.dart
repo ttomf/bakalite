@@ -88,6 +88,7 @@ class _MarksScreenState extends State<MarksScreen> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
+      if (e.error == BakaLiteError.network) return;
       showError(context, e);
     }
   }

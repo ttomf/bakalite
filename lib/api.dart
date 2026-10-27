@@ -187,8 +187,6 @@ class BakalariAPI {
       accessToken = content['access_token'];
 
       return content['access_token'];
-    } on SocketException {
-      throw const BakaLiteException(BakaLiteError.noInternet);
     } on http.ClientException catch (e) {
       throw BakaLiteException(BakaLiteError.network, e.toString());
     } on FormatException {

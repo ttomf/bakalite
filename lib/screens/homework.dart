@@ -66,6 +66,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
+      if (e.error == BakaLiteError.network) return;
       showError(context, e);
     }
   }

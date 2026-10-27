@@ -19,7 +19,6 @@ void showError(BuildContext context, BakaLiteException error) {
         BakaLiteError.invalidCredentials => lang.invalidCredentials,
         BakaLiteError.invalidResponse => lang.invalidResponse,
         BakaLiteError.invalidInput => lang.invalidInput,
-        BakaLiteError.noInternet => lang.noInternet,
       } +
       ((error.info?.isNotEmpty ?? false) ? ': ${error.info}' : '');
 
