@@ -1,4 +1,6 @@
+import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
+import 'package:bakalite/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
@@ -23,30 +25,45 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     _load();
   }
 
-  Future<void> _load() async {
+  Future<void> _load([bool useCache = true]) async {
     try {
+      final cached = useCache
+          ? await cache.load('homeworks?from=2000-01-01')
+          : null;
       final homeworkData =
-          _homework ?? await api.fetch('homeworks?from=2000-01-01');
+          cached?['data'] ?? await api.fetch('homeworks?from=2000-01-01');
 
       if (!mounted) return;
 
-      setState(() {
-        _homework = homeworkData;
-        _homeworkParsed = [
-          for (final homework in _homework?['Homeworks'] ?? [])
-            {
-              'SubjectName': homework['Subject']['Name'],
-              'Content': homework['Content'].trim(),
-              'DateStart': parseTime(homework['DateStart']),
-              'DateEnd': parseTime(homework['DateEnd']),
-              'Closed': homework['Closed'] || homework['Done'],
-              'Finished': homework['Finished'],
-              'ID': homework['ID'],
-              'Attachments': homework['Attachments'],
-            },
-        ];
-        sortHomework();
-      });
+      if (homeworkData != null) {
+        setState(() {
+          _homework = homeworkData;
+          _homeworkParsed = [
+            for (final homework in _homework?['Homeworks'] ?? [])
+              {
+                'SubjectName': homework['Subject']['Name'],
+                'Content': homework['Content'].trim(),
+                'DateStart': parseTime(homework['DateStart']),
+                'DateEnd': parseTime(homework['DateEnd']),
+                'Closed': homework['Closed'] || homework['Done'],
+                'Finished': homework['Finished'],
+                'ID': homework['ID'],
+                'Attachments': homework['Attachments'],
+              },
+          ];
+          sortHomework();
+        });
+      }
+      if (_homework == null && homeworkData == null) {
+        final account = await accountManager.getActiveAccount();
+        if (account != null) {
+          await api.login(account.username, account.password);
+          _load();
+        }
+      }
+      if (cached != null) {
+        _load(false);
+      }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
       showError(context, e);

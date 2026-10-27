@@ -1,4 +1,6 @@
+import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
+import 'package:bakalite/cache.dart';
 import 'package:bakalite/config.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
@@ -40,118 +42,165 @@ class _TimetableScreenState extends State<TimetableScreen> {
     _selectedDate = _weekStart(DateTime.now());
     super.initState();
     _load();
+    _loadPerm();
   }
 
-  Future<void> _load() async {
+  Future<void> _load([bool useCache = true]) async {
     final loadId = ++_loadId;
     final selectedDate = _selectedDate;
 
     try {
+      final cached = useCache
+          ? await cache.load(
+              'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(selectedDate)}',
+            )
+          : null;
       final timetableData =
-          _timetable ??
+          cached?['data'] ??
           await api.fetch(
             'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(selectedDate)}',
           );
 
-      final timetablePermData =
-          _timetablePerm ?? await api.fetch('timetable/permanent');
-
       if (!mounted || loadId != _loadId) return;
 
-      setState(() {
-        _timetable = timetableData;
-        _idMaps = {
-          for (final category in [
-            'Classes',
-            'Groups',
-            'Subjects',
-            'Teachers',
-            'Rooms',
-            'Cycles',
-          ])
-            category: {
-              null: ['', ''],
-              for (final subject in _timetable![category])
-                subject['Id']: [subject['Abbrev'], subject['Name']],
-            },
-        };
-        _timetableParsed = [
-          for (final day in _timetable!['Days'])
-            {
-              'Date': parseTime(day['Date']),
-              'Atoms': List.generate(_timetable!['Hours'].length, (index) {
-                final hour = _timetable!['Hours'][index];
-                final matchingHour = day['Atoms'].firstWhere(
-                  (h) => h['HourId'] == hour['Id'],
-                  orElse: () => null,
-                );
-                if (matchingHour == null) {
-                  return null;
-                }
-                return {
-                  'Subject':
-                      _idMaps['Subjects']?[matchingHour['SubjectId']] ??
-                      ['', ''],
-                  'Teacher':
-                      _idMaps['Teachers']?[matchingHour['TeacherId']] ??
-                      ['', ''],
-                  'Room': _idMaps['Rooms']?[matchingHour['RoomId']] ?? ['', ''],
-                  'Change': matchingHour['Change'],
-                  'Theme': matchingHour['Theme'] ?? '',
-                  'Groups': matchingHour['GroupIds'].map(
-                    (id) => _idMaps['Groups']?[id] ?? ['', ''],
-                  ),
-                };
-              }),
-            },
-        ];
-        _timetablePerm = timetablePermData;
-        _idMapsPerm = {
-          for (final category in [
-            'Classes',
-            'Groups',
-            'Subjects',
-            'Teachers',
-            'Rooms',
-            'Cycles',
-          ])
-            category: {
-              null: ['', ''],
-              for (final subject in _timetablePerm![category])
-                subject['Id']: [subject['Abbrev'], subject['Name']],
-            },
-        };
-        _timetablePermParsed = [
-          for (final day in _timetablePerm!['Days'])
-            {
-              'Atoms': List.generate(_timetablePerm!['Hours'].length, (index) {
-                final hour = _timetablePerm!['Hours'][index];
-                final matchingHours = day['Atoms'].where(
-                  (h) => h['HourId'] == hour['Id'],
-                );
-                return [
-                  for (final matchingHour in matchingHours)
-                    {
-                      'Subject':
-                          _idMapsPerm['Subjects']?[matchingHour['SubjectId']] ??
-                          ['', ''],
-                      'Teacher':
-                          _idMapsPerm['Teachers']?[matchingHour['TeacherId']] ??
-                          ['', ''],
-                      'Room':
-                          _idMapsPerm['Rooms']?[matchingHour['RoomId']] ??
-                          ['', ''],
-                      'Groups': matchingHour['GroupIds'].map(
-                        (id) => _idMapsPerm['Groups']?[id] ?? ['', ''],
-                      ),
-                    },
-                ];
-              }),
-            },
-        ];
-      });
+      if (timetableData != null) {
+        setState(() {
+          _timetable = timetableData;
+          _idMaps = {
+            for (final category in [
+              'Classes',
+              'Groups',
+              'Subjects',
+              'Teachers',
+              'Rooms',
+              'Cycles',
+            ])
+              category: {
+                null: ['', ''],
+                for (final subject in _timetable![category])
+                  subject['Id']: [subject['Abbrev'], subject['Name']],
+              },
+          };
+          _timetableParsed = [
+            for (final day in _timetable!['Days'])
+              {
+                'Date': parseTime(day['Date']),
+                'Atoms': List.generate(_timetable!['Hours'].length, (index) {
+                  final hour = _timetable!['Hours'][index];
+                  final matchingHour = day['Atoms'].firstWhere(
+                    (h) => h['HourId'] == hour['Id'],
+                    orElse: () => null,
+                  );
+                  if (matchingHour == null) {
+                    return null;
+                  }
+                  return {
+                    'Subject':
+                        _idMaps['Subjects']?[matchingHour['SubjectId']] ??
+                        ['', ''],
+                    'Teacher':
+                        _idMaps['Teachers']?[matchingHour['TeacherId']] ??
+                        ['', ''],
+                    'Room':
+                        _idMaps['Rooms']?[matchingHour['RoomId']] ?? ['', ''],
+                    'Change': matchingHour['Change'],
+                    'Theme': matchingHour['Theme'] ?? '',
+                    'Groups': matchingHour['GroupIds'].map(
+                      (id) => _idMaps['Groups']?[id] ?? ['', ''],
+                    ),
+                  };
+                }),
+              },
+          ];
+        });
+      }
+      if (_timetable == null && timetableData == null) {
+        final account = await accountManager.getActiveAccount();
+        if (account != null) {
+          await api.login(account.username, account.password);
+          _load();
+        }
+      }
+      if (cached != null) {
+        _load(false);
+      }
     } on BakaLiteException catch (e) {
       if (!mounted || loadId != _loadId) return;
+      showError(context, e);
+    }
+  }
+
+  Future<void> _loadPerm([bool useCache = true]) async {
+    try {
+      final cached = useCache ? await cache.load('timetable/permanent') : null;
+
+      final timetablePermData =
+          cached?['data'] ?? await api.fetch('timetable/permanent');
+
+      if (!mounted) return;
+
+      if (timetablePermData != null) {
+        setState(() {
+          _timetablePerm = timetablePermData;
+          _idMapsPerm = {
+            for (final category in [
+              'Classes',
+              'Groups',
+              'Subjects',
+              'Teachers',
+              'Rooms',
+              'Cycles',
+            ])
+              category: {
+                null: ['', ''],
+                for (final subject in _timetablePerm![category])
+                  subject['Id']: [subject['Abbrev'], subject['Name']],
+              },
+          };
+          _timetablePermParsed = [
+            for (final day in _timetablePerm!['Days'])
+              {
+                'Atoms': List.generate(_timetablePerm!['Hours'].length, (
+                  index,
+                ) {
+                  final hour = _timetablePerm!['Hours'][index];
+                  final matchingHours = day['Atoms'].where(
+                    (h) => h['HourId'] == hour['Id'],
+                  );
+                  return [
+                    for (final matchingHour in matchingHours)
+                      {
+                        'Subject':
+                            _idMapsPerm['Subjects']?[matchingHour['SubjectId']] ??
+                            ['', ''],
+                        'Teacher':
+                            _idMapsPerm['Teachers']?[matchingHour['TeacherId']] ??
+                            ['', ''],
+                        'Room':
+                            _idMapsPerm['Rooms']?[matchingHour['RoomId']] ??
+                            ['', ''],
+                        'Groups': matchingHour['GroupIds'].map(
+                          (id) => _idMapsPerm['Groups']?[id] ?? ['', ''],
+                        ),
+                      },
+                  ];
+                }),
+              },
+          ];
+        });
+      }
+      if (_timetablePerm == null && timetablePermData == null) {
+        final account = await accountManager.getActiveAccount();
+        if (account != null) {
+          await api.login(account.username, account.password);
+          _loadPerm();
+        }
+      }
+      if (cached != null) {
+        _loadPerm(false);
+      }
+    } on BakaLiteException catch (e) {
+      if (!mounted) return;
       showError(context, e);
     }
   }

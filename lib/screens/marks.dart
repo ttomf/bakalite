@@ -1,4 +1,6 @@
+import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
+import 'package:bakalite/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
@@ -26,51 +28,64 @@ class _MarksScreenState extends State<MarksScreen> {
     _load();
   }
 
-  Future<void> _load() async {
+  Future<void> _load([bool useCache = true]) async {
     try {
-      final marksData = _marks ?? await api.fetch('marks');
+      final cached = useCache ? await cache.load('marks') : null;
+      final marksData = cached?['data'] ?? await api.fetch('marks');
 
       if (!mounted) return;
 
-      setState(() {
-        _marks = marksData;
-        _marksLast = [
-          for (final subject in _marks?['Subjects'] ?? [])
-            for (final mark in subject['Marks'] ?? [])
-              {
-                'MarkText': mark['MarkText'],
-                'Weight': mark['Weight'].toString(),
-                'SubjectName': subject['Subject']['Name'],
-                'MarkDate': parseTime(mark['MarkDate']),
-                'Caption': mark['Caption'].trim(),
-                'Theme': mark['Theme'].trim(),
-              },
-        ];
-        _marksLast.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
-        _marksSubjects = {};
-        for (final subject in _marks?['Subjects'] ?? []) {
-          _marksSubjects[subject['Subject']['Name']] = [
-            for (final mark in subject['Marks'] ?? [])
-              {
-                'MarkText': mark['MarkText'],
-                'Weight': mark['Weight'].toString(),
-                'MarkDate': parseTime(mark['MarkDate']),
-                'Caption': mark['Caption'].trim(),
-                'Theme': mark['Theme'].trim(),
-              },
+      if (marksData != null) {
+        setState(() {
+          _marks = marksData;
+          _marksLast = [
+            for (final subject in _marks?['Subjects'] ?? [])
+              for (final mark in subject['Marks'] ?? [])
+                {
+                  'MarkText': mark['MarkText'],
+                  'Weight': mark['Weight'].toString(),
+                  'SubjectName': subject['Subject']['Name'],
+                  'MarkDate': parseTime(mark['MarkDate']),
+                  'Caption': mark['Caption'].trim(),
+                  'Theme': mark['Theme'].trim(),
+                },
           ];
-          _marksSubjects[subject['Subject']['Name']]!.sort(
-            (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
-          );
+          _marksLast.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
+          _marksSubjects = {};
+          for (final subject in _marks?['Subjects'] ?? []) {
+            _marksSubjects[subject['Subject']['Name']] = [
+              for (final mark in subject['Marks'] ?? [])
+                {
+                  'MarkText': mark['MarkText'],
+                  'Weight': mark['Weight'].toString(),
+                  'MarkDate': parseTime(mark['MarkDate']),
+                  'Caption': mark['Caption'].trim(),
+                  'Theme': mark['Theme'].trim(),
+                },
+            ];
+            _marksSubjects[subject['Subject']['Name']]!.sort(
+              (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
+            );
+          }
+          _subjects = {};
+          for (final subject in _marks?['Subjects'] ?? []) {
+            _subjects![subject['Subject']['Name']] = {
+              'AverageText': subject['AverageText'],
+              'SubjectNote': subject['SubjectNote'],
+            };
+          }
+        });
+      }
+      if (_marks == null && marksData == null) {
+        final account = await accountManager.getActiveAccount();
+        if (account != null) {
+          await api.login(account.username, account.password);
+          _load();
         }
-        _subjects = {};
-        for (final subject in _marks?['Subjects'] ?? []) {
-          _subjects![subject['Subject']['Name']] = {
-            'AverageText': subject['AverageText'],
-            'SubjectNote': subject['SubjectNote'],
-          };
-        }
-      });
+      }
+      if (cached != null) {
+        _load(false);
+      }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
       showError(context, e);
