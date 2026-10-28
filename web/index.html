@@ -1,37 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <base href="$FLUTTER_BASE_HREF">
+  <head>
+    <base href="$FLUTTER_BASE_HREF" />
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Lightweight Bakaláři client">
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="Lightweight Bakaláři client" />
 
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="bakalite">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="bakalite" />
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
-  <link rel="icon" type="image/png" href="favicon.png"/>
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-  <meta name="description" content="Lightweight Bakaláři client" />
+    <title>BakaLite</title>
+    <link rel="manifest" href="manifest.json" />
+  </head>
 
-  <title>BakaLite</title>
-  <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <script>
-    const observer = new MutationObserver(() => {
-      document.querySelector('#flutterweb-theme')?.remove();
-    });
+  <body>
+    <script>
+      const observer = new MutationObserver(() => {
+        document.querySelector("#flutterweb-theme")?.remove();
+      });
+      observer.observe(document.head, {
+        subtree: true,
+        childList: true,
+      });
+      document.querySelector("#flutterweb-theme")?.remove();
 
-    observer.observe(document.head, {
-      subtree: true,
-      childList: true,
-    });
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          try {
+            const registration =
+              await navigator.serviceWorker.register("service_worker.js");
 
-    document.querySelector('#flutterweb-theme')?.remove();
-  </script>
-  <script src="flutter_bootstrap.js" async></script>
-</body>
+            registration.addEventListener("updatefound", () => {
+              const worker = registration.installing;
+              if (!worker) return;
+
+              worker.addEventListener("statechange", () => {
+                if (
+                  worker.state === "installed" &&
+                  navigator.serviceWorker.controller
+                ) {
+                  if (confirm("New version available! Refresh to update?")) {
+                    if (registration.waiting) {
+                      registration.waiting.postMessage({
+                        type: "SKIP_WAITING",
+                      });
+                    } else {
+                      worker.postMessage({ type: "SKIP_WAITING" });
+                    }
+                  }
+                }
+              });
+            });
+
+            navigator.serviceWorker.addEventListener("controllerchange", () => {
+              window.location.reload();
+            });
+          } catch (error) {
+            console.error(error);
+          }
+        });
+      }
+    </script>
+    <script src="flutter_bootstrap.js" async></script>
+  </body>
 </html>
