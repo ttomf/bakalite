@@ -22,17 +22,17 @@ void showError(BuildContext context, BakaLiteException error) {
       } +
       ((error.info?.isNotEmpty ?? false) ? ': ${error.info}' : '');
 
-  ScaffoldMessenger.of(context)
-    ..hideCurrentSnackBar()
-    ..showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.error,
-        content: Text(
-          message,
-          style: TextStyle(color: Theme.of(context).colorScheme.onError),
-        ),
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      dismissDirection: DismissDirection.horizontal,
+      backgroundColor: Theme.of(context).colorScheme.error,
+      content: Text(
+        message,
+        style: TextStyle(color: Theme.of(context).colorScheme.onError),
       ),
-    );
+    ),
+  );
 }
 
 DateTime parseTime(String time) {
