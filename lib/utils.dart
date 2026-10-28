@@ -22,7 +22,7 @@ void showError(BuildContext context, BakaLiteException error) {
       } +
       ((error.info?.isNotEmpty ?? false) ? ': ${error.info}' : '');
 
-  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       dismissDirection: DismissDirection.horizontal,
