@@ -1,3 +1,4 @@
+import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class Wrapper extends StatelessWidget {
@@ -5,12 +6,16 @@ class Wrapper extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
+    this.onRefresh,
+    this.cached,
     this.tabs = const [],
     required this.children,
   });
 
   final String title;
   final String? subtitle;
+  final VoidCallback? onRefresh;
+  final DateTime? cached;
   final List<String> tabs;
   final List<Widget> children;
 
@@ -33,22 +38,61 @@ class Wrapper extends StatelessWidget {
                     ),
                   ],
                 ),
+          actions: [
+            if (onRefresh != null)
+              IconButton(icon: const Icon(Icons.refresh), onPressed: onRefresh),
+          ],
           bottom: tabs.isNotEmpty
               ? TabBar(tabs: [for (final tab in tabs) Tab(child: Text(tab))])
               : null,
         ),
-        body: SafeArea(
-          child: Center(
-            child: TabBarView(
-              children: [
-                for (final child in children)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: child,
+        body: Column(
+          children: [
+            if (cached != null)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.storage,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context)!.cached,
+                        style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            Expanded(
+              child: SafeArea(
+                child: Center(
+                  child: TabBarView(
+                    children: [
+                      for (final child in children)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: child,
+                        ),
+                    ],
                   ),
-              ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

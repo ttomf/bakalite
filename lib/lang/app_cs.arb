@@ -51,5 +51,5 @@
   "yes": "Ano",
   "no": "Ne",
   "confirmDeletion": "Opravdu chcete smazat tento účet?",
-  "noInternet": "Žádné připojení k internetu"
+  "cached": "Zobrazena data z mezipaměti"
 }

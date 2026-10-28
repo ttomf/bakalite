@@ -18,6 +18,7 @@ class TimetableScreen extends StatefulWidget {
 }
 
 class _TimetableScreenState extends State<TimetableScreen> {
+  DateTime? _cacheInfo;
   Map<String, dynamic>? _timetable;
   List<Map<String, dynamic>>? _timetableParsed;
   Map<String, Map<String?, List<String>>> _idMaps = {};
@@ -45,7 +46,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
     _loadPerm();
   }
 
-  Future<void> _load([bool useCache = true]) async {
+  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
     final loadId = ++_loadId;
     final selectedDate = _selectedDate;
 
@@ -113,6 +114,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
               },
           ];
         });
+        if (cached == null) {
+          setState(() {
+            _cacheInfo = null;
+          });
+        }
       }
       if (_timetable == null && timetableData == null) {
         final account = await accountManager.getActiveAccount();
@@ -122,16 +128,22 @@ class _TimetableScreenState extends State<TimetableScreen> {
         }
       }
       if (cached != null) {
+        setState(() {
+          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+        });
         _load(false);
       }
     } on BakaLiteException catch (e) {
       if (!mounted || loadId != _loadId) return;
-      if (e.error == BakaLiteError.network) return;
+      if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
   }
 
-  Future<void> _loadPerm([bool useCache = true]) async {
+  Future<void> _loadPerm([
+    bool useCache = true,
+    bool throwNetwork = false,
+  ]) async {
     try {
       final cached = useCache ? await cache.load('timetable/permanent') : null;
       final timetablePermData =
@@ -201,7 +213,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
-      if (e.error == BakaLiteError.network) return;
+      if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
   }
@@ -214,6 +226,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
         AppLocalizations.of(context)!.actual,
         AppLocalizations.of(context)!.permanent,
       ],
+      onRefresh: () {
+        _load(false, true);
+        _loadPerm(false, true);
+      },
+      cached: _cacheInfo,
       children: [
         Column(
           children: [

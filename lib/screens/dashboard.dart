@@ -17,6 +17,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  DateTime? _cacheInfo;
   Map<String, dynamic>? _user;
 
   @override
@@ -25,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
     _load();
   }
 
-  Future<void> _load([bool useCache = true]) async {
+  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
     try {
       final cached = useCache ? await cache.load('user') : null;
       final userData = cached?['data'] ?? await api.fetch('user');
@@ -36,6 +37,11 @@ class _DashboardState extends State<Dashboard> {
         setState(() {
           _user = userData;
         });
+        if (cached == null) {
+          setState(() {
+            _cacheInfo = null;
+          });
+        }
       }
       if (_user == null && userData == null) {
         final account = await accountManager.getActiveAccount();
@@ -45,11 +51,14 @@ class _DashboardState extends State<Dashboard> {
         }
       }
       if (cached != null) {
+        setState(() {
+          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+        });
         _load(false);
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
-      if (e.error == BakaLiteError.network) return;
+      if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
   }
@@ -61,6 +70,10 @@ class _DashboardState extends State<Dashboard> {
       subtitle: _user?['FullName'] != null
           ? '${_user!['FullName']} – ${_user!['UserTypeText']}'
           : '',
+      onRefresh: () {
+        _load(false, true);
+      },
+      cached: _cacheInfo,
       children: [
         ScrollConfiguration(
           behavior: const ScrollBehavior().copyWith(overscroll: false),

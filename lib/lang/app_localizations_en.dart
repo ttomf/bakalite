@@ -176,5 +176,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmDeletion => 'Do you really want to delete this account?';
 
   @override
-  String get noInternet => 'No internet connection';
+  String get cached => 'Showing cached data';
 }

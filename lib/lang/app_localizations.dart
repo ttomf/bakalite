@@ -410,11 +410,11 @@ abstract class AppLocalizations {
   /// **'Do you really want to delete this account?'**
   String get confirmDeletion;
 
-  /// No description provided for @noInternet.
+  /// No description provided for @cached.
   ///
   /// In en, this message translates to:
-  /// **'No internet connection'**
-  String get noInternet;
+  /// **'Showing cached data'**
+  String get cached;
 }
 
 class _AppLocalizationsDelegate

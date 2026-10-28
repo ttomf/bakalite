@@ -17,6 +17,7 @@ class MarksScreen extends StatefulWidget {
 }
 
 class _MarksScreenState extends State<MarksScreen> {
+  DateTime? _cacheInfo;
   Map<String, dynamic>? _marks;
   List<Map<String, dynamic>> _marksLast = [];
   Map<String, List<Map<String, dynamic>>> _marksSubjects = {};
@@ -28,7 +29,7 @@ class _MarksScreenState extends State<MarksScreen> {
     _load();
   }
 
-  Future<void> _load([bool useCache = true]) async {
+  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
     try {
       final cached = useCache ? await cache.load('marks') : null;
       final marksData = cached?['data'] ?? await api.fetch('marks');
@@ -75,6 +76,11 @@ class _MarksScreenState extends State<MarksScreen> {
             };
           }
         });
+        if (cached == null) {
+          setState(() {
+            _cacheInfo = null;
+          });
+        }
       }
       if (_marks == null && marksData == null) {
         final account = await accountManager.getActiveAccount();
@@ -84,11 +90,14 @@ class _MarksScreenState extends State<MarksScreen> {
         }
       }
       if (cached != null) {
+        setState(() {
+          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+        });
         _load(false);
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
-      if (e.error == BakaLiteError.network) return;
+      if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
   }
@@ -102,6 +111,10 @@ class _MarksScreenState extends State<MarksScreen> {
         AppLocalizations.of(context)!.bySubject,
         AppLocalizations.of(context)!.predictor,
       ],
+      onRefresh: () {
+        _load(false, true);
+      },
+      cached: _cacheInfo,
       children: [
         _marks != null
             ? ListView(

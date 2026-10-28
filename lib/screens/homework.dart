@@ -16,6 +16,7 @@ class HomeworkScreen extends StatefulWidget {
 }
 
 class _HomeworkScreenState extends State<HomeworkScreen> {
+  DateTime? _cacheInfo;
   Map<String, dynamic>? _homework;
   List<Map<String, dynamic>> _homeworkParsed = [];
 
@@ -25,7 +26,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     _load();
   }
 
-  Future<void> _load([bool useCache = true]) async {
+  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
     try {
       final cached = useCache
           ? await cache.load('homeworks?from=2000-01-01')
@@ -53,6 +54,11 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
           ];
           sortHomework();
         });
+        if (cached == null) {
+          setState(() {
+            _cacheInfo = null;
+          });
+        }
       }
       if (_homework == null && homeworkData == null) {
         final account = await accountManager.getActiveAccount();
@@ -62,11 +68,14 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         }
       }
       if (cached != null) {
+        setState(() {
+          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+        });
         _load(false);
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
-      if (e.error == BakaLiteError.network) return;
+      if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
   }
@@ -139,6 +148,10 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         AppLocalizations.of(context)!.afterDeadline,
         AppLocalizations.of(context)!.closed,
       ],
+      onRefresh: () {
+        _load(false, true);
+      },
+      cached: _cacheInfo,
       children: [
         _homework != null
             ? ListView(

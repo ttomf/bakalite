@@ -176,5 +176,5 @@ class AppLocalizationsCs extends AppLocalizations {
   String get confirmDeletion => 'Opravdu chcete smazat tento účet?';
 
   @override
-  String get noInternet => 'Žádné připojení k internetu';
+  String get cached => 'Zobrazena data z mezipaměti';
 }
