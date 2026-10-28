@@ -40,7 +40,20 @@ class Wrapper extends StatelessWidget {
                 ),
           actions: [
             if (onRefresh != null)
-              IconButton(icon: const Icon(Icons.refresh), onPressed: onRefresh),
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: onRefresh,
+                style: cached != null
+                    ? ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          Theme.of(context).colorScheme.errorContainer,
+                        ),
+                        foregroundColor: WidgetStatePropertyAll(
+                          Theme.of(context).colorScheme.onErrorContainer,
+                        ),
+                      )
+                    : null,
+              ),
           ],
           bottom: tabs.isNotEmpty
               ? TabBar(tabs: [for (final tab in tabs) Tab(child: Text(tab))])
