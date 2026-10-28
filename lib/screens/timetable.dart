@@ -1,4 +1,3 @@
-import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
 import 'package:bakalite/cache/cache.dart';
 import 'package:bakalite/config.dart';
@@ -120,13 +119,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
           });
         }
       }
-      if (_timetable == null && timetableData == null) {
-        final account = await accountManager.getActiveAccount();
-        if (account != null) {
-          await api.login(account.username, account.password);
-          _load();
-        }
-      }
       if (cached != null) {
         setState(() {
           _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
@@ -200,13 +192,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
               },
           ];
         });
-      }
-      if (_timetablePerm == null && timetablePermData == null) {
-        final account = await accountManager.getActiveAccount();
-        if (account != null) {
-          await api.login(account.username, account.password);
-          _loadPerm();
-        }
       }
       if (cached != null) {
         _loadPerm(false);

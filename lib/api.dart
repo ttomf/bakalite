@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:bakalite/accounts.dart';
 import 'package:bakalite/cache/cache.dart';
 import 'package:http/http.dart' as http;
 
@@ -259,10 +260,23 @@ class BakalariAPI {
       }
 
       if (res.statusCode == 401) {
-        throw const BakaLiteException(
-          BakaLiteError.invalidCredentials,
-          'Unauthorized, invalid accessToken',
-        );
+        try {
+          final account = await accountManager.getActiveAccount();
+          if (account != null) {
+            await login(account.username, account.password);
+            return await request(endpoint, method: method, body: body);
+          } else {
+            throw const BakaLiteException(
+              BakaLiteError.invalidCredentials,
+              'Unauthorized, invalid accessToken',
+            );
+          }
+        } catch (e) {
+          throw const BakaLiteException(
+            BakaLiteError.invalidCredentials,
+            'Unauthorized, invalid accessToken',
+          );
+        }
       }
 
       if (res.statusCode < 200 || res.statusCode >= 300) {
@@ -313,10 +327,23 @@ class BakalariAPI {
       }
 
       if (res.statusCode == 401) {
-        throw const BakaLiteException(
-          BakaLiteError.invalidCredentials,
-          'Unauthorized, invalid accessToken',
-        );
+        try {
+          final account = await accountManager.getActiveAccount();
+          if (account != null) {
+            await login(account.username, account.password);
+            return await requestBytes(endpoint, method: method, body: body);
+          } else {
+            throw const BakaLiteException(
+              BakaLiteError.invalidCredentials,
+              'Unauthorized, invalid accessToken',
+            );
+          }
+        } catch (e) {
+          throw const BakaLiteException(
+            BakaLiteError.invalidCredentials,
+            'Unauthorized, invalid accessToken',
+          );
+        }
       }
 
       if (res.statusCode < 200 || res.statusCode >= 300) {

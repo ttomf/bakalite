@@ -1,4 +1,3 @@
-import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
 import 'package:bakalite/cache/cache.dart';
 import 'package:bakalite/config.dart';
@@ -41,13 +40,6 @@ class _DashboardState extends State<Dashboard> {
           setState(() {
             _cacheInfo = null;
           });
-        }
-      }
-      if (_user == null && userData == null) {
-        final account = await accountManager.getActiveAccount();
-        if (account != null) {
-          await api.login(account.username, account.password);
-          _load();
         }
       }
       if (cached != null) {

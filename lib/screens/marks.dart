@@ -1,4 +1,3 @@
-import 'package:bakalite/accounts.dart';
 import 'package:bakalite/api.dart';
 import 'package:bakalite/cache/cache.dart';
 import 'package:bakalite/exceptions.dart';
@@ -80,13 +79,6 @@ class _MarksScreenState extends State<MarksScreen> {
           setState(() {
             _cacheInfo = null;
           });
-        }
-      }
-      if (_marks == null && marksData == null) {
-        final account = await accountManager.getActiveAccount();
-        if (account != null) {
-          await api.login(account.username, account.password);
-          _load();
         }
       }
       if (cached != null) {
