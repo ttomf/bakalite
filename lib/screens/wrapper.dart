@@ -25,19 +25,18 @@ class Wrapper extends StatelessWidget {
       length: children.length,
       child: Scaffold(
         appBar: AppBar(
-          title: subtitle == null
-              ? Text(title)
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title),
-                    SelectableText(
-                      subtitle!,
-                      style: Theme.of(context).textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.normal),
-                    ),
-                  ],
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title),
+              if (subtitle != null)
+                SelectableText(
+                  subtitle!,
+                  style: Theme.of(context).textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.normal),
                 ),
+            ],
+          ),
           actions: [
             if (onRefresh != null)
               IconButton(
