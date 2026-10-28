@@ -228,17 +228,10 @@ class BakalariAPI {
     String? body,
   }) async {
     try {
-      if (accessToken == null) return null;
       if (baseUrl?.isEmpty ?? true) {
         throw const BakaLiteException(
           BakaLiteError.invalidInput,
           'Base URL cannot be empty',
-        );
-      }
-      if (accessToken!.isEmpty) {
-        throw const BakaLiteException(
-          BakaLiteError.invalidCredentials,
-          'Invalid accessToken',
         );
       }
 
@@ -295,17 +288,10 @@ class BakalariAPI {
     String? body,
   }) async {
     try {
-      if (accessToken == null) return null;
       if (baseUrl?.isEmpty ?? true) {
         throw const BakaLiteException(
           BakaLiteError.invalidInput,
           'Base URL cannot be empty',
-        );
-      }
-      if (accessToken!.isEmpty) {
-        throw const BakaLiteException(
-          BakaLiteError.invalidCredentials,
-          'Invalid accessToken',
         );
       }
 
