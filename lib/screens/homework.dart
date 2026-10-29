@@ -15,9 +15,9 @@ class HomeworkScreen extends StatefulWidget {
 }
 
 class _HomeworkScreenState extends State<HomeworkScreen> {
-  DateTime? _cacheInfo;
+  DateTime? _cacheTimestamp;
   Map<String, dynamic>? _homework;
-  List<Map<String, dynamic>> _homeworkParsed = [];
+  List<Map<String, dynamic>>? _homeworkParsed;
 
   @override
   void initState() {
@@ -55,13 +55,15 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         });
         if (cached == null) {
           setState(() {
-            _cacheInfo = null;
+            _cacheTimestamp = null;
           });
         }
       }
       if (cached != null) {
         setState(() {
-          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+          _cacheTimestamp = DateTime.fromMillisecondsSinceEpoch(
+            cached['timestamp'],
+          );
         });
         _load(false);
       }
@@ -75,7 +77,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   void sortHomework() {
     final now = DateTime.now();
 
-    _homeworkParsed.sort((a, b) {
+    _homeworkParsed?.sort((a, b) {
       final aFinished = a['Finished'];
       final bFinished = b['Finished'];
 
@@ -114,15 +116,15 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       return false;
     }
 
-    final index = _homeworkParsed.indexWhere((hw) => hw['ID'] == id);
+    final index = _homeworkParsed?.indexWhere((hw) => hw['ID'] == id) ?? -1;
 
     if (index == -1) {
       return false;
     }
 
     setState(() {
-      _homeworkParsed[index] = {
-        ..._homeworkParsed[index],
+      _homeworkParsed?[index] = {
+        ..._homeworkParsed![index],
         'Finished': finished,
       };
       sortHomework();
@@ -135,22 +137,23 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   Widget build(BuildContext context) {
     return Wrapper(
       title: AppLocalizations.of(context)!.homework,
+      subtitle: getCacheInfo(context, _cacheTimestamp, _homework != null),
       tabs: [
         AppLocalizations.of(context)!.current,
         AppLocalizations.of(context)!.afterDeadline,
         AppLocalizations.of(context)!.closed,
       ],
       onRefresh: () {
+        setState(() {
+          _homework = null;
+        });
         _load(false, true);
       },
-      cached: _cacheInfo,
       children: [
-        _homework != null
+        _homeworkParsed != null
             ? ListView(
                 children: [
-                  if (_homework == null)
-                    const Center(child: CircularProgressIndicator()),
-                  for (final homework in _homeworkParsed)
+                  for (final homework in _homeworkParsed!)
                     if (!homework['Closed'] &&
                         homework['DateEnd']
                             .add(const Duration(days: 1))
@@ -164,10 +167,10 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 ],
               )
             : const Center(child: CircularProgressIndicator()),
-        _homework != null
+        _homeworkParsed != null
             ? ListView(
                 children: [
-                  for (final homework in _homeworkParsed)
+                  for (final homework in _homeworkParsed!)
                     if (!homework['Closed'] &&
                         homework['DateEnd']
                             .add(const Duration(days: 1))
@@ -181,10 +184,10 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 ],
               )
             : const Center(child: CircularProgressIndicator()),
-        _homework != null
+        _homeworkParsed != null
             ? ListView(
                 children: [
-                  for (final homework in _homeworkParsed)
+                  for (final homework in _homeworkParsed!)
                     if (homework['Closed'])
                       HomeworkCard(homework, key: ValueKey(homework['ID'])),
                 ],

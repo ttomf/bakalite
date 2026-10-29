@@ -5,6 +5,7 @@ import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/mocks/mock_http_client.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late final SharedPreferencesWithCache prefs;
@@ -53,4 +54,24 @@ Future<void> setupApi(Account account, bool throwErrors) async {
   } on BakaLiteException {
     if (throwErrors) rethrow;
   }
+}
+
+String getCacheInfo(BuildContext context, DateTime? timestamp, bool loaded) {
+  String text = '';
+  if (timestamp != null) {
+    if (loaded) {
+      text =
+          '${AppLocalizations.of(context)!.cached} ${DateFormat('d. M. HH:mm').format(timestamp)}';
+    } else {
+      text =
+          '${AppLocalizations.of(context)!.syncing} ${AppLocalizations.of(context)!.cached} ${DateFormat('d. M. HH:mm').format(timestamp)}';
+    }
+  } else {
+    if (loaded) {
+      text = AppLocalizations.of(context)!.upToDate;
+    } else {
+      text = AppLocalizations.of(context)!.syncing;
+    }
+  }
+  return text;
 }

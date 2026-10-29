@@ -51,5 +51,7 @@
   "yes": "Ano",
   "no": "Ne",
   "confirmDeletion": "Opravdu chcete smazat tento účet?",
-  "cached": "Zobrazena data z mezipaměti"
+  "cached": "Uložená data z",
+  "upToDate": "Aktuální data",
+  "syncing": "Stahování dat..."
 }

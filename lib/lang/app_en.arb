@@ -51,5 +51,7 @@
   "yes": "Yes",
   "no": "No",
   "confirmDeletion": "Do you really want to delete this account?",
-  "cached": "Showing cached data"
+  "cached": "Cached data from",
+  "upToDate": "Up-to-date data",
+  "syncing": "Downloading data..."
 }

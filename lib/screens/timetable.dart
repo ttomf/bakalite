@@ -17,12 +17,14 @@ class TimetableScreen extends StatefulWidget {
 }
 
 class _TimetableScreenState extends State<TimetableScreen> {
-  DateTime? _cacheInfo;
+  DateTime? _cacheTimestamp;
   Map<String, dynamic>? _timetable;
   List<Map<String, dynamic>>? _timetableParsed;
+  List<dynamic>? _timetableHours;
   Map<String, Map<String?, List<String>>> _idMaps = {};
   Map<String, dynamic>? _timetablePerm;
   List<Map<String, dynamic>>? _timetablePermParsed;
+  List<dynamic>? _timetablePermHours;
   Map<String, Map<String?, List<String>>> _idMapsPerm = {};
 
   late DateTime _selectedDate;
@@ -77,16 +79,18 @@ class _TimetableScreenState extends State<TimetableScreen> {
             ])
               category: {
                 null: ['', ''],
-                for (final subject in _timetable![category])
+                for (final subject in _timetable?[category] ?? [])
                   subject['Id']: [subject['Abbrev'], subject['Name']],
               },
           };
           _timetableParsed = [
-            for (final day in _timetable!['Days'])
+            for (final day in _timetable?['Days'])
               {
                 'Date': parseTime(day['Date']),
-                'Atoms': List.generate(_timetable!['Hours'].length, (index) {
-                  final hour = _timetable!['Hours'][index];
+                'Atoms': List.generate(_timetable?['Hours'].length ?? 0, (
+                  index,
+                ) {
+                  final hour = _timetable?['Hours'][index];
                   final matchingHour = day['Atoms'].firstWhere(
                     (h) => h['HourId'] == hour['Id'],
                     orElse: () => null,
@@ -112,16 +116,19 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 }),
               },
           ];
+          _timetableHours = _timetable?['Hours'];
         });
         if (cached == null) {
           setState(() {
-            _cacheInfo = null;
+            _cacheTimestamp = null;
           });
         }
       }
       if (cached != null) {
         setState(() {
-          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+          _cacheTimestamp = DateTime.fromMillisecondsSinceEpoch(
+            cached['timestamp'],
+          );
         });
         _load(false);
       }
@@ -157,17 +164,17 @@ class _TimetableScreenState extends State<TimetableScreen> {
             ])
               category: {
                 null: ['', ''],
-                for (final subject in _timetablePerm![category])
+                for (final subject in _timetablePerm?[category] ?? [])
                   subject['Id']: [subject['Abbrev'], subject['Name']],
               },
           };
           _timetablePermParsed = [
-            for (final day in _timetablePerm!['Days'])
+            for (final day in _timetablePerm?['Days'])
               {
-                'Atoms': List.generate(_timetablePerm!['Hours'].length, (
+                'Atoms': List.generate(_timetablePerm?['Hours'].length ?? 0, (
                   index,
                 ) {
-                  final hour = _timetablePerm!['Hours'][index];
+                  final hour = _timetablePerm?['Hours'][index];
                   final matchingHours = day['Atoms'].where(
                     (h) => h['HourId'] == hour['Id'],
                   );
@@ -191,9 +198,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 }),
               },
           ];
+          _timetablePermHours = _timetablePerm?['Hours'];
         });
       }
       if (cached != null) {
+        setState(() {
+          _cacheTimestamp = DateTime.fromMillisecondsSinceEpoch(
+            cached['timestamp'],
+          );
+        });
         _loadPerm(false);
       }
     } on BakaLiteException catch (e) {
@@ -207,15 +220,23 @@ class _TimetableScreenState extends State<TimetableScreen> {
   Widget build(BuildContext context) {
     return Wrapper(
       title: AppLocalizations.of(context)!.timetable,
+      subtitle: getCacheInfo(
+        context,
+        _cacheTimestamp,
+        _timetable != null && _timetablePerm != null,
+      ),
       tabs: [
         AppLocalizations.of(context)!.actual,
         AppLocalizations.of(context)!.permanent,
       ],
       onRefresh: () {
+        setState(() {
+          _timetable = null;
+          _timetablePerm = null;
+        });
         _load(false, true);
         _loadPerm(false, true);
       },
-      cached: _cacheInfo,
       children: [
         Column(
           children: [
@@ -229,6 +250,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       _selectedDate = _addDays(_selectedDate, -7);
                       _timetable = null;
                       _timetableParsed = null;
+                      _cacheTimestamp = null;
                     });
                     _load();
                   },
@@ -263,6 +285,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                         _selectedDate = _weekStart(date);
                         _timetable = null;
                         _timetableParsed = null;
+                        _cacheTimestamp = null;
                       });
                       _load();
                     },
@@ -271,6 +294,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                         _selectedDate = _weekStart(DateTime.now());
                         _timetable = null;
                         _timetableParsed = null;
+                        _cacheTimestamp = null;
                       });
                       _load();
                     },
@@ -283,6 +307,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       _selectedDate = _addDays(_selectedDate, 7);
                       _timetable = null;
                       _timetableParsed = null;
+                      _cacheTimestamp = null;
                     });
                     _load();
                   },
@@ -290,14 +315,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
               ],
             ),
             Expanded(
-              child: _timetable != null
-                  ? TimetableGrid(_timetableParsed!, _timetable!['Hours'])
+              child: _timetableParsed != null && _timetableHours != null
+                  ? TimetableGrid(_timetableParsed!, _timetableHours!)
                   : const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
-        _timetablePerm != null
-            ? TimetableGrid(_timetablePermParsed!, _timetablePerm!['Hours'])
+        _timetablePermParsed != null && _timetablePermHours != null
+            ? TimetableGrid(_timetablePermParsed!, _timetablePermHours!)
             : const Center(child: CircularProgressIndicator()),
       ],
     );

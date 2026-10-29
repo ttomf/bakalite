@@ -16,10 +16,10 @@ class MarksScreen extends StatefulWidget {
 }
 
 class _MarksScreenState extends State<MarksScreen> {
-  DateTime? _cacheInfo;
+  DateTime? _cacheTimestamp;
   Map<String, dynamic>? _marks;
-  List<Map<String, dynamic>> _marksLast = [];
-  Map<String, List<Map<String, dynamic>>> _marksSubjects = {};
+  List<Map<String, dynamic>>? _marksLast;
+  Map<String, List<Map<String, dynamic>>>? _marksSubjects;
   Map<String, dynamic>? _subjects;
 
   @override
@@ -50,10 +50,10 @@ class _MarksScreenState extends State<MarksScreen> {
                   'Theme': mark['Theme'].trim(),
                 },
           ];
-          _marksLast.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
+          _marksLast?.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
           _marksSubjects = {};
           for (final subject in _marks?['Subjects'] ?? []) {
-            _marksSubjects[subject['Subject']['Name']] = [
+            _marksSubjects?[subject['Subject']['Name']] = [
               for (final mark in subject['Marks'] ?? [])
                 {
                   'MarkText': mark['MarkText'],
@@ -63,7 +63,7 @@ class _MarksScreenState extends State<MarksScreen> {
                   'Theme': mark['Theme'].trim(),
                 },
             ];
-            _marksSubjects[subject['Subject']['Name']]!.sort(
+            _marksSubjects?[subject['Subject']['Name']]?.sort(
               (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
             );
           }
@@ -77,13 +77,15 @@ class _MarksScreenState extends State<MarksScreen> {
         });
         if (cached == null) {
           setState(() {
-            _cacheInfo = null;
+            _cacheTimestamp = null;
           });
         }
       }
       if (cached != null) {
         setState(() {
-          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+          _cacheTimestamp = DateTime.fromMillisecondsSinceEpoch(
+            cached['timestamp'],
+          );
         });
         _load(false);
       }
@@ -98,32 +100,34 @@ class _MarksScreenState extends State<MarksScreen> {
   Widget build(BuildContext context) {
     return Wrapper(
       title: AppLocalizations.of(context)!.marks,
+      subtitle: getCacheInfo(context, _cacheTimestamp, _marks != null),
       tabs: [
         AppLocalizations.of(context)!.byDate,
         AppLocalizations.of(context)!.bySubject,
         AppLocalizations.of(context)!.predictor,
       ],
       onRefresh: () {
+        setState(() {
+          _marks = null;
+        });
         _load(false, true);
       },
-      cached: _cacheInfo,
       children: [
-        _marks != null
+        _marksLast != null
             ? ListView(
-                children: [for (final mark in _marksLast) MarkCard(mark)],
+                children: [for (final mark in _marksLast!) MarkCard(mark)],
               )
             : const Center(child: CircularProgressIndicator()),
-        _marks != null
+        _marksSubjects != null && _subjects != null
             ? ListView(
                 children: [
-                  if (_subjects != null)
-                    for (final subject in _marksSubjects.keys)
-                      SubjectMarksCard(
-                        subject: subject,
-                        marks: _marksSubjects[subject]!,
-                        average: _subjects![subject]['AverageText'],
-                        note: _subjects![subject]['SubjectNote'],
-                      ),
+                  for (final subject in _marksSubjects!.keys)
+                    SubjectMarksCard(
+                      subject: subject,
+                      marks: _marksSubjects![subject]!,
+                      average: _subjects![subject]['AverageText'],
+                      note: _subjects![subject]['SubjectNote'],
+                    ),
                 ],
               )
             : const Center(child: CircularProgressIndicator()),

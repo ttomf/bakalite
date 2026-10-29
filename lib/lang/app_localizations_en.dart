@@ -176,5 +176,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmDeletion => 'Do you really want to delete this account?';
 
   @override
-  String get cached => 'Showing cached data';
+  String get cached => 'Cached data from';
+
+  @override
+  String get upToDate => 'Up-to-date data';
+
+  @override
+  String get syncing => 'Downloading data...';
 }

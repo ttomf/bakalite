@@ -413,8 +413,20 @@ abstract class AppLocalizations {
   /// No description provided for @cached.
   ///
   /// In en, this message translates to:
-  /// **'Showing cached data'**
+  /// **'Cached data from'**
   String get cached;
+
+  /// No description provided for @upToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Up-to-date data'**
+  String get upToDate;
+
+  /// No description provided for @syncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading data...'**
+  String get syncing;
 }
 
 class _AppLocalizationsDelegate

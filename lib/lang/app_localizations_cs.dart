@@ -176,5 +176,11 @@ class AppLocalizationsCs extends AppLocalizations {
   String get confirmDeletion => 'Opravdu chcete smazat tento účet?';
 
   @override
-  String get cached => 'Zobrazena data z mezipaměti';
+  String get cached => 'Uložená data z';
+
+  @override
+  String get upToDate => 'Aktuální data';
+
+  @override
+  String get syncing => 'Stahování dat...';
 }

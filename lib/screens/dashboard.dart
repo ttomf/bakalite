@@ -16,8 +16,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  DateTime? _cacheInfo;
+  DateTime? _cacheTimestamp;
   Map<String, dynamic>? _user;
+  Map<String, dynamic>? _userParsed;
 
   @override
   void initState() {
@@ -35,16 +36,19 @@ class _DashboardState extends State<Dashboard> {
       if (userData != null) {
         setState(() {
           _user = userData;
+          _userParsed = _user;
         });
         if (cached == null) {
           setState(() {
-            _cacheInfo = null;
+            _cacheTimestamp = null;
           });
         }
       }
       if (cached != null) {
         setState(() {
-          _cacheInfo = DateTime.fromMillisecondsSinceEpoch(cached['timestamp']);
+          _cacheTimestamp = DateTime.fromMillisecondsSinceEpoch(
+            cached['timestamp'],
+          );
         });
         _load(false);
       }
@@ -59,13 +63,13 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Wrapper(
       title: AppLocalizations.of(context)!.dashboard,
-      subtitle: _user?['FullName'] != null
-          ? '${_user!['FullName']} – ${_user!['UserTypeText']}'
-          : '',
+      subtitle: getCacheInfo(context, _cacheTimestamp, _user != null),
       onRefresh: () {
+        setState(() {
+          _user = null;
+        });
         _load(false, true);
       },
-      cached: _cacheInfo,
       children: [
         ScrollConfiguration(
           behavior: const ScrollBehavior().copyWith(overscroll: false),
@@ -74,6 +78,14 @@ class _DashboardState extends State<Dashboard> {
             builder: (context, value, child) {
               return Column(
                 children: [
+                  Center(
+                    child: SelectableText(
+                      _userParsed != null
+                          ? '${_userParsed!['FullName']} – ${_userParsed!['UserTypeText']}'
+                          : '',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
                   Expanded(
                     child: GridView(
                       gridDelegate:
