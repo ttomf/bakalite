@@ -35,6 +35,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
       tabs: const [],
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: ListView(
@@ -79,7 +80,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
               ),
             ),
             SizedBox(
-              width: double.maxFinite,
               height: 64,
               child: FilledButton(
                 child: Text(AppLocalizations.of(context)!.login),

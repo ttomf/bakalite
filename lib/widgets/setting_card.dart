@@ -85,7 +85,7 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
 
   Widget getControl() {
     if (widget.setting == null) {
-      return SizedBox.fromSize(size: const Size(0, 48));
+      return const SizedBox(height: 48);
     }
     if (T == bool) {
       return Switch(

@@ -78,110 +78,105 @@ class _SchoolSearchDialogState extends State<SchoolSearchDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: SizedBox(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: AppLocalizations.of(context)!.searchCityHint,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: _searchController.text.isEmpty
-                      ? const Icon(Icons.search)
-                      : IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-                            _searchRequest++;
-                            _searchController.text = '';
-                            _loadSchools();
-                          },
-                        ),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)!.searchCityHint,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
                 ),
-                onChanged: (String value) {
-                  setState(() {});
-                  _searchRequest++;
-                  _searchDebounce?.cancel();
-
-                  _searchDebounce = Timer(
-                    const Duration(milliseconds: 500),
-                    () {
-                      _loadSchools();
-                    },
-                  );
-                },
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                prefixIcon: _searchController.text.isEmpty
+                    ? const Icon(Icons.search)
+                    : IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          _searchRequest++;
+                          _searchController.text = '';
+                          _loadSchools();
+                        },
+                      ),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: Center(
-                  child:
-                      _isLoading ||
-                          (_searchController.text != _search &&
-                              _searchController.text.isNotEmpty)
-                      ? const CircularProgressIndicator()
-                      : _searchController.text.isEmpty
-                      ? ListView(
-                          children: [
-                            for (final name in _cities.keys.toList())
-                              if (name.isNotEmpty)
-                                Card(
-                                  child: ListTile(
-                                    title: Text(name),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          '${_cities[name]}',
-                                          style: const TextStyle(fontSize: 16),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 16,
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      _searchRequest++;
-                                      _searchController.text = name;
-                                      _loadSchools();
-                                    },
-                                  ),
-                                ),
-                          ],
-                        )
-                      : _schools.isNotEmpty
-                      ? ListView(
-                          children: [
-                            for (final name in _schools.keys.toList())
+              onChanged: (String value) {
+                setState(() {});
+                _searchRequest++;
+                _searchDebounce?.cancel();
+
+                _searchDebounce = Timer(const Duration(milliseconds: 500), () {
+                  _loadSchools();
+                });
+              },
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Center(
+                child:
+                    _isLoading ||
+                        (_searchController.text != _search &&
+                            _searchController.text.isNotEmpty)
+                    ? const CircularProgressIndicator()
+                    : _searchController.text.isEmpty
+                    ? ListView(
+                        children: [
+                          for (final name in _cities.keys.toList())
+                            if (name.isNotEmpty)
                               Card(
                                 child: ListTile(
                                   title: Text(name),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${_cities[name]}',
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 16,
+                                      ),
+                                    ],
+                                  ),
                                   onTap: () {
-                                    Navigator.pop(context, _schools[name]);
+                                    _searchRequest++;
+                                    _searchController.text = name;
+                                    _loadSchools();
                                   },
                                 ),
                               ),
-                          ],
-                        )
-                      : Text(AppLocalizations.of(context)!.nothingFound),
-                ),
+                        ],
+                      )
+                    : _schools.isNotEmpty
+                    ? ListView(
+                        children: [
+                          for (final name in _schools.keys.toList())
+                            Card(
+                              child: ListTile(
+                                title: Text(name),
+                                onTap: () {
+                                  Navigator.pop(context, _schools[name]);
+                                },
+                              ),
+                            ),
+                        ],
+                      )
+                    : Text(AppLocalizations.of(context)!.nothingFound),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -214,6 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: 16,
               children: [
                 TextField(
@@ -298,7 +294,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: double.maxFinite,
                   height: 64,
                   child: FilledButton(
                     child: Text(AppLocalizations.of(context)!.login),

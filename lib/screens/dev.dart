@@ -45,6 +45,7 @@ class _DevScreenState extends State<DevScreen> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: 4,
               children: [
                 Row(
@@ -143,7 +144,6 @@ class _DevScreenState extends State<DevScreen> {
                       },
                 ),
                 SizedBox(
-                  width: double.maxFinite,
                   height: 64,
                   child: FilledButton(
                     child: const Text('Send request'),
@@ -158,35 +158,27 @@ class _DevScreenState extends State<DevScreen> {
                       color: Theme.of(context).highlightColor,
                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                     ),
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: Stack(
-                        children: [
-                          SizedBox(
-                            width: double.maxFinite,
-                            child: SingleChildScrollView(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
-                                child: SelectableText(responseJson),
-                              ),
-                            ),
+                    child: Stack(
+                      children: [
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: SelectableText(responseJson),
                           ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: IconButton.filled(
-                              icon: Icon(copyIcon),
-                              onPressed: () {
-                                Clipboard.setData(
-                                  ClipboardData(text: responseJson),
-                                );
-                              },
-                            ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: IconButton.filled(
+                            icon: Icon(copyIcon),
+                            onPressed: () {
+                              Clipboard.setData(
+                                ClipboardData(text: responseJson),
+                              );
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
