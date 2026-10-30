@@ -35,6 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingCard<Color>(
               key: ValueKey((settingsKey, 'seedColor')),
               setting: Config.seedColor,
+              info: AppLocalizations.of(context)!.seedColorInfo,
               label: AppLocalizations.of(context)!.seedColor,
             ),
             SettingCard<bool>(
@@ -53,14 +54,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
             SettingCard<bool>(
-              key: ValueKey((settingsKey, 'devMode')),
-              setting: Config.devMode,
-              label: AppLocalizations.of(context)!.devMode,
-            ),
-            SettingCard<bool>(
               key: ValueKey((settingsKey, 'relativeDateLabels')),
               setting: Config.relativeDateLabels,
+              info: AppLocalizations.of(context)!.relativeDateLabelsInfo,
               label: AppLocalizations.of(context)!.relativeDateLabels,
+            ),
+            SettingCard<bool>(
+              key: ValueKey((settingsKey, 'devMode')),
+              setting: Config.devMode,
+              info: AppLocalizations.of(context)!.devModeInfo,
+              label: AppLocalizations.of(context)!.devMode,
             ),
             SettingCard<void>(
               label: AppLocalizations.of(context)!.resetSettings,

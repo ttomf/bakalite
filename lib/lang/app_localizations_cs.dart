@@ -116,6 +116,18 @@ class AppLocalizationsCs extends AppLocalizations {
       'Toto je open-source klient pro školní systém Bakaláři, bez reklam a sledování. Pokud se vám líbí, zvažte prosím udělení hvězdičky na GitHubu. Budu rád také za nahlášení případných chyb nebo návrhy na vylepšení.';
 
   @override
+  String get seedColorInfo =>
+      'Výchozí barva motivu aplikace, ze které se odvozují ostatní barvy. Pokud chcete tuto barvu použít přesně jako primární, vypněte možnost „Použít schéma barev Material 3“.';
+
+  @override
+  String get relativeDateLabelsInfo =>
+      'Používat označení jako „dnes“, „zítra“ nebo „minulý týden“ místo konkrétních dat.';
+
+  @override
+  String get devModeInfo =>
+      'Povolit vývojářskou obrazovku s pokročilým ovládáním.';
+
+  @override
   String get bakaLink => 'Odkaz na Bakaláře';
 
   @override

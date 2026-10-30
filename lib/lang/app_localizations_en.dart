@@ -116,6 +116,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'This is an open-source client for the Bakaláři school system, without ads and tracking. If you like it, please consider giving it a star on GitHub. Bug reports and suggestions for improvement are also welcome.';
 
   @override
+  String get seedColorInfo =>
+      'The default color of the app theme, from which other colors are derived. If you want to use this exact color as the primary color, turn off the \"Use Material 3 color scheme\" option.';
+
+  @override
+  String get relativeDateLabelsInfo =>
+      'Use labels such as \"today\", \"tomorrow\", or \"last week\" instead of dates.';
+
+  @override
+  String get devModeInfo =>
+      'Enable developer mode screen with advanced controls.';
+
+  @override
   String get bakaLink => 'Bakaláři link';
 
   @override

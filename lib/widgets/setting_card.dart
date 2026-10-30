@@ -4,12 +4,14 @@ class SettingCard<T> extends StatefulWidget {
   const SettingCard({
     super.key,
     required this.label,
+    this.info,
     this.setting,
     this.choices,
     this.onSet,
   });
 
   final String label;
+  final String? info;
   final ValueNotifier<T>? setting;
   final Map<T, String>? choices;
   final ValueChanged<T?>? onSet;
@@ -142,9 +144,34 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    widget.label,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  child: Row(
+                    children: [
+                      Text(
+                        widget.label,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      if (widget.info != null)
+                        IconButton(
+                          icon: const Icon(Icons.info_outline),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(widget.label),
+                                  content: Text(widget.info!),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('OK'),
+                                      onPressed: () => Navigator.pop(context),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 12),

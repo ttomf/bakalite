@@ -290,6 +290,24 @@ abstract class AppLocalizations {
   /// **'This is an open-source client for the Bakaláři school system, without ads and tracking. If you like it, please consider giving it a star on GitHub. Bug reports and suggestions for improvement are also welcome.'**
   String get aboutText;
 
+  /// No description provided for @seedColorInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'The default color of the app theme, from which other colors are derived. If you want to use this exact color as the primary color, turn off the \"Use Material 3 color scheme\" option.'**
+  String get seedColorInfo;
+
+  /// No description provided for @relativeDateLabelsInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Use labels such as \"today\", \"tomorrow\", or \"last week\" instead of dates.'**
+  String get relativeDateLabelsInfo;
+
+  /// No description provided for @devModeInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable developer mode screen with advanced controls.'**
+  String get devModeInfo;
+
   /// No description provided for @bakaLink.
   ///
   /// In en, this message translates to:
