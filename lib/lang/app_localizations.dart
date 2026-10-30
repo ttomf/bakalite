@@ -242,6 +242,12 @@ abstract class AppLocalizations {
   /// **'Theme'**
   String get theme;
 
+  /// No description provided for @autoRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic data refresh'**
+  String get autoRefresh;
+
   /// No description provided for @relativeDateLabels.
   ///
   /// In en, this message translates to:
@@ -295,6 +301,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The default color of the app theme, from which other colors are derived. If you want to use this exact color as the primary color, turn off the \"Use Material 3 color scheme\" option.'**
   String get seedColorInfo;
+
+  /// No description provided for @autoRefreshInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically fetch the latest information from the server. When disabled, manual refresh is required using the button in the top-right corner.'**
+  String get autoRefreshInfo;
 
   /// No description provided for @relativeDateLabelsInfo.
   ///

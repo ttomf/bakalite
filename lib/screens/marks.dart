@@ -1,5 +1,6 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/cache/cache.dart';
+import 'package:bakalite/config.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
@@ -25,13 +26,18 @@ class _MarksScreenState extends State<MarksScreen> {
   @override
   void initState() {
     super.initState();
-    _load();
+    _load(offline: !Config.autoRefresh.value);
   }
 
-  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
+  Future<void> _load({
+    bool useCache = true,
+    bool throwNetwork = false,
+    bool offline = false,
+  }) async {
     try {
       final cached = useCache ? await cache.load('marks') : null;
-      final marksData = cached?['data'] ?? await api.fetch('marks');
+      final marksData =
+          cached?['data'] ?? (offline ? null : await api.fetch('marks'));
 
       if (!mounted) return;
 
@@ -87,7 +93,9 @@ class _MarksScreenState extends State<MarksScreen> {
             cached['timestamp'],
           );
         });
-        _load(false);
+        if (!offline) {
+          _load(useCache: false);
+        }
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
@@ -110,7 +118,7 @@ class _MarksScreenState extends State<MarksScreen> {
         setState(() {
           _marks = null;
         });
-        _load(false, true);
+        _load(useCache: false, throwNetwork: true);
       },
       children: [
         _marksLast != null

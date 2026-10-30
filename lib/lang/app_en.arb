@@ -27,6 +27,7 @@
   "seedColor": "Theme seed color",
   "useM3Color": "Use Material 3 color scheme",
   "theme": "Theme",
+  "autoRefresh": "Automatic data refresh",
   "relativeDateLabels": "Relative date labels",
   "devMode": "Developer mode",
   "resetSettings": "Reset settings",
@@ -37,6 +38,7 @@
   "dark": "Dark",
   "aboutText": "This is an open-source client for the Bakaláři school system, without ads and tracking. If you like it, please consider giving it a star on GitHub. Bug reports and suggestions for improvement are also welcome.",
   "seedColorInfo": "The default color of the app theme, from which other colors are derived. If you want to use this exact color as the primary color, turn off the \"Use Material 3 color scheme\" option.",
+  "autoRefreshInfo": "Automatically fetch the latest information from the server. When disabled, manual refresh is required using the button in the top-right corner.",
   "relativeDateLabelsInfo": "Use labels such as \"today\", \"tomorrow\", or \"last week\" instead of dates.",
   "devModeInfo": "Enable developer mode screen with advanced controls.",
 

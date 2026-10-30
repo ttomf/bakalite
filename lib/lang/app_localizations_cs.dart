@@ -91,6 +91,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get theme => 'Motiv';
 
   @override
+  String get autoRefresh => 'Automatická synchronizace';
+
+  @override
   String get relativeDateLabels => 'Relativní názvy dat';
 
   @override
@@ -118,6 +121,10 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get seedColorInfo =>
       'Výchozí barva motivu aplikace, ze které se odvozují ostatní barvy. Pokud chcete tuto barvu použít přesně jako primární, vypněte možnost „Použít schéma barev Material 3“.';
+
+  @override
+  String get autoRefreshInfo =>
+      'Automaticky stahovat aktuální informace ze serveru. Při vypnutí je nutné aktualizovat je ručně pomocí tlačítka vpravo nahoře.';
 
   @override
   String get relativeDateLabelsInfo =>

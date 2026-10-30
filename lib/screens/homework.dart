@@ -1,5 +1,6 @@
 import 'package:bakalite/api.dart';
 import 'package:bakalite/cache/cache.dart';
+import 'package:bakalite/config.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
@@ -22,16 +23,21 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   @override
   void initState() {
     super.initState();
-    _load();
+    _load(offline: !Config.autoRefresh.value);
   }
 
-  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
+  Future<void> _load({
+    bool useCache = true,
+    bool throwNetwork = false,
+    bool offline = false,
+  }) async {
     try {
       final cached = useCache
           ? await cache.load('homeworks?from=2000-01-01')
           : null;
       final homeworkData =
-          cached?['data'] ?? await api.fetch('homeworks?from=2000-01-01');
+          cached?['data'] ??
+          (offline ? null : await api.fetch('homeworks?from=2000-01-01'));
 
       if (!mounted) return;
 
@@ -65,7 +71,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             cached['timestamp'],
           );
         });
-        _load(false);
+        if (!offline) {
+          _load(useCache: false);
+        }
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
@@ -147,7 +155,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         setState(() {
           _homework = null;
         });
-        _load(false, true);
+        _load(useCache: false, throwNetwork: true);
       },
       children: [
         _homeworkParsed != null

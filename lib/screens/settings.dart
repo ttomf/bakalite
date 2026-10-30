@@ -54,6 +54,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
             SettingCard<bool>(
+              key: ValueKey((settingsKey, 'autoRefresh')),
+              setting: Config.autoRefresh,
+              info: AppLocalizations.of(context)!.autoRefreshInfo,
+              label: AppLocalizations.of(context)!.autoRefresh,
+            ),
+            SettingCard<bool>(
               key: ValueKey((settingsKey, 'relativeDateLabels')),
               setting: Config.relativeDateLabels,
               info: AppLocalizations.of(context)!.relativeDateLabelsInfo,

@@ -23,13 +23,18 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    _load();
+    _load(offline: !Config.autoRefresh.value);
   }
 
-  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
+  Future<void> _load({
+    bool useCache = true,
+    bool throwNetwork = false,
+    bool offline = false,
+  }) async {
     try {
       final cached = useCache ? await cache.load('user') : null;
-      final userData = cached?['data'] ?? await api.fetch('user');
+      final userData =
+          cached?['data'] ?? (offline ? null : await api.fetch('user'));
 
       if (!mounted) return;
 
@@ -50,7 +55,9 @@ class _DashboardState extends State<Dashboard> {
             cached['timestamp'],
           );
         });
-        _load(false);
+        if (!offline) {
+          _load(useCache: false);
+        }
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
@@ -68,7 +75,7 @@ class _DashboardState extends State<Dashboard> {
         setState(() {
           _user = null;
         });
-        _load(false, true);
+        _load(useCache: false, throwNetwork: true);
       },
       children: [
         ScrollConfiguration(

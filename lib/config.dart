@@ -65,6 +65,7 @@ class Config {
   static final seedColor = ConfigOption('seedColor', Colors.lightBlue as Color);
   static final useM3Color = ConfigOption('useM3Color', true);
   static final brightness = ConfigOption('brightness', 'System');
+  static final autoRefresh = ConfigOption('autoRefresh', true);
   static final relativeDateLabels = ConfigOption('relativeDateLabels', true);
   static final devMode = ConfigOption('devMode', false);
 
@@ -74,6 +75,7 @@ class Config {
       seedColor.reset(),
       useM3Color.reset(),
       brightness.reset(),
+      autoRefresh.reset(),
       relativeDateLabels.reset(),
       devMode.reset(),
     ]);

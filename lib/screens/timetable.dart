@@ -43,11 +43,15 @@ class _TimetableScreenState extends State<TimetableScreen> {
   void initState() {
     _selectedDate = _weekStart(DateTime.now());
     super.initState();
-    _load();
-    _loadPerm();
+    _load(offline: !Config.autoRefresh.value);
+    _loadPerm(offline: !Config.autoRefresh.value);
   }
 
-  Future<void> _load([bool useCache = true, bool throwNetwork = false]) async {
+  Future<void> _load({
+    bool useCache = true,
+    bool throwNetwork = false,
+    bool offline = false,
+  }) async {
     final loadId = ++_loadId;
     final selectedDate = _selectedDate;
 
@@ -59,9 +63,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
           : null;
       final timetableData =
           cached?['data'] ??
-          await api.fetch(
-            'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(selectedDate)}',
-          );
+          (offline
+              ? null
+              : await api.fetch(
+                  'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(selectedDate)}',
+                ));
 
       if (!mounted || loadId != _loadId) return;
 
@@ -130,7 +136,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
             cached['timestamp'],
           );
         });
-        _load(false);
+        if (!offline) {
+          _load(useCache: false);
+        }
       }
     } on BakaLiteException catch (e) {
       if (!mounted || loadId != _loadId) return;
@@ -139,14 +147,16 @@ class _TimetableScreenState extends State<TimetableScreen> {
     }
   }
 
-  Future<void> _loadPerm([
+  Future<void> _loadPerm({
     bool useCache = true,
     bool throwNetwork = false,
-  ]) async {
+    bool offline = false,
+  }) async {
     try {
       final cached = useCache ? await cache.load('timetable/permanent') : null;
       final timetablePermData =
-          cached?['data'] ?? await api.fetch('timetable/permanent');
+          cached?['data'] ??
+          (offline ? null : await api.fetch('timetable/permanent'));
 
       if (!mounted) return;
 
@@ -207,13 +217,24 @@ class _TimetableScreenState extends State<TimetableScreen> {
             cached['timestamp'],
           );
         });
-        _loadPerm(false);
+        if (!offline) {
+          _loadPerm(useCache: false);
+        }
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
       if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
+  }
+
+  void _reloadActual() {
+    setState(() {
+      _timetable = null;
+      _timetableParsed = null;
+      _cacheTimestamp = null;
+    });
+    _load(offline: !Config.autoRefresh.value);
   }
 
   @override
@@ -234,8 +255,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
           _timetable = null;
           _timetablePerm = null;
         });
-        _load(false, true);
-        _loadPerm(false, true);
+        _load(useCache: false, throwNetwork: true);
+        _loadPerm(useCache: false, throwNetwork: true);
       },
       children: [
         Column(
@@ -248,11 +269,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   onPressed: () {
                     setState(() {
                       _selectedDate = _addDays(_selectedDate, -7);
-                      _timetable = null;
-                      _timetableParsed = null;
-                      _cacheTimestamp = null;
                     });
-                    _load();
+                    _reloadActual();
                   },
                 ),
                 Expanded(
@@ -283,20 +301,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       if (date == null || !mounted) return;
                       setState(() {
                         _selectedDate = _weekStart(date);
-                        _timetable = null;
-                        _timetableParsed = null;
-                        _cacheTimestamp = null;
                       });
-                      _load();
+                      _reloadActual();
                     },
                     onLongPress: () {
                       setState(() {
                         _selectedDate = _weekStart(DateTime.now());
-                        _timetable = null;
-                        _timetableParsed = null;
-                        _cacheTimestamp = null;
                       });
-                      _load();
+                      _reloadActual();
                     },
                   ),
                 ),
@@ -305,11 +317,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   onPressed: () {
                     setState(() {
                       _selectedDate = _addDays(_selectedDate, 7);
-                      _timetable = null;
-                      _timetableParsed = null;
-                      _cacheTimestamp = null;
                     });
-                    _load();
+                    _reloadActual();
                   },
                 ),
               ],

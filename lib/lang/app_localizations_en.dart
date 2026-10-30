@@ -91,6 +91,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme => 'Theme';
 
   @override
+  String get autoRefresh => 'Automatic data refresh';
+
+  @override
   String get relativeDateLabels => 'Relative date labels';
 
   @override
@@ -118,6 +121,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get seedColorInfo =>
       'The default color of the app theme, from which other colors are derived. If you want to use this exact color as the primary color, turn off the \"Use Material 3 color scheme\" option.';
+
+  @override
+  String get autoRefreshInfo =>
+      'Automatically fetch the latest information from the server. When disabled, manual refresh is required using the button in the top-right corner.';
 
   @override
   String get relativeDateLabelsInfo =>
