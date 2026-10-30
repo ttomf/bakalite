@@ -30,6 +30,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
   late DateTime _selectedDate;
 
   int _loadId = 0;
+  bool _loaded = false;
+  bool _loadedPerm = false;
+  bool _error = false;
+  bool _errorPerm = false;
 
   DateTime _addDays(DateTime date, int days) {
     return DateTime(date.year, date.month, date.day + days);
@@ -52,6 +56,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
     bool throwNetwork = false,
     bool offline = false,
   }) async {
+    _error = false;
     final loadId = ++_loadId;
     final selectedDate = _selectedDate;
 
@@ -74,6 +79,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
       if (timetableData != null) {
         setState(() {
           _timetable = timetableData;
+          _loaded = true;
           _idMaps = {
             for (final category in [
               'Classes',
@@ -142,6 +148,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted || loadId != _loadId) return;
+      setState(() {
+        _error = true;
+      });
       if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
@@ -153,6 +162,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
     bool offline = false,
   }) async {
     try {
+      _errorPerm = false;
       final cached = useCache ? await cache.load('timetable/permanent') : null;
       final timetablePermData =
           cached?['data'] ??
@@ -163,6 +173,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
       if (timetablePermData != null) {
         setState(() {
           _timetablePerm = timetablePermData;
+          _loadedPerm = true;
           _idMapsPerm = {
             for (final category in [
               'Classes',
@@ -223,6 +234,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
+      setState(() {
+        _errorPerm = true;
+      });
       if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
@@ -231,7 +245,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
   void _reloadActual() {
     setState(() {
       _timetable = null;
+      _loaded = false;
       _timetableParsed = null;
+      _timetableHours = null;
       _cacheTimestamp = null;
     });
     _load(offline: !Config.autoRefresh.value);
@@ -244,7 +260,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
       subtitle: getCacheInfo(
         context,
         _cacheTimestamp,
-        _timetable != null && _timetablePerm != null,
+        _loaded && _loadedPerm,
+        _error || _errorPerm,
       ),
       tabs: [
         AppLocalizations.of(context)!.actual,
@@ -252,6 +269,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
       ],
       onRefresh: () {
         setState(() {
+          _loaded = false;
+          _loadedPerm = false;
           _timetable = null;
           _timetablePerm = null;
         });

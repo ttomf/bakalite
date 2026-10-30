@@ -20,6 +20,9 @@ class _DashboardState extends State<Dashboard> {
   Map<String, dynamic>? _user;
   Map<String, dynamic>? _userParsed;
 
+  bool _loaded = false;
+  bool _error = false;
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,7 @@ class _DashboardState extends State<Dashboard> {
     bool throwNetwork = false,
     bool offline = false,
   }) async {
+    _error = false;
     try {
       final cached = useCache ? await cache.load('user') : null;
       final userData =
@@ -41,6 +45,7 @@ class _DashboardState extends State<Dashboard> {
       if (userData != null) {
         setState(() {
           _user = userData;
+          _loaded = true;
           _userParsed = _user;
         });
         if (cached == null) {
@@ -61,6 +66,9 @@ class _DashboardState extends State<Dashboard> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
+      setState(() {
+        _error = true;
+      });
       if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
@@ -70,9 +78,10 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Wrapper(
       title: AppLocalizations.of(context)!.dashboard,
-      subtitle: getCacheInfo(context, _cacheTimestamp, _user != null),
+      subtitle: getCacheInfo(context, _cacheTimestamp, _loaded, _error),
       onRefresh: () {
         setState(() {
+          _loaded = false;
           _user = null;
         });
         _load(useCache: false, throwNetwork: true);

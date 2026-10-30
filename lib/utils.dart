@@ -56,22 +56,31 @@ Future<void> setupApi(Account account, bool throwErrors) async {
   }
 }
 
-String getCacheInfo(BuildContext context, DateTime? timestamp, bool loaded) {
-  String text = '';
-  if (timestamp != null) {
-    if (loaded) {
-      text =
-          '${AppLocalizations.of(context)!.cached} ${DateFormat('d. M. HH:mm').format(timestamp)}';
-    } else {
-      text =
-          '${AppLocalizations.of(context)!.syncing} ${AppLocalizations.of(context)!.cached} ${DateFormat('d. M. HH:mm').format(timestamp)}';
-    }
+String getCacheInfo(
+  BuildContext context,
+  DateTime? timestamp,
+  bool loaded,
+  bool error,
+) {
+  List<String> texts = [];
+
+  if (error) {
+    texts.add(AppLocalizations.of(context)!.error);
   } else {
-    if (loaded) {
-      text = AppLocalizations.of(context)!.upToDate;
-    } else {
-      text = AppLocalizations.of(context)!.syncing;
+    if (!loaded) {
+      texts.add(AppLocalizations.of(context)!.syncing);
     }
   }
-  return text;
+
+  if (timestamp != null) {
+    texts.add(
+      '${AppLocalizations.of(context)!.cached} ${DateFormat('d. M. HH:mm').format(timestamp)}',
+    );
+  }
+
+  if (loaded && timestamp == null) {
+    texts.add(AppLocalizations.of(context)!.upToDate);
+  }
+
+  return texts.join(', ');
 }

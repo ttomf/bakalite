@@ -43,6 +43,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get syncing => 'Downloading data...';
 
   @override
+  String get error => 'Error';
+
+  @override
   String get networkError => 'Network error';
 
   @override

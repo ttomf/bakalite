@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   /// **'Downloading data...'**
   String get syncing;
 
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
   /// No description provided for @networkError.
   ///
   /// In en, this message translates to:

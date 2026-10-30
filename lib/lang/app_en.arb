@@ -8,6 +8,7 @@
   "cached": "Cached data from",
   "upToDate": "Up-to-date data",
   "syncing": "Downloading data...",
+  "error": "Error",
 
   "networkError": "Network error",
   "httpError": "HTTP error",

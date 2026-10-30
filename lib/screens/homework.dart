@@ -20,6 +20,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   Map<String, dynamic>? _homework;
   List<Map<String, dynamic>>? _homeworkParsed;
 
+  bool _loaded = false;
+  bool _error = false;
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     bool throwNetwork = false,
     bool offline = false,
   }) async {
+    _error = false;
     try {
       final cached = useCache
           ? await cache.load('homeworks?from=2000-01-01')
@@ -44,6 +48,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       if (homeworkData != null) {
         setState(() {
           _homework = homeworkData;
+          _loaded = true;
           _homeworkParsed = [
             for (final homework in _homework?['Homeworks'] ?? [])
               {
@@ -77,6 +82,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
+      setState(() {
+        _error = true;
+      });
       if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
@@ -145,7 +153,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   Widget build(BuildContext context) {
     return Wrapper(
       title: AppLocalizations.of(context)!.homework,
-      subtitle: getCacheInfo(context, _cacheTimestamp, _homework != null),
+      subtitle: getCacheInfo(context, _cacheTimestamp, _loaded, _error),
       tabs: [
         AppLocalizations.of(context)!.current,
         AppLocalizations.of(context)!.afterDeadline,
@@ -153,6 +161,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       ],
       onRefresh: () {
         setState(() {
+          _loaded = false;
           _homework = null;
         });
         _load(useCache: false, throwNetwork: true);

@@ -43,6 +43,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get syncing => 'Stahování dat...';
 
   @override
+  String get error => 'Chyba';
+
+  @override
   String get networkError => 'Chyba sítě';
 
   @override

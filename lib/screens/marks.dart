@@ -23,6 +23,9 @@ class _MarksScreenState extends State<MarksScreen> {
   Map<String, List<Map<String, dynamic>>>? _marksSubjects;
   Map<String, dynamic>? _subjects;
 
+  bool _loaded = false;
+  bool _error = false;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +37,7 @@ class _MarksScreenState extends State<MarksScreen> {
     bool throwNetwork = false,
     bool offline = false,
   }) async {
+    _error = false;
     try {
       final cached = useCache ? await cache.load('marks') : null;
       final marksData =
@@ -44,6 +48,7 @@ class _MarksScreenState extends State<MarksScreen> {
       if (marksData != null) {
         setState(() {
           _marks = marksData;
+          _loaded = true;
           _marksLast = [
             for (final subject in _marks?['Subjects'] ?? [])
               for (final mark in subject['Marks'] ?? [])
@@ -99,6 +104,9 @@ class _MarksScreenState extends State<MarksScreen> {
       }
     } on BakaLiteException catch (e) {
       if (!mounted) return;
+      setState(() {
+        _error = true;
+      });
       if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
@@ -108,7 +116,7 @@ class _MarksScreenState extends State<MarksScreen> {
   Widget build(BuildContext context) {
     return Wrapper(
       title: AppLocalizations.of(context)!.marks,
-      subtitle: getCacheInfo(context, _cacheTimestamp, _marks != null),
+      subtitle: getCacheInfo(context, _cacheTimestamp, _loaded, _error),
       tabs: [
         AppLocalizations.of(context)!.byDate,
         AppLocalizations.of(context)!.bySubject,
@@ -116,6 +124,7 @@ class _MarksScreenState extends State<MarksScreen> {
       ],
       onRefresh: () {
         setState(() {
+          _loaded = false;
           _marks = null;
         });
         _load(useCache: false, throwNetwork: true);
