@@ -146,9 +146,11 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
                 Expanded(
                   child: Row(
                     children: [
-                      Text(
-                        widget.label,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                      Expanded(
+                        child: Text(
+                          widget.label,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ),
                       if (widget.info != null)
                         IconButton(
