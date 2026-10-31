@@ -68,5 +68,11 @@
   "actual": "Aktuální",
   "previousWeek": "Minulý týden",
   "thisWeek": "Tento týden",
-  "nextWeek": "Příští týden"
+  "nextWeek": "Příští týden",
+
+  "group": "Skupina",
+  "room": "Místnost",
+  "teacher": "Učitel",
+  "lessonTopic": "Téma hodiny",
+  "change": "Změna"
 }

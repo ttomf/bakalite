@@ -38,7 +38,7 @@ class SubjectCard extends StatelessWidget {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (subject['Subject'][0].isNotEmpty)
+                        if ((subject['Subject']?[0] ?? '').isNotEmpty)
                           Text(
                             subject['Subject'][0],
                             style: Theme.of(context).textTheme.titleLarge,
@@ -53,17 +53,17 @@ class SubjectCard extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 spacing: 10,
                                 children: [
-                                  if (subject['Teacher'][0].isNotEmpty)
+                                  if ((subject['Teacher']?[0] ?? '').isNotEmpty)
                                     Text(subject['Teacher'][0]),
-                                  if (subject['Room'][0].isNotEmpty)
+                                  if ((subject['Room']?[0] ?? '').isNotEmpty)
                                     Text(subject['Room'][0]),
                                 ],
                               )
                             : Column(
                                 children: [
-                                  if (subject['Teacher'][0].isNotEmpty)
+                                  if ((subject['Teacher']?[0] ?? '').isNotEmpty)
                                     Text(subject['Teacher'][0]),
-                                  if (subject['Room'][0].isNotEmpty)
+                                  if ((subject['Room']?[0] ?? '').isNotEmpty)
                                     Text(subject['Room'][0]),
                                 ],
                               ),
@@ -75,7 +75,10 @@ class SubjectCard extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  subject['Groups'].map((group) => group[0]).join(', '),
+                  (subject['Groups'] ?? [])
+                      .where((group) => group != null)
+                      .map((group) => group[0])
+                      .join(', '),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),

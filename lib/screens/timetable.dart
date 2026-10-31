@@ -90,7 +90,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
               'Cycles',
             ])
               category: {
-                null: ['', ''],
                 for (final subject in _timetable?[category] ?? [])
                   subject['Id']: [subject['Abbrev'], subject['Name']],
               },
@@ -111,18 +110,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     return null;
                   }
                   return {
-                    'Subject':
-                        _idMaps['Subjects']?[matchingHour['SubjectId']] ??
-                        ['', ''],
-                    'Teacher':
-                        _idMaps['Teachers']?[matchingHour['TeacherId']] ??
-                        ['', ''],
-                    'Room':
-                        _idMaps['Rooms']?[matchingHour['RoomId']] ?? ['', ''],
+                    'Subject': _idMaps['Subjects']?[matchingHour['SubjectId']],
+                    'Teacher': _idMaps['Teachers']?[matchingHour['TeacherId']],
+                    'Room': _idMaps['Rooms']?[matchingHour['RoomId']],
                     'Change': matchingHour['Change'],
                     'Theme': matchingHour['Theme'] ?? '',
                     'Groups': matchingHour['GroupIds'].map(
-                      (id) => _idMaps['Groups']?[id] ?? ['', ''],
+                      (id) => _idMaps['Groups']?[id],
                     ),
                   };
                 }),
@@ -184,7 +178,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
               'Cycles',
             ])
               category: {
-                null: ['', ''],
                 for (final subject in _timetablePerm?[category] ?? [])
                   subject['Id']: [subject['Abbrev'], subject['Name']],
               },
@@ -203,16 +196,12 @@ class _TimetableScreenState extends State<TimetableScreen> {
                     for (final matchingHour in matchingHours)
                       {
                         'Subject':
-                            _idMapsPerm['Subjects']?[matchingHour['SubjectId']] ??
-                            ['', ''],
+                            _idMapsPerm['Subjects']?[matchingHour['SubjectId']],
                         'Teacher':
-                            _idMapsPerm['Teachers']?[matchingHour['TeacherId']] ??
-                            ['', ''],
-                        'Room':
-                            _idMapsPerm['Rooms']?[matchingHour['RoomId']] ??
-                            ['', ''],
+                            _idMapsPerm['Teachers']?[matchingHour['TeacherId']],
+                        'Room': _idMapsPerm['Rooms']?[matchingHour['RoomId']],
                         'Groups': matchingHour['GroupIds'].map(
-                          (id) => _idMapsPerm['Groups']?[id] ?? ['', ''],
+                          (id) => _idMapsPerm['Groups']?[id],
                         ),
                       },
                   ];

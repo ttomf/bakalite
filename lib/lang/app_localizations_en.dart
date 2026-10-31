@@ -205,4 +205,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nextWeek => 'Next week';
+
+  @override
+  String get group => 'Group';
+
+  @override
+  String get room => 'Room';
+
+  @override
+  String get teacher => 'Teacher';
+
+  @override
+  String get lessonTopic => 'Lesson topic';
+
+  @override
+  String get change => 'Change';
 }

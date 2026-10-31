@@ -205,4 +205,19 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get nextWeek => 'Příští týden';
+
+  @override
+  String get group => 'Skupina';
+
+  @override
+  String get room => 'Místnost';
+
+  @override
+  String get teacher => 'Učitel';
+
+  @override
+  String get lessonTopic => 'Téma hodiny';
+
+  @override
+  String get change => 'Změna';
 }

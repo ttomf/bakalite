@@ -463,6 +463,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next week'**
   String get nextWeek;
+
+  /// No description provided for @group.
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get group;
+
+  /// No description provided for @room.
+  ///
+  /// In en, this message translates to:
+  /// **'Room'**
+  String get room;
+
+  /// No description provided for @teacher.
+  ///
+  /// In en, this message translates to:
+  /// **'Teacher'**
+  String get teacher;
+
+  /// No description provided for @lessonTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson topic'**
+  String get lessonTopic;
+
+  /// No description provided for @change.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get change;
 }
 
 class _AppLocalizationsDelegate

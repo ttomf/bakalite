@@ -1,3 +1,5 @@
+import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/widgets/fields_table.dart';
 import 'package:flutter/material.dart';
 
 class SubjectSheet extends StatelessWidget {
@@ -7,37 +9,39 @@ class SubjectSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          subject['Subject'][1],
-          style: Theme.of(context).textTheme.headlineMedium,
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 24,
+          children: [
+            SelectableText(
+              subject['Subject']?[1] ?? '',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            FieldsTable(
+              values: {
+                AppLocalizations.of(context)!.group: (subject['Groups'] ?? [])
+                    .where((group) => group != null)
+                    .map((group) => group[0])
+                    .join(', '),
+                AppLocalizations.of(context)!.room: subject['Room'] != null
+                    ? '${subject['Room'][1]} (${subject['Room'][0]})'
+                    : null,
+                AppLocalizations.of(context)!
+                    .teacher: subject['Teacher'] != null
+                    ? '${subject['Teacher'][1]} (${subject['Teacher'][0]})'
+                    : null,
+                AppLocalizations.of(context)!.lessonTopic: subject['Theme'],
+                AppLocalizations.of(context)!.change: subject['Change'] != null
+                    ? subject['Change']['Description']
+                    : null,
+              },
+            ),
+          ],
         ),
-        Text(
-          subject['Teacher'][1],
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        Text(
-          '${subject['Room'][0]} ${subject['Room'][1]}',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        Text(
-          subject['Theme'] ?? '',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        Text(
-          subject['Change']?['Description'] ?? '',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        Text(
-          subject['Change']?['TypeName'] ?? '',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-        Text(
-          subject['Groups'].map((group) => group[0]).join(', '),
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ],
+      ),
     );
   }
 }

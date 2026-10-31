@@ -68,5 +68,11 @@
   "actual": "Actual",
   "previousWeek": "Previous week",
   "thisWeek": "This week",
-  "nextWeek": "Next week"
+  "nextWeek": "Next week",
+
+  "group": "Group",
+  "room": "Room",
+  "teacher": "Teacher",
+  "lessonTopic": "Lesson topic",
+  "change": "Change"
 }
