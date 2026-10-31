@@ -380,12 +380,6 @@ abstract class AppLocalizations {
   /// **'By subject'**
   String get bySubject;
 
-  /// No description provided for @predictor.
-  ///
-  /// In en, this message translates to:
-  /// **'Predictor'**
-  String get predictor;
-
   /// No description provided for @average.
   ///
   /// In en, this message translates to:

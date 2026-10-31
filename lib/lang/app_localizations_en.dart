@@ -165,9 +165,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bySubject => 'By subject';
 
   @override
-  String get predictor => 'Predictor';
-
-  @override
   String get average => 'Average';
 
   @override

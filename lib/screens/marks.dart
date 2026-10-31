@@ -61,10 +61,10 @@ class _MarksScreenState extends State<MarksScreen> {
                   'Theme': mark['Theme'].trim(),
                 },
           ];
-          _marksLast?.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
+          _marksLast!.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
           _marksSubjects = {};
           for (final subject in _marks?['Subjects'] ?? []) {
-            _marksSubjects?[subject['Subject']['Name']] = [
+            _marksSubjects![subject['Subject']['Name']] = [
               for (final mark in subject['Marks'] ?? [])
                 {
                   'MarkText': mark['MarkText'],
@@ -74,14 +74,13 @@ class _MarksScreenState extends State<MarksScreen> {
                   'Theme': mark['Theme'].trim(),
                 },
             ];
-            _marksSubjects?[subject['Subject']['Name']]?.sort(
+            _marksSubjects![subject['Subject']['Name']]?.sort(
               (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
             );
           }
           _subjects = {};
           for (final subject in _marks?['Subjects'] ?? []) {
             _subjects![subject['Subject']['Name']] = {
-              'AverageText': subject['AverageText'],
               'SubjectNote': subject['SubjectNote'],
             };
           }
@@ -120,7 +119,6 @@ class _MarksScreenState extends State<MarksScreen> {
       tabs: [
         AppLocalizations.of(context)!.byDate,
         AppLocalizations.of(context)!.bySubject,
-        AppLocalizations.of(context)!.predictor,
       ],
       onRefresh: () {
         setState(() {
@@ -142,14 +140,10 @@ class _MarksScreenState extends State<MarksScreen> {
                     SubjectMarksCard(
                       subject: subject,
                       marks: _marksSubjects![subject]!,
-                      average: _subjects![subject]['AverageText'],
-                      note: _subjects![subject]['SubjectNote'],
+                      note: _subjects![subject]?['SubjectNote'] ?? '',
                     ),
                 ],
               )
-            : const Center(child: CircularProgressIndicator()),
-        _marks != null
-            ? ListView(children: const [Text('todo')])
             : const Center(child: CircularProgressIndicator()),
       ],
     );

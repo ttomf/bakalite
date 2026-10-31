@@ -165,9 +165,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get bySubject => 'Podle předmětu';
 
   @override
-  String get predictor => 'Předvídač';
-
-  @override
   String get average => 'Průměr';
 
   @override
