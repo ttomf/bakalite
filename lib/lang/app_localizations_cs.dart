@@ -183,6 +183,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get add => 'Přidat';
 
   @override
+  String get remove => 'Odstranit';
+
+  @override
   String get update => 'Aktualizovat';
 
   @override

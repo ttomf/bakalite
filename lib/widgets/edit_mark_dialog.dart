@@ -82,6 +82,7 @@ class _EditMarkDialogState extends State<EditMarkDialog> {
                   ? () => Navigator.pop(context, {
                       'MarkText': _mark,
                       'Weight': _weight,
+                      'Changed': true,
                     })
                   : null,
               child: Text(
@@ -90,6 +91,19 @@ class _EditMarkDialogState extends State<EditMarkDialog> {
                     : AppLocalizations.of(context)!.update,
               ),
             ),
+            if (widget.mark != null)
+              FilledButton(
+                onPressed: () => Navigator.pop(context, {'Remove': true}),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(
+                    Theme.of(context).colorScheme.error,
+                  ),
+                  foregroundColor: WidgetStatePropertyAll(
+                    Theme.of(context).colorScheme.onError,
+                  ),
+                ),
+                child: Text(AppLocalizations.of(context)!.remove),
+              ),
           ],
         ),
       ),

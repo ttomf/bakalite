@@ -416,6 +416,12 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get add;
 
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
   /// No description provided for @update.
   ///
   /// In en, this message translates to:

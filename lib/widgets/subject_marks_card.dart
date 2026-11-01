@@ -93,23 +93,21 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-                if (_totalWeight != 0)
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text:
-                              '${AppLocalizations.of(context)!.totalWeight}: ',
-                          style: TextStyle(color: Theme.of(context).hintColor),
-                        ),
-                        TextSpan(
-                          text: _totalWeight.toString(),
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${AppLocalizations.of(context)!.totalWeight}: ',
+                        style: TextStyle(color: Theme.of(context).hintColor),
+                      ),
+                      TextSpan(
+                        text: _totalWeight.toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
+                ),
                 RichText(
                   text: TextSpan(
                     children: [
@@ -145,11 +143,18 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                 );
                 if (!mounted || newMark == null) return;
                 setState(() {
-                  _marks[index] = {...mark, ...newMark};
+                  if (newMark['Remove'] == true) {
+                    _marks.removeAt(index);
+                  } else {
+                    _marks[index] = {...mark, ...newMark};
+                  }
                   _compute();
                 });
               },
               child: ListTile(
+                tileColor: mark['Changed'] == true
+                    ? Theme.of(context).colorScheme.secondaryContainer
+                    : null,
                 leading: SizedBox(
                   width: 24,
                   child: Text(
@@ -171,6 +176,8 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    if (mark['Changed'] == true)
+                      const Icon(Icons.edit, size: 16),
                     if (mark['MarkDate'] != null)
                       Text(
                         DateFormat('d. M. yyyy').format(mark['MarkDate']),
