@@ -174,6 +174,18 @@ class AppLocalizationsCs extends AppLocalizations {
   String get totalWeight => 'Celková váha';
 
   @override
+  String get addMark => 'Přidat známku';
+
+  @override
+  String get mark => 'Známka';
+
+  @override
+  String get add => 'Přidat';
+
+  @override
+  String get update => 'Aktualizovat';
+
+  @override
   String get current => 'Aktuální';
 
   @override

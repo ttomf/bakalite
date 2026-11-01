@@ -56,6 +56,10 @@
   "average": "Average",
   "weight": "Weight",
   "totalWeight": "Total weight",
+  "addMark": "Add mark",
+  "mark": "Mark",
+  "add": "Add",
+  "update": "Update",
 
   "current": "Current",
   "afterDeadline": "After deadline",

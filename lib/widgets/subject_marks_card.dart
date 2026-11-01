@@ -1,4 +1,5 @@
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/widgets/edit_mark_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,17 +22,19 @@ class SubjectMarksCard extends StatefulWidget {
 class _SubjectMarksCardState extends State<SubjectMarksCard> {
   int _totalWeight = 0;
   double _average = 0;
+  late List<Map<String, dynamic>> _marks;
 
   @override
   void initState() {
     super.initState();
+    _marks = [...widget.marks];
     _compute();
   }
 
   void _compute() {
     double gradeSum = 0;
     int weightSum = 0;
-    for (final mark in widget.marks) {
+    for (final mark in _marks) {
       final text = mark['MarkText']?.toString() ?? '';
       final weight = int.tryParse(mark['Weight']?.toString() ?? '') ?? 0;
       final grade = text.endsWith('-')
@@ -41,16 +44,17 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
       gradeSum += grade * weight;
       weightSum += weight;
     }
-    setState(() {
-      _totalWeight = weightSum;
-      _average = weightSum == 0 ? 0.0 : gradeSum / weightSum;
-    });
+    _totalWeight = weightSum;
+    _average = weightSum == 0 ? 0.0 : gradeSum / weightSum;
   }
 
   @override
   void didUpdateWidget(covariant SubjectMarksCard old) {
     super.didUpdateWidget(old);
-    if (!identical(old.marks, widget.marks)) _compute();
+    if (!identical(old.marks, widget.marks)) {
+      _marks = [...widget.marks];
+      _compute();
+    }
   }
 
   @override
@@ -126,43 +130,81 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
           ],
         ),
         children: [
-          for (final mark in widget.marks) ...[
+          for (final (index, mark) in _marks.indexed) ...[
             Divider(
               height: 0,
               color: Theme.of(context).colorScheme.primary,
               indent: 12,
               endIndent: 12,
             ),
-            ListTile(
-              leading: SizedBox(
-                width: 24,
-                child: Text(
-                  mark['MarkText'],
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w500,
+            InkWell(
+              onTap: () async {
+                final newMark = await showDialog<Map<String, dynamic>>(
+                  context: context,
+                  builder: (context) => EditMarkDialog(mark: mark),
+                );
+                if (!mounted || newMark == null) return;
+                setState(() {
+                  _marks[index] = {...mark, ...newMark};
+                  _compute();
+                });
+              },
+              child: ListTile(
+                leading: SizedBox(
+                  width: 24,
+                  child: Text(
+                    mark['MarkText'] ?? '',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              title: mark['Caption'] != '' ? Text(mark['Caption']) : null,
-              subtitle: mark['Theme'] != '' ? Text(mark['Theme']) : null,
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DateFormat('d. M. yyyy').format(mark['MarkDate']),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  Text(
-                    '${AppLocalizations.of(context)!.weight}: ${mark['Weight']}',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
+                title: (mark['Caption'] ?? '').isNotEmpty
+                    ? Text(mark['Caption'])
+                    : null,
+                subtitle: (mark['Theme'] ?? '').isNotEmpty
+                    ? Text(mark['Theme'])
+                    : null,
+                trailing: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (mark['MarkDate'] != null)
+                      Text(
+                        DateFormat('d. M. yyyy').format(mark['MarkDate']),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    if (mark['Weight'] != null)
+                      Text(
+                        '${AppLocalizations.of(context)!.weight}: ${mark['Weight']}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                  ],
+                ),
               ),
             ),
           ],
+          TextButton(
+            onPressed: () async {
+              final newMark = await showDialog<Map<String, dynamic>>(
+                context: context,
+                builder: (context) => const EditMarkDialog(),
+              );
+              if (!mounted || newMark == null) return;
+              setState(() {
+                _marks.insert(0, {
+                  ...newMark,
+                  'MarkDate': DateTime.now(),
+                  'Caption': '',
+                  'Theme': '',
+                });
+                _compute();
+              });
+            },
+            child: Text(AppLocalizations.of(context)!.addMark),
+          ),
           if (widget.note != '')
             Container(
               width: double.infinity,

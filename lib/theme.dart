@@ -76,6 +76,16 @@ class AppTheme {
         shape: Border(),
         collapsedShape: Border(),
       ),
+      dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationThemeData(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        menuStyle: MenuStyle(
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
+      ),
       colorScheme: colorScheme,
     );
   }

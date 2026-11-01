@@ -398,6 +398,30 @@ abstract class AppLocalizations {
   /// **'Total weight'**
   String get totalWeight;
 
+  /// No description provided for @addMark.
+  ///
+  /// In en, this message translates to:
+  /// **'Add mark'**
+  String get addMark;
+
+  /// No description provided for @mark.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark'**
+  String get mark;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
   /// No description provided for @current.
   ///
   /// In en, this message translates to:

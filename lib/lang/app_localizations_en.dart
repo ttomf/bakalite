@@ -174,6 +174,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalWeight => 'Total weight';
 
   @override
+  String get addMark => 'Add mark';
+
+  @override
+  String get mark => 'Mark';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get update => 'Update';
+
+  @override
   String get current => 'Current';
 
   @override
