@@ -94,20 +94,29 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     final now = DateTime.now();
 
     _homeworkParsed?.sort((a, b) {
+      final aClosed = a['Closed'];
+      final bClosed = b['Closed'];
       final aFinished = a['Finished'];
       final bFinished = b['Finished'];
-
-      if (aFinished != bFinished && !a['Closed'] && !b['Closed']) {
-        return aFinished ? 1 : -1;
-      }
-
       final aEnd = a['DateEnd'];
       final bEnd = b['DateEnd'];
       final aExpired = aEnd.add(const Duration(days: 1)).isBefore(now);
       final bExpired = bEnd.add(const Duration(days: 1)).isBefore(now);
 
+      if (aClosed != bClosed) {
+        return aClosed ? 1 : -1;
+      }
+
+      if (aClosed && bClosed) {
+        return bEnd.compareTo(aEnd);
+      }
+
       if (aExpired != bExpired) {
         return aExpired ? 1 : -1;
+      }
+
+      if (aFinished != bFinished) {
+        return aFinished ? 1 : -1;
       }
 
       final dateComparison = aExpired
