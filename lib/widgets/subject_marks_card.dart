@@ -116,7 +116,7 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                         style: TextStyle(color: Theme.of(context).hintColor),
                       ),
                       TextSpan(
-                        text: widget.marks.length.toString(),
+                        text: _marks.length.toString(),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
