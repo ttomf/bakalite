@@ -66,6 +66,7 @@ class Config {
   static final useM3Color = ConfigOption('useM3Color', true);
   static final brightness = ConfigOption('brightness', 'System');
   static final autoRefresh = ConfigOption('autoRefresh', true);
+  static final flexTimetable = ConfigOption('useFlexTimetable', false);
   static final relativeDateLabels = ConfigOption('relativeDateLabels', true);
   static final devMode = ConfigOption('devMode', false);
 
@@ -76,6 +77,7 @@ class Config {
       useM3Color.reset(),
       brightness.reset(),
       autoRefresh.reset(),
+      flexTimetable.reset(),
       relativeDateLabels.reset(),
       devMode.reset(),
     ]);

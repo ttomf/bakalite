@@ -6,6 +6,7 @@ import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/timetable_grid.dart';
+import 'package:bakalite/widgets/timetable_grid_flex.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -224,6 +225,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Function timetableGrid = Config.flexTimetable.value
+        ? TimetableGridFlex.new
+        : TimetableGrid.new;
+
     return Wrapper(
       title: AppLocalizations.of(context)!.timetable,
       subtitle: getCacheInfo(
@@ -313,13 +318,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
             ),
             Expanded(
               child: _timetableParsed != null && _timetableHours != null
-                  ? TimetableGrid(_timetableParsed!, _timetableHours!)
+                  ? timetableGrid(_timetableParsed!, _timetableHours!)
                   : const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
         _timetablePermParsed != null && _timetablePermHours != null
-            ? TimetableGrid(_timetablePermParsed!, _timetablePermHours!)
+            ? timetableGrid(_timetablePermParsed!, _timetablePermHours!)
             : const Center(child: CircularProgressIndicator()),
       ],
     );
