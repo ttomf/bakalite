@@ -254,6 +254,12 @@ abstract class AppLocalizations {
   /// **'Automatic data refresh'**
   String get autoRefresh;
 
+  /// No description provided for @flexTimetable.
+  ///
+  /// In en, this message translates to:
+  /// **'Use FLEXI timetable'**
+  String get flexTimetable;
+
   /// No description provided for @relativeDateLabels.
   ///
   /// In en, this message translates to:
@@ -313,6 +319,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Automatically fetch the latest information from the server. When disabled, manual refresh is required using the button in the top-right corner.'**
   String get autoRefreshInfo;
+
+  /// No description provided for @flexTimetableInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'A FLEXI timetable is a timetable layout where lessons are not arranged in fixed 45-minute slots, but each lesson has its own start time and duration.'**
+  String get flexTimetableInfo;
 
   /// No description provided for @relativeDateLabelsInfo.
   ///

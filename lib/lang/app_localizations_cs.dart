@@ -97,6 +97,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get autoRefresh => 'Automatická synchronizace';
 
   @override
+  String get flexTimetable => 'Použít FLEXI rozvrh';
+
+  @override
   String get relativeDateLabels => 'Relativní názvy dat';
 
   @override
@@ -128,6 +131,10 @@ class AppLocalizationsCs extends AppLocalizations {
   @override
   String get autoRefreshInfo =>
       'Automaticky stahovat aktuální informace ze serveru. Při vypnutí je nutné aktualizovat je ručně pomocí tlačítka vpravo nahoře.';
+
+  @override
+  String get flexTimetableInfo =>
+      'FLEXI rozvrh je styl rozvrhu, kde hodiny nejsou v mřížce po 45 minutách, ale každá má jiný začátek a dobu trvání.';
 
   @override
   String get relativeDateLabelsInfo =>

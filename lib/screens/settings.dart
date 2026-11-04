@@ -60,6 +60,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               label: AppLocalizations.of(context)!.autoRefresh,
             ),
             SettingCard<bool>(
+              key: ValueKey((settingsKey, 'flexTimetable')),
+              setting: Config.flexTimetable,
+              info: AppLocalizations.of(context)!.flexTimetableInfo,
+              label: AppLocalizations.of(context)!.flexTimetable,
+            ),
+            SettingCard<bool>(
               key: ValueKey((settingsKey, 'relativeDateLabels')),
               setting: Config.relativeDateLabels,
               info: AppLocalizations.of(context)!.relativeDateLabelsInfo,

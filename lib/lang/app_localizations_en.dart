@@ -97,6 +97,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoRefresh => 'Automatic data refresh';
 
   @override
+  String get flexTimetable => 'Use FLEXI timetable';
+
+  @override
   String get relativeDateLabels => 'Relative date labels';
 
   @override
@@ -128,6 +131,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get autoRefreshInfo =>
       'Automatically fetch the latest information from the server. When disabled, manual refresh is required using the button in the top-right corner.';
+
+  @override
+  String get flexTimetableInfo =>
+      'A FLEXI timetable is a timetable layout where lessons are not arranged in fixed 45-minute slots, but each lesson has its own start time and duration.';
 
   @override
   String get relativeDateLabelsInfo =>
