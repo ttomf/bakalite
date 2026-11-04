@@ -14,6 +14,23 @@ class TimetableGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final atoms = [
+      for (final day in timetable)
+        {
+          'Date': day['Date'],
+          'Atoms': List.generate(hours.length, (index) {
+            final hour = hours[index];
+            final matchingHours = day['Atoms'].where((h) {
+              return h['HourId'] == hour['Id'];
+            });
+            if (matchingHours.isEmpty) {
+              return null;
+            }
+            return matchingHours;
+          }),
+        },
+    ];
+
     return Row(
       children: [
         IntrinsicWidth(
@@ -21,7 +38,7 @@ class TimetableGrid extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: headerHeight),
-              for (final (index, day) in timetable.indexed)
+              for (final (index, day) in atoms.indexed)
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -112,7 +129,7 @@ class TimetableGrid extends StatelessWidget {
                       ),
                   ],
                 ),
-                for (final (index, day) in timetable.indexed)
+                for (final day in atoms)
                   Expanded(
                     child: Row(
                       children: [
@@ -129,16 +146,12 @@ class TimetableGrid extends StatelessWidget {
                               ),
                             ),
                             child: hour != null
-                                ? hour is List
-                                      ? Column(
-                                          children: [
-                                            for (final subject in hour)
-                                              Expanded(
-                                                child: SubjectCard(subject),
-                                              ),
-                                          ],
-                                        )
-                                      : SubjectCard(hour)
+                                ? Column(
+                                    children: [
+                                      for (final subject in hour)
+                                        Expanded(child: SubjectCard(subject)),
+                                    ],
+                                  )
                                 : null,
                           ),
                       ],

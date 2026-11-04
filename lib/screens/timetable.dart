@@ -98,28 +98,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
             for (final day in _timetable?['Days'])
               {
                 'Date': parseTime(day['Date']),
-                'Atoms': List.generate(_timetable?['Hours'].length ?? 0, (
-                  index,
-                ) {
-                  final hour = _timetable?['Hours'][index];
-                  final matchingHour = day['Atoms'].firstWhere(
-                    (h) => h['HourId'] == hour['Id'],
-                    orElse: () => null,
-                  );
-                  if (matchingHour == null) {
-                    return null;
-                  }
-                  return {
-                    'Subject': _idMaps['Subjects']?[matchingHour['SubjectId']],
-                    'Teacher': _idMaps['Teachers']?[matchingHour['TeacherId']],
-                    'Room': _idMaps['Rooms']?[matchingHour['RoomId']],
-                    'Change': matchingHour['Change'],
-                    'Theme': matchingHour['Theme'] ?? '',
-                    'Groups': matchingHour['GroupIds'].map(
-                      (id) => _idMaps['Groups']?[id],
-                    ),
-                  };
-                }),
+                'Atoms': _parseAtoms(day['Atoms'] ?? [], actual: true),
               },
           ];
           _timetableHours = _timetable?['Hours'];
@@ -184,29 +163,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
           };
           _timetablePermParsed = [
             for (final day in _timetablePerm?['Days'])
-              {
-                'Atoms': List.generate(_timetablePerm?['Hours'].length ?? 0, (
-                  index,
-                ) {
-                  final hour = _timetablePerm?['Hours'][index];
-                  final matchingHours = day['Atoms'].where(
-                    (h) => h['HourId'] == hour['Id'],
-                  );
-                  return [
-                    for (final matchingHour in matchingHours)
-                      {
-                        'Subject':
-                            _idMapsPerm['Subjects']?[matchingHour['SubjectId']],
-                        'Teacher':
-                            _idMapsPerm['Teachers']?[matchingHour['TeacherId']],
-                        'Room': _idMapsPerm['Rooms']?[matchingHour['RoomId']],
-                        'Groups': matchingHour['GroupIds'].map(
-                          (id) => _idMapsPerm['Groups']?[id],
-                        ),
-                      },
-                  ];
-                }),
-              },
+              {'Atoms': _parseAtoms(day['Atoms'] ?? [], actual: false)},
           ];
           _timetablePermHours = _timetablePerm?['Hours'];
         });
@@ -229,6 +186,29 @@ class _TimetableScreenState extends State<TimetableScreen> {
       if (e.error == BakaLiteError.network && !throwNetwork) return;
       showError(context, e);
     }
+  }
+
+  List<Map<String, dynamic>> _parseAtoms(List atoms, {bool actual = true}) {
+    final idMaps = actual ? _idMaps : _idMapsPerm;
+    final List<Map<String, dynamic>> res = [];
+
+    for (final hour in atoms) {
+      res.add({
+        'Subject': idMaps['Subjects']?[hour['SubjectId']],
+        'Teacher': idMaps['Teachers']?[hour['TeacherId']],
+        'Room': idMaps['Rooms']?[hour['RoomId']],
+        'Groups': hour['GroupIds'].map((id) => idMaps['Groups']?[id]).toList(),
+        'Start': hour['Start'],
+        'Duration': hour['Duration'],
+        'HourId': hour['HourId'],
+        if (actual) 'Start': hour['Change']?['Start'] ?? hour['Start'],
+        if (actual) 'Duration': hour['Change']?['Duration'] ?? hour['Duration'],
+        if (actual) 'Change': hour['Change'],
+        if (actual) 'Theme': hour['Theme'] ?? '',
+      });
+    }
+
+    return res;
   }
 
   void _reloadActual() {
