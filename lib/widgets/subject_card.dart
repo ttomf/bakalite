@@ -20,7 +20,6 @@ class SubjectCard extends StatelessWidget {
           showModalBottomSheet(
             showDragHandle: true,
             context: context,
-            enableDrag: true,
             useSafeArea: true,
             constraints: const BoxConstraints(minWidth: double.infinity),
             builder: (context) => SubjectSheet(subject),
@@ -28,50 +27,8 @@ class SubjectCard extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.all(2),
-          child: Stack(
+          child: Column(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final isCompact = constraints.maxHeight < 100;
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if ((subject['Subject']?[0] ?? '').isNotEmpty)
-                          Text(
-                            subject['Subject'][0],
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                        if ((subject['Change']?['TypeAbbrev'] ?? '').isNotEmpty)
-                          Text(
-                            subject['Change']['TypeAbbrev'],
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                        isCompact
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                spacing: 10,
-                                children: [
-                                  if ((subject['Teacher']?[0] ?? '').isNotEmpty)
-                                    Text(subject['Teacher'][0]),
-                                  if ((subject['Room']?[0] ?? '').isNotEmpty)
-                                    Text(subject['Room'][0]),
-                                ],
-                              )
-                            : Column(
-                                children: [
-                                  if ((subject['Teacher']?[0] ?? '').isNotEmpty)
-                                    Text(subject['Teacher'][0]),
-                                  if ((subject['Room']?[0] ?? '').isNotEmpty)
-                                    Text(subject['Room'][0]),
-                                ],
-                              ),
-                      ],
-                    );
-                  },
-                ),
-              ),
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -80,6 +37,32 @@ class SubjectCard extends StatelessWidget {
                       .map((group) => group[0])
                       .join(', '),
                   style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+              const Spacer(),
+              if ((subject['Subject']?[0] ?? '').isNotEmpty)
+                Text(
+                  subject['Subject'][0],
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              if ((subject['Change']?['TypeAbbrev'] ?? '').isNotEmpty)
+                Text(
+                  subject['Change']['TypeAbbrev'],
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              Expanded(
+                flex: 2,
+                child: Wrap(
+                  direction: Axis.vertical,
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runSpacing: 8,
+                  children: [
+                    if ((subject['Teacher']?[0] ?? '').isNotEmpty)
+                      Text(subject['Teacher'][0]),
+                    if ((subject['Room']?[0] ?? '').isNotEmpty)
+                      Text(subject['Room'][0]),
+                  ],
                 ),
               ),
             ],
