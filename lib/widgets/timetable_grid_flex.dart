@@ -13,7 +13,7 @@ class TimetableGridFlex extends StatelessWidget {
 
   static const double headerHeight = 40;
 
-  static const double pixelsPerMinute = 1.7;
+  static const double pixelsPerMinute = 1.8;
 
   @override
   Widget build(BuildContext context) {
@@ -21,64 +21,55 @@ class TimetableGridFlex extends StatelessWidget {
     final timelineEnd = hours.last['Start'] + hours.last['Duration'];
     return Row(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
-              width: 0.5,
-            ),
-          ),
-          child: IntrinsicWidth(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: headerHeight),
-                for (final (index, day) in timetable.indexed)
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.outlineVariant,
-                          width: 0.5,
-                        ),
+        IntrinsicWidth(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: headerHeight),
+              for (final (index, day) in timetable.indexed)
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                        width: 0.5,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.dayNamesShort
+                                  .split(' ')[index],
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
+                            ),
+                            if (day['Date'] != null)
                               Text(
-                                AppLocalizations.of(context)!.dayNamesShort
-                                    .split(' ')[index],
-                                style: Theme.of(context).textTheme.titleMedium
+                                DateFormat('d. M.').format(day['Date']),
+                                style: Theme.of(context).textTheme.labelSmall
                                     ?.copyWith(
+                                      fontWeight: FontWeight.normal,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onPrimaryContainer,
                                     ),
                               ),
-                              if (day['Date'] != null)
-                                Text(
-                                  DateFormat('d. M.').format(day['Date']),
-                                  style: Theme.of(context).textTheme.labelSmall
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimaryContainer,
-                                      ),
-                                ),
-                            ],
-                          ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
         Expanded(
