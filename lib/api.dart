@@ -197,9 +197,13 @@ class BakalariAPI {
     }
   }
 
-  Future<Map<String, dynamic>?> fetch(String endpoint) async {
+  Future<Map<String, dynamic>?> fetch(
+    String endpoint, {
+    String method = 'GET',
+    String? body,
+  }) async {
     try {
-      final res = await request(endpoint);
+      final res = await request(endpoint, method: method, body: body);
       if (res == null) return null;
 
       final content = jsonDecode(res);
