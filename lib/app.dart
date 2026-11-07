@@ -1,4 +1,5 @@
 import 'package:bakalite/config.dart';
+import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/accounts.dart';
 import 'package:bakalite/screens/dashboard.dart';
 import 'package:bakalite/screens/dev.dart';
@@ -10,8 +11,6 @@ import 'package:bakalite/screens/timetable.dart';
 import 'package:bakalite/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'lang/app_localizations.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key, this.route = '/login'});
