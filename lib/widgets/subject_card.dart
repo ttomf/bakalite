@@ -56,7 +56,7 @@ class SubjectCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Wrap(
                   direction: Axis.vertical,
                   alignment: WrapAlignment.start,
