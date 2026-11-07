@@ -18,6 +18,7 @@
 
   "dashboard": "Dashboard",
   "login": "Login",
+  "komens": "Messages",
   "marks": "Marks",
   "homework": "Homework",
   "timetable": "Timetable",
@@ -52,6 +53,10 @@
   "confirmDeletion": "Do you really want to delete this account?",
   "cannotBeEmpty": "This field cannot be empty",
   "nothingFound": "Nothing found",
+
+  "received": "Received",
+  "sent": "Sent",
+  "noticeboard": "Noticeboard",
 
   "byDate": "By date",
   "bySubject": "By subject",

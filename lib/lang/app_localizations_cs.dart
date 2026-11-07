@@ -67,6 +67,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get login => 'Přihlášení';
 
   @override
+  String get komens => 'Zprávy';
+
+  @override
   String get marks => 'Známky';
 
   @override
@@ -164,6 +167,15 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get nothingFound => 'Nic nenalezeno';
+
+  @override
+  String get received => 'Přijaté';
+
+  @override
+  String get sent => 'Odeslané';
+
+  @override
+  String get noticeboard => 'Nástěnka';
 
   @override
   String get byDate => 'Podle data';

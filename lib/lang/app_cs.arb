@@ -18,6 +18,7 @@
 
   "dashboard": "Přehled",
   "login": "Přihlášení",
+  "komens": "Zprávy",
   "marks": "Známky",
   "homework": "Domácí úkoly",
   "timetable": "Rozvrh hodin",
@@ -52,6 +53,10 @@
   "confirmDeletion": "Opravdu chcete smazat tento účet?",
   "cannotBeEmpty": "Toto pole nemůže být prázdné",
   "nothingFound": "Nic nenalezeno",
+
+  "received": "Přijaté",
+  "sent": "Odeslané",
+  "noticeboard": "Nástěnka",
 
   "byDate": "Podle data",
   "bySubject": "Podle předmětu",

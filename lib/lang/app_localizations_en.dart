@@ -67,6 +67,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
+  String get komens => 'Messages';
+
+  @override
   String get marks => 'Marks';
 
   @override
@@ -164,6 +167,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nothingFound => 'Nothing found';
+
+  @override
+  String get received => 'Received';
+
+  @override
+  String get sent => 'Sent';
+
+  @override
+  String get noticeboard => 'Noticeboard';
 
   @override
   String get byDate => 'By date';

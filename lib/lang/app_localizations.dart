@@ -194,6 +194,12 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get login;
 
+  /// No description provided for @komens.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get komens;
+
   /// No description provided for @marks.
   ///
   /// In en, this message translates to:
@@ -379,6 +385,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing found'**
   String get nothingFound;
+
+  /// No description provided for @received.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get received;
+
+  /// No description provided for @sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get sent;
+
+  /// No description provided for @noticeboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Noticeboard'**
+  String get noticeboard;
 
   /// No description provided for @byDate.
   ///
