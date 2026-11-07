@@ -9,7 +9,12 @@ class SubjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      shape: RoundedRectangleBorder(
+        side: (subject['Now'] ?? false)
+            ? BorderSide(color: Theme.of(context).colorScheme.primary)
+            : BorderSide.none,
+        borderRadius: BorderRadius.circular(4),
+      ),
       color: subject['Change'] != null
           ? Theme.of(context).colorScheme.errorContainer
           : null,

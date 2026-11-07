@@ -11,9 +11,8 @@ class TimetableGridFlex extends StatelessWidget {
   final List<Map<String, dynamic>> timetable;
   final List<dynamic> hours;
 
-  static const double headerHeight = 40;
-
   static const double pixelsPerMinute = 1.8;
+  static const double headerHeight = 40;
 
   @override
   Widget build(BuildContext context) {

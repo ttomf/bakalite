@@ -99,7 +99,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
             for (final day in _timetable?['Days'])
               {
                 'Date': parseTime(day['Date']),
-                'Atoms': _parseAtoms(day['Atoms'] ?? [], actual: true),
+                'Atoms': _parseAtoms(
+                  day['Atoms'] ?? [],
+                  actual: true,
+                  date: parseTime(day['Date']),
+                ),
               },
           ];
           _timetableHours = _timetable?['Hours'];
@@ -189,11 +193,17 @@ class _TimetableScreenState extends State<TimetableScreen> {
     }
   }
 
-  List<Map<String, dynamic>> _parseAtoms(List atoms, {bool actual = true}) {
+  List<Map<String, dynamic>> _parseAtoms(
+    List atoms, {
+    bool actual = true,
+    DateTime? date,
+  }) {
     final idMaps = actual ? _idMaps : _idMapsPerm;
     final List<Map<String, dynamic>> res = [];
 
     for (final hour in atoms) {
+      final now = DateTime.now();
+      int nowMinutes = now.hour * 60 + now.minute;
       res.add({
         'Subject': idMaps['Subjects']?[hour['SubjectId']],
         'Teacher': idMaps['Teachers']?[hour['TeacherId']],
@@ -206,6 +216,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
         if (actual) 'Duration': hour['Change']?['Duration'] ?? hour['Duration'],
         if (actual) 'Change': hour['Change'],
         if (actual) 'Theme': hour['Theme'] ?? '',
+        if (actual)
+          'Now':
+              date != null &&
+              hour['Start'] < nowMinutes &&
+              nowMinutes < (hour['Start'] + hour['Duration']) &&
+              date.year == now.year &&
+              date.month == now.month &&
+              date.day == now.day,
       });
     }
 
