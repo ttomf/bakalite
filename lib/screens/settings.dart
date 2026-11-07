@@ -3,6 +3,7 @@ import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/widgets/setting_card.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -89,10 +90,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingCard<void>(
               label: AppLocalizations.of(context)!.about,
               onSet: (value) async {
+                final packageInfo = await PackageInfo.fromPlatform();
+
+                if (!context.mounted) return;
+
                 showAboutDialog(
                   context: context,
-                  applicationVersion: '0.1.0',
-                  applicationName: 'BakaLite',
+                  applicationName: packageInfo.appName,
+                  applicationVersion: packageInfo.version,
+                  applicationLegalese: 'Copyright © 2026 Tom F.',
                   children: [
                     Text(AppLocalizations.of(context)!.aboutText),
                     TextButton(
@@ -100,7 +106,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         launchUrl(
                           Uri.parse('https://github.com/ttomf/bakalite'),
-                          mode: LaunchMode.externalApplication,
                         );
                       },
                     ),
