@@ -4,6 +4,7 @@ import 'package:bakalite/screens/accounts.dart';
 import 'package:bakalite/screens/dashboard.dart';
 import 'package:bakalite/screens/dev.dart';
 import 'package:bakalite/screens/homework.dart';
+import 'package:bakalite/screens/komens.dart';
 import 'package:bakalite/screens/login.dart';
 import 'package:bakalite/screens/marks.dart';
 import 'package:bakalite/screens/settings.dart';
@@ -22,6 +23,7 @@ class MainApp extends StatelessWidget {
     final routes = {
       '/login': (context) => const LoginScreen(),
       '/dashboard': (context) => const Dashboard(),
+      '/komens': (context) => const KomensScreen(),
       '/marks': (context) => const MarksScreen(),
       '/homework': (context) => const HomeworkScreen(),
       '/timetable': (context) => const TimetableScreen(),

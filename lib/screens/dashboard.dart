@@ -110,6 +110,11 @@ class _DashboardState extends State<Dashboard> {
                           ),
                       children: [
                         ModuleCard(
+                          route: '/komens',
+                          label: AppLocalizations.of(context)!.komens,
+                          icon: Icons.message,
+                        ),
+                        ModuleCard(
                           route: '/marks',
                           label: AppLocalizations.of(context)!.marks,
                           icon: Icons.grade,
