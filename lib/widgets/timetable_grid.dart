@@ -4,13 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimetableGrid extends StatelessWidget {
-  const TimetableGrid(this.timetable, this.hours, {super.key});
+  const TimetableGrid(
+    this.timetable,
+    this.hours,
+    this.scrollController, {
+    super.key,
+  });
 
   final List<Map<String, dynamic>> timetable;
   final List<dynamic> hours;
 
   static const double containerWidth = 80;
   static const double headerHeight = 40;
+
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +93,7 @@ class TimetableGrid extends StatelessWidget {
         ),
         Expanded(
           child: SingleChildScrollView(
+            controller: scrollController,
             scrollDirection: Axis.horizontal,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

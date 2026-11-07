@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:bakalite/api.dart';
 import 'package:bakalite/cache/cache.dart';
 import 'package:bakalite/config.dart';
@@ -30,6 +32,51 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
   late DateTime _selectedDate;
 
+  double? _scrollOffset;
+
+  late final ScrollController _actualScrollController = _createScrollController(
+    () => _timetableHours,
+  );
+  late final ScrollController _permScrollController = _createScrollController(
+    () => _timetablePermHours,
+  );
+
+  ScrollController _createScrollController(List<dynamic>? Function() hours) {
+    return ScrollController(
+      keepScrollOffset: false,
+      onAttach: (position) {
+        position.addListener(() => _scrollOffset = position.pixels);
+        position.correctPixels(
+          _scrollOffset ??
+              math.max(
+                0,
+                _lessonCenter(hours()) - MediaQuery.sizeOf(context).width / 2,
+              ),
+        );
+      },
+    );
+  }
+
+  double _lessonCenter(List<dynamic>? hours) {
+    if (hours == null || hours.isEmpty) return 0;
+
+    final now = DateTime.now();
+    final minutes = now.hour * 60 + now.minute;
+    var index = hours.indexWhere(
+      (hour) => minutes < hour['Start'] + hour['Duration'],
+    );
+    if (index < 0) index = hours.length - 1;
+
+    if (Config.flexTimetable.value) {
+      return (hours[index]['Start'] -
+              hours.first['Start'] +
+              hours[index]['Duration'] / 2) *
+          TimetableGridFlex.pixelsPerMinute;
+    } else {
+      return (index + 0.5) * TimetableGrid.containerWidth;
+    }
+  }
+
   int _loadId = 0;
   bool _loaded = false;
   bool _loadedPerm = false;
@@ -50,6 +97,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
     super.initState();
     _load(offline: !Config.autoRefresh.value);
     _loadPerm(offline: !Config.autoRefresh.value);
+  }
+
+  @override
+  void dispose() {
+    _actualScrollController.dispose();
+    _permScrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _load({
@@ -203,7 +257,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
     for (final hour in atoms) {
       final now = DateTime.now();
-      int nowMinutes = now.hour * 60 + now.minute;
+      final nowMinutes = now.hour * 60 + now.minute;
       res.add({
         'Subject': idMaps['Subjects']?[hour['SubjectId']],
         'Teacher': idMaps['Teachers']?[hour['TeacherId']],
@@ -336,13 +390,21 @@ class _TimetableScreenState extends State<TimetableScreen> {
             ),
             Expanded(
               child: _timetableParsed != null && _timetableHours != null
-                  ? timetableGrid(_timetableParsed!, _timetableHours!)
+                  ? timetableGrid(
+                      _timetableParsed!,
+                      _timetableHours!,
+                      _actualScrollController,
+                    )
                   : const Center(child: CircularProgressIndicator()),
             ),
           ],
         ),
         _timetablePermParsed != null && _timetablePermHours != null
-            ? timetableGrid(_timetablePermParsed!, _timetablePermHours!)
+            ? timetableGrid(
+                _timetablePermParsed!,
+                _timetablePermHours!,
+                _permScrollController,
+              )
             : const Center(child: CircularProgressIndicator()),
       ],
     );

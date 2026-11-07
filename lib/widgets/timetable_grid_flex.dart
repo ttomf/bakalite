@@ -6,13 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimetableGridFlex extends StatelessWidget {
-  const TimetableGridFlex(this.timetable, this.hours, {super.key});
+  const TimetableGridFlex(
+    this.timetable,
+    this.hours,
+    this.scrollController, {
+    super.key,
+  });
 
   final List<Map<String, dynamic>> timetable;
   final List<dynamic> hours;
 
   static const double pixelsPerMinute = 1.8;
   static const double headerHeight = 40;
+
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +80,7 @@ class TimetableGridFlex extends StatelessWidget {
         ),
         Expanded(
           child: SingleChildScrollView(
+            controller: scrollController,
             scrollDirection: Axis.horizontal,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
