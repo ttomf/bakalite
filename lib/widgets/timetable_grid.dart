@@ -24,7 +24,7 @@ class TimetableGrid extends StatelessWidget {
     final atoms = [
       for (final day in timetable)
         {
-          'Date': day['Date'],
+          ...day,
           'Atoms': List.generate(hours.length, (index) {
             final hour = hours[index];
             final matchingHours = day['Atoms'].where((h) {
@@ -95,77 +95,118 @@ class TimetableGrid extends StatelessWidget {
           child: SingleChildScrollView(
             controller: scrollController,
             scrollDirection: Axis.horizontal,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    for (final hour in hours)
-                      Container(
-                        width: containerWidth,
-                        height: headerHeight,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.outlineVariant,
-                            width: 0.5,
+            child: IntrinsicWidth(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      for (final hour in hours)
+                        Container(
+                          width: containerWidth,
+                          height: headerHeight,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primaryContainer,
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .outlineVariant,
+                              width: 0.5,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                hour['Caption'],
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                    ),
+                              ),
+                              Text(
+                                '${hour['BeginTime']} – ${hour['EndTime']}',
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                    ),
+                              ),
+                            ],
                           ),
                         ),
-                        child: Column(
-                          children: [
-                            Text(
-                              hour['Caption'],
-                              style: Theme.of(context).textTheme.titleSmall
-                                  ?.copyWith(
+                    ],
+                  ),
+                  for (final day in atoms)
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (day['DayType'] == null ||
+                              day['DayType'] == 'WorkDay') ...[
+                            for (final hour in day['Atoms'])
+                              Container(
+                                width: containerWidth,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceDim,
+                                  border: Border.all(
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .onPrimaryContainer,
+                                        .outlineVariant,
+                                    width: 0.5,
                                   ),
-                            ),
-                            Text(
-                              '${hour['BeginTime']} – ${hour['EndTime']}',
-                              style: Theme.of(context).textTheme.labelSmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.normal,
+                                ),
+                                child: hour != null
+                                    ? Column(
+                                        children: [
+                                          for (final subject in hour)
+                                            Expanded(
+                                              child: SubjectCard(subject),
+                                            ),
+                                        ],
+                                      )
+                                    : null,
+                              ),
+                          ] else ...[
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryContainer,
+                                  border: Border.all(
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .onPrimaryContainer,
+                                        .outlineVariant,
+                                    width: 0.5,
                                   ),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-                for (final day in atoms)
-                  Expanded(
-                    child: Row(
-                      children: [
-                        for (final hour in day['Atoms'])
-                          Container(
-                            width: containerWidth,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surfaceDim,
-                              border: Border.all(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .outlineVariant,
-                                width: 0.5,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    day['DayDescription'] ??
+                                        day['DayType'] ??
+                                        '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge,
+                                  ),
+                                ),
                               ),
                             ),
-                            child: hour != null
-                                ? Column(
-                                    children: [
-                                      for (final subject in hour)
-                                        Expanded(child: SubjectCard(subject)),
-                                    ],
-                                  )
-                                : null,
-                          ),
-                      ],
+                          ],
+                        ],
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

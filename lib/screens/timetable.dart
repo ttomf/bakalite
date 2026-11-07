@@ -153,6 +153,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
             for (final day in _timetable?['Days'])
               {
                 'Date': parseTime(day['Date']),
+                'DayType': day['DayType'],
+                'DayDescription': day['DayDescription'],
                 'Atoms': _parseAtoms(
                   day['Atoms'] ?? [],
                   actual: true,

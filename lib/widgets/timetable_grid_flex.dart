@@ -221,26 +221,53 @@ class TimetableGridFlex extends StatelessWidget {
                         return SizedBox(
                           width:
                               (timelineEnd - timelineStart) * pixelsPerMinute,
-                          child: Stack(
-                            children: [
-                              for (final hour in atoms)
-                                Positioned(
-                                  left:
-                                      (hour['Start'] - timelineStart) *
-                                      pixelsPerMinute,
-                                  width: hour['Duration'] * pixelsPerMinute,
-                                  top:
-                                      hour['Lane'] *
-                                      (constraints.maxHeight /
-                                          (hour['MaxLane'] + 1)),
-                                  bottom:
-                                      (hour['MaxLane'] - hour['Lane']) *
-                                      (constraints.maxHeight /
-                                          (hour['MaxLane'] + 1)),
-                                  child: SubjectCard(hour),
+                          child:
+                              (day['DayType'] == null ||
+                                  day['DayType'] == 'WorkDay')
+                              ? Stack(
+                                  children: [
+                                    for (final hour in atoms)
+                                      Positioned(
+                                        left:
+                                            (hour['Start'] - timelineStart) *
+                                            pixelsPerMinute,
+                                        width:
+                                            hour['Duration'] * pixelsPerMinute,
+                                        top:
+                                            hour['Lane'] *
+                                            (constraints.maxHeight /
+                                                (hour['MaxLane'] + 1)),
+                                        bottom:
+                                            (hour['MaxLane'] - hour['Lane']) *
+                                            (constraints.maxHeight /
+                                                (hour['MaxLane'] + 1)),
+                                        child: SubjectCard(hour),
+                                      ),
+                                  ],
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer,
+                                    border: Border.all(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .outlineVariant,
+                                      width: 0.5,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      day['DayDescription'] ??
+                                          day['DayType'] ??
+                                          '',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge,
+                                    ),
+                                  ),
                                 ),
-                            ],
-                          ),
                         );
                       },
                     ),
