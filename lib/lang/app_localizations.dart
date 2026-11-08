@@ -404,6 +404,12 @@ abstract class AppLocalizations {
   /// **'Noticeboard'**
   String get noticeboard;
 
+  /// No description provided for @message.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get message;
+
   /// No description provided for @byDate.
   ///
   /// In en, this message translates to:

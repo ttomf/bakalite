@@ -178,6 +178,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get noticeboard => 'Nástěnka';
 
   @override
+  String get message => 'Zpráva';
+
+  @override
   String get byDate => 'Podle data';
 
   @override

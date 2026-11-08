@@ -57,6 +57,7 @@
   "received": "Received",
   "sent": "Sent",
   "noticeboard": "Noticeboard",
+  "message": "Message",
 
   "byDate": "By date",
   "bySubject": "By subject",

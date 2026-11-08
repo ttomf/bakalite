@@ -178,6 +178,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noticeboard => 'Noticeboard';
 
   @override
+  String get message => 'Message';
+
+  @override
   String get byDate => 'By date';
 
   @override
