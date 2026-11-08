@@ -10,10 +10,10 @@ Future<void> main() async {
   prefs = await SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(),
   );
-  Cache.init();
+  await Cache.init();
   Account? account = await accountManager.getActiveAccount();
   if (account != null) {
-    setupApi(account, false);
+    await setupApi(account, false);
   }
   runApp(MainApp(route: account == null ? '/login' : '/dashboard'));
 }
