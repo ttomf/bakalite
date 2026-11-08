@@ -229,6 +229,7 @@ class BakalariAPI {
     String endpoint, {
     String method = 'GET',
     String? body,
+    bool retried = false,
   }) async {
     try {
       if (baseUrl?.isEmpty ?? true) {
@@ -256,11 +257,23 @@ class BakalariAPI {
       }
 
       if (res.statusCode == 401) {
+        if (retried) {
+          throw const BakaLiteException(
+            BakaLiteError.invalidCredentials,
+            'Unauthorized, invalid accessToken',
+          );
+        }
+
         try {
           final account = await accountManager.getActiveAccount();
           if (account != null) {
             await login(account.username, account.password);
-            return await request(endpoint, method: method, body: body);
+            return await request(
+              endpoint,
+              method: method,
+              body: body,
+              retried: true,
+            );
           } else {
             throw const BakaLiteException(
               BakaLiteError.invalidCredentials,
@@ -289,6 +302,7 @@ class BakalariAPI {
     String endpoint, {
     String method = 'GET',
     String? body,
+    bool retried = false,
   }) async {
     try {
       if (baseUrl?.isEmpty ?? true) {
@@ -316,11 +330,23 @@ class BakalariAPI {
       }
 
       if (res.statusCode == 401) {
+        if (retried) {
+          throw const BakaLiteException(
+            BakaLiteError.invalidCredentials,
+            'Unauthorized, invalid accessToken',
+          );
+        }
+
         try {
           final account = await accountManager.getActiveAccount();
           if (account != null) {
             await login(account.username, account.password);
-            return await requestBytes(endpoint, method: method, body: body);
+            return await requestBytes(
+              endpoint,
+              method: method,
+              body: body,
+              retried: true,
+            );
           } else {
             throw const BakaLiteException(
               BakaLiteError.invalidCredentials,
