@@ -240,7 +240,7 @@ class BakalariAPI {
 
       final req = http.Request(method, Uri.parse('$baseUrl/3/$endpoint'));
       req.headers.addAll({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken',
       });
       if (body != null) {
@@ -300,7 +300,7 @@ class BakalariAPI {
 
       final req = http.Request(method, Uri.parse('$baseUrl/3/$endpoint'));
       req.headers.addAll({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken',
       });
       if (body != null) {
