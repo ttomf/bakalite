@@ -20,37 +20,53 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: children.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title),
-              if (subtitle != null)
-                Text(subtitle!, style: Theme.of(context).textTheme.bodySmall),
-            ],
-          ),
-          actions: [
-            if (onRefresh != null)
-              IconButton(icon: const Icon(Icons.refresh), onPressed: onRefresh),
-          ],
-          bottom: tabs.isNotEmpty
-              ? TabBar(tabs: [for (final tab in tabs) Tab(child: Text(tab))])
-              : null,
-        ),
-        body: SafeArea(
-          child: Center(
-            child: TabBarView(
-              children: [
-                for (final child in children)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: child,
+      child: Builder(
+        builder: (context) {
+          final tabController = DefaultTabController.of(context);
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title),
+                  if (subtitle != null)
+                    Text(
+                      subtitle!,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                ],
+              ),
+              actions: [
+                if (onRefresh != null)
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: onRefresh,
                   ),
               ],
+              bottom: tabs.isNotEmpty
+                  ? TabBar(
+                      controller: tabController,
+                      tabs: [for (final tab in tabs) Tab(child: Text(tab))],
+                    )
+                  : null,
             ),
-          ),
-        ),
+            body: SafeArea(
+              child: Center(
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    for (final child in children)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: child,
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
