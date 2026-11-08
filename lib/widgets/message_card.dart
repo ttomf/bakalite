@@ -9,34 +9,41 @@ class MessageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              message['SenderName'],
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/komens/message', arguments: message);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                message['SenderName'],
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(message['Title']),
-            const SizedBox(height: 8),
-            Divider(
-              height: 1,
-              thickness: 1.5,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(DateFormat('d. M. yyyy H:mm').format(message['SentDate'])),
-                Text(message['Type']),
-              ],
-            ),
-          ],
+              Text(message['Title']),
+              const SizedBox(height: 8),
+              Divider(
+                height: 1,
+                thickness: 1.5,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    DateFormat('d. M. yyyy H:mm').format(message['SentDate']),
+                  ),
+                  Text(message['Type']),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
