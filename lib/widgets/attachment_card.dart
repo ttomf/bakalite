@@ -20,7 +20,7 @@ class AttachmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      color: Theme.of(context).cardColor,
+      color: Theme.of(context).colorScheme.primaryContainer,
       elevation: 0,
       child: InkWell(
         onTap: () async {
@@ -36,7 +36,15 @@ class AttachmentCard extends StatelessWidget {
             showError(context, e);
           }
         },
-        child: Padding(padding: const EdgeInsets.all(12), child: Text(name)),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Text(
+            name,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
+          ),
+        ),
       ),
     );
   }
