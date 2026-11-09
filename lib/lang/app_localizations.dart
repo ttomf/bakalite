@@ -200,6 +200,12 @@ abstract class AppLocalizations {
   /// **'Messages'**
   String get komens;
 
+  /// No description provided for @events.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get events;
+
   /// No description provided for @marks.
   ///
   /// In en, this message translates to:
@@ -409,6 +415,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Message'**
   String get message;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @my.
+  ///
+  /// In en, this message translates to:
+  /// **'My'**
+  String get my;
+
+  /// No description provided for @public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get public;
+
+  /// No description provided for @upcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get upcoming;
+
+  /// No description provided for @passed.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get passed;
 
   /// No description provided for @byDate.
   ///

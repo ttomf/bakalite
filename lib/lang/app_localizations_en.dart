@@ -70,6 +70,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get komens => 'Messages';
 
   @override
+  String get events => 'Events';
+
+  @override
   String get marks => 'Marks';
 
   @override
@@ -179,6 +182,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get message => 'Message';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get my => 'My';
+
+  @override
+  String get public => 'Public';
+
+  @override
+  String get upcoming => 'Upcoming';
+
+  @override
+  String get passed => 'Passed';
 
   @override
   String get byDate => 'By date';

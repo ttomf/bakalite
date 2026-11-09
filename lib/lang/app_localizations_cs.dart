@@ -70,6 +70,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get komens => 'Zprávy';
 
   @override
+  String get events => 'Události';
+
+  @override
   String get marks => 'Známky';
 
   @override
@@ -179,6 +182,21 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get message => 'Zpráva';
+
+  @override
+  String get all => 'Všechny';
+
+  @override
+  String get my => 'Moje';
+
+  @override
+  String get public => 'Veřejné';
+
+  @override
+  String get upcoming => 'Nadcházející';
+
+  @override
+  String get passed => 'Minulé';
 
   @override
   String get byDate => 'Podle data';

@@ -115,6 +115,11 @@ class _DashboardState extends State<Dashboard> {
                           icon: Icons.message,
                         ),
                         ModuleCard(
+                          route: '/events',
+                          label: AppLocalizations.of(context)!.events,
+                          icon: Icons.event,
+                        ),
+                        ModuleCard(
                           route: '/marks',
                           label: AppLocalizations.of(context)!.marks,
                           icon: Icons.grade,

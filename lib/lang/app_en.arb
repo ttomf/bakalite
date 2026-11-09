@@ -19,6 +19,7 @@
   "dashboard": "Dashboard",
   "login": "Login",
   "komens": "Messages",
+  "events": "Events",
   "marks": "Marks",
   "homework": "Homework",
   "timetable": "Timetable",
@@ -58,6 +59,12 @@
   "sent": "Sent",
   "noticeboard": "Noticeboard",
   "message": "Message",
+
+  "all": "All",
+  "my": "My",
+  "public": "Public",
+  "upcoming": "Upcoming",
+  "passed": "Passed",
 
   "byDate": "By date",
   "bySubject": "By subject",

@@ -19,6 +19,7 @@
   "dashboard": "Přehled",
   "login": "Přihlášení",
   "komens": "Zprávy",
+  "events": "Události",
   "marks": "Známky",
   "homework": "Domácí úkoly",
   "timetable": "Rozvrh hodin",
@@ -58,6 +59,12 @@
   "sent": "Odeslané",
   "noticeboard": "Nástěnka",
   "message": "Zpráva",
+
+  "all": "Všechny",
+  "my": "Moje",
+  "public": "Veřejné",
+  "upcoming": "Nadcházející",
+  "passed": "Minulé",
 
   "byDate": "Podle data",
   "bySubject": "Podle předmětu",
