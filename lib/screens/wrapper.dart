@@ -7,6 +7,7 @@ class Wrapper extends StatelessWidget {
     this.subtitle,
     this.onRefresh,
     this.tabs = const [],
+    this.header,
     required this.children,
   });
 
@@ -14,6 +15,7 @@ class Wrapper extends StatelessWidget {
   final String? subtitle;
   final VoidCallback? onRefresh;
   final List<String> tabs;
+  final Widget? header;
   final List<Widget> children;
 
   @override
@@ -47,24 +49,52 @@ class Wrapper extends StatelessWidget {
               bottom: tabs.isNotEmpty
                   ? TabBar(
                       controller: tabController,
+                      dividerColor: header != null ? Colors.transparent : null,
                       tabs: [for (final tab in tabs) Tab(child: Text(tab))],
                     )
                   : null,
             ),
-            body: SafeArea(
-              child: Center(
-                child: TabBarView(
-                  controller: tabController,
-                  children: [
-                    for (final child in children)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: child,
+            body: header != null
+                ? Column(
+                    children: [
+                      header!,
+                      const Divider(height: 0),
+                      Expanded(
+                        child: SafeArea(
+                          child: Center(
+                            child: TabBarView(
+                              controller: tabController,
+                              children: [
+                                for (final child in children)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
+                                    child: child,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                  ],
-                ),
-              ),
-            ),
+                    ],
+                  )
+                : SafeArea(
+                    child: Center(
+                      child: TabBarView(
+                        controller: tabController,
+                        children: [
+                          for (final child in children)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              child: child,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
           );
         },
       ),
