@@ -68,6 +68,14 @@ class _DevScreenState extends State<DevScreen> {
                           });
                         },
                       ),
+                      OutlinedButton(
+                        child: const Text('Show accessToken'),
+                        onPressed: () {
+                          setState(() {
+                            _response = api.accessToken.toString();
+                          });
+                        },
+                      ),
                     ],
                   ),
                 ),
