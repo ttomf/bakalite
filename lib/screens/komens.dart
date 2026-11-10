@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bakalite/api.dart';
-import 'package:bakalite/cache/cache.dart';
+import 'package:bakalite/data/cache/cache.dart';
 import 'package:bakalite/config.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
