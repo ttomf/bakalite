@@ -84,3 +84,15 @@ String getCacheInfo(
 
   return texts.join(', ');
 }
+
+String safeString(
+  dynamic value, {
+  String def = '',
+  bool trim = false,
+  bool stringify = false,
+}) {
+  if (value == null) return def;
+  if (stringify) return value.toString();
+  if (value is! String) return def;
+  return trim ? value.trim() : value;
+}
