@@ -1,4 +1,5 @@
 import 'package:bakalite/accounts.dart';
+import 'package:bakalite/data/data.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/utils.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class AccountCard<T> extends StatelessWidget {
             return;
           }
           if (!context.mounted) return;
+          Data.clear();
           Navigator.pushNamedAndRemoveUntil(
             context,
             '/dashboard',
