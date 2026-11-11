@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Entity({
   final String? id,
   final String? abbrev,
@@ -8,15 +6,14 @@ class Entity({
   final String? type,
   final int? size,
 }) {
-  factory Entity.parse(String string) {
-    final data = jsonDecode(string);
+  factory Entity.parse(Map<String, dynamic> data) {
     return Entity(
-      id: data?['Id'],
-      abbrev: data?['Abbrev'],
-      name: data?['Name'],
-      classId: data?['ClassId'],
-      type: data?['Type'],
-      size: data?['Size'],
+      id: data['Id'],
+      abbrev: data['Abbrev'],
+      name: data['Name'],
+      classId: data['ClassId'],
+      type: data['Type'],
+      size: data['Size'],
     );
   }
 }
