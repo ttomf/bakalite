@@ -1,7 +1,4 @@
-import 'package:bakalite/api.dart';
-import 'package:bakalite/data/cache/cache.dart';
-import 'package:bakalite/config.dart';
-import 'package:bakalite/exceptions.dart';
+import 'package:bakalite/data/data.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
@@ -17,135 +14,55 @@ class MarksScreen extends StatefulWidget {
 }
 
 class _MarksScreenState extends State<MarksScreen> {
-  DateTime? _cacheTimestamp;
-  Map<String, dynamic>? _marks;
-  List<Map<String, dynamic>>? _marksLast;
-  Map<String, List<Map<String, dynamic>>>? _marksSubjects;
-  Map<String, dynamic>? _subjects;
-
-  bool _loaded = false;
-  bool _error = false;
-
   @override
   void initState() {
     super.initState();
-    _load(offline: !Config.autoRefresh.value);
-  }
-
-  Future<void> _load({
-    bool useCache = true,
-    bool throwNetwork = false,
-    bool offline = false,
-  }) async {
-    _error = false;
-    try {
-      final cached = useCache ? await cache.load('marks') : null;
-      final marksData =
-          cached?['data'] ?? (offline ? null : await api.fetch('marks'));
-
-      if (!mounted) return;
-
-      if (marksData != null) {
-        setState(() {
-          _marks = marksData;
-          _loaded = true;
-          _marksLast = [
-            for (final subject in _marks?['Subjects'] ?? [])
-              for (final mark in subject['Marks'] ?? [])
-                {
-                  'MarkText': mark['MarkText'],
-                  'Weight': mark['Weight'].toString(),
-                  'SubjectName': subject['Subject']['Name'],
-                  'MarkDate': parseTime(mark['MarkDate']),
-                  'Caption': mark['Caption'].trim(),
-                  'Theme': mark['Theme'].trim(),
-                },
-          ];
-          _marksLast!.sort((a, b) => b['MarkDate'].compareTo(a['MarkDate']));
-          _marksSubjects = {};
-          for (final subject in _marks?['Subjects'] ?? []) {
-            _marksSubjects![subject['Subject']['Name']] = [
-              for (final mark in subject['Marks'] ?? [])
-                {
-                  'MarkText': mark['MarkText'],
-                  'Weight': mark['Weight'].toString(),
-                  'MarkDate': parseTime(mark['MarkDate']),
-                  'Caption': mark['Caption'].trim(),
-                  'Theme': mark['Theme'].trim(),
-                },
-            ];
-            _marksSubjects![subject['Subject']['Name']]?.sort(
-              (a, b) => b['MarkDate'].compareTo(a['MarkDate']),
-            );
-          }
-          _subjects = {};
-          for (final subject in _marks?['Subjects'] ?? []) {
-            _subjects![subject['Subject']['Name']] = {
-              'SubjectNote': subject['SubjectNote'],
-            };
-          }
-        });
-        if (cached == null) {
-          setState(() {
-            _cacheTimestamp = null;
-          });
-        }
-      }
-      if (cached != null) {
-        setState(() {
-          _cacheTimestamp = DateTime.fromMillisecondsSinceEpoch(
-            cached['timestamp'],
-          );
-        });
-        if (!offline) {
-          _load(useCache: false);
-        }
-      }
-    } on BakaLiteException catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _error = true;
-      });
-      if (e.error == BakaLiteError.network && !throwNetwork) return;
-      showError(context, e);
-    }
+    Data.loadMarks();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Wrapper(
-      title: AppLocalizations.of(context)!.marks,
-      subtitle: getCacheInfo(context, _cacheTimestamp, _loaded, _error),
-      tabs: [
-        AppLocalizations.of(context)!.byDate,
-        AppLocalizations.of(context)!.bySubject,
-      ],
-      onRefresh: () {
-        setState(() {
-          _loaded = false;
-          _marks = null;
-        });
-        _load(useCache: false, throwNetwork: true);
+    return ListenableBuilder(
+      listenable: Data.marksRes,
+      builder: (context, _) {
+        return Wrapper(
+          title: AppLocalizations.of(context)!.marks,
+          subtitle: getCacheInfo(
+            context,
+            Data.marksRes.cacheTimestamp['marks'],
+            Data.marksRes.loaded['marks'] != null,
+            Data.marksRes.error['marks'] != null,
+          ),
+          tabs: [
+            AppLocalizations.of(context)!.byDate,
+            AppLocalizations.of(context)!.bySubject,
+          ],
+          onRefresh: () {
+            Data.loadMarks(force: true);
+          },
+          children: [
+            Data.marks != null
+                ? ListView(
+                    children: [
+                      for (final mark in Data.marks!.marks) MarkCard(mark),
+                    ],
+                  )
+                : const Center(child: CircularProgressIndicator()),
+            Data.marks != null
+                ? ListView(
+                    children: [
+                      for (final subject in Data.marks!.bySubject.keys)
+                        SubjectMarksCard(
+                          subject: subject,
+                          marks: Data.marks!.bySubject[subject]!.marks,
+                          note: Data.marks!.bySubject[subject]!.note,
+                        ),
+                    ],
+                  )
+                : const Center(child: CircularProgressIndicator()),
+          ],
+        );
       },
-      children: [
-        _marksLast != null
-            ? ListView(
-                children: [for (final mark in _marksLast!) MarkCard(mark)],
-              )
-            : const Center(child: CircularProgressIndicator()),
-        _marksSubjects != null && _subjects != null
-            ? ListView(
-                children: [
-                  for (final subject in _marksSubjects!.keys)
-                    SubjectMarksCard(
-                      subject: subject,
-                      marks: _marksSubjects![subject]!,
-                      note: _subjects![subject]?['SubjectNote'] ?? '',
-                    ),
-                ],
-              )
-            : const Center(child: CircularProgressIndicator()),
-      ],
     );
   }
 }

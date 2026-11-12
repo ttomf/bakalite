@@ -1,10 +1,11 @@
+import 'package:bakalite/data/models/marks.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class EditMarkDialog extends StatefulWidget {
   const EditMarkDialog({super.key, this.mark});
 
-  final Map<String, dynamic>? mark;
+  final Mark? mark;
 
   @override
   State<EditMarkDialog> createState() => _EditMarkDialogState();
@@ -12,15 +13,13 @@ class EditMarkDialog extends StatefulWidget {
 
 class _EditMarkDialogState extends State<EditMarkDialog> {
   String? _mark;
-  String? _weight;
+  int? _weight;
 
   @override
   void initState() {
     super.initState();
-    if (widget.mark != null) {
-      _mark = widget.mark!['MarkText'];
-      _weight = widget.mark!['Weight'];
-    }
+    _mark = widget.mark?.markText;
+    _weight = widget.mark?.weight;
   }
 
   @override
@@ -63,16 +62,16 @@ class _EditMarkDialogState extends State<EditMarkDialog> {
                   AppLocalizations.of(context)!.weight,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                DropdownMenu(
+                DropdownMenu<int>(
                   initialSelection: _weight,
                   onSelected: (value) => setState(() => _weight = value),
                   dropdownMenuEntries: [
                     for (final m in List.generate(
                       10,
-                      (i) => (i + 1).toString(),
+                      (i) => i + 1,
                       growable: false,
                     ))
-                      DropdownMenuEntry(label: m, value: m),
+                      DropdownMenuEntry(label: m.toString(), value: m),
                   ],
                 ),
               ],
@@ -82,7 +81,6 @@ class _EditMarkDialogState extends State<EditMarkDialog> {
                   ? () => Navigator.pop(context, {
                       'MarkText': _mark,
                       'Weight': _weight,
-                      'Changed': true,
                     })
                   : null,
               child: Text(

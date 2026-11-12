@@ -1,3 +1,5 @@
+import 'package:bakalite/data/models/entity.dart';
+import 'package:bakalite/data/models/marks.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/edit_mark_dialog.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +13,8 @@ class SubjectMarksCard extends StatefulWidget {
     required this.note,
   });
 
-  final String subject;
-  final List<Map<String, dynamic>> marks;
+  final Entity subject;
+  final List<Mark> marks;
   final String note;
 
   @override
@@ -22,7 +24,7 @@ class SubjectMarksCard extends StatefulWidget {
 class _SubjectMarksCardState extends State<SubjectMarksCard> {
   int _totalWeight = 0;
   double _average = 0;
-  late List<Map<String, dynamic>> _marks;
+  late List<Mark> _marks;
 
   @override
   void initState() {
@@ -35,8 +37,8 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
     double gradeSum = 0;
     int weightSum = 0;
     for (final mark in _marks) {
-      final text = mark['MarkText']?.toString() ?? '';
-      final weight = int.tryParse(mark['Weight']?.toString() ?? '') ?? 0;
+      final text = mark.markText;
+      final weight = mark.weight;
       final grade = text.endsWith('-')
           ? (int.tryParse(text.replaceAll('-', ''))?.toDouble() ?? 0) + 0.5
           : int.tryParse(text)?.toDouble();
@@ -66,7 +68,7 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.subject,
+              widget.subject.name,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
@@ -146,19 +148,27 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                   if (newMark['Remove'] == true) {
                     _marks.removeAt(index);
                   } else {
-                    _marks[index] = {...mark, ...newMark};
+                    _marks[index] = Mark(
+                      markText: newMark['MarkText'],
+                      weight: newMark['Weight'],
+                      subject: mark.subject,
+                      markDate: mark.markDate,
+                      caption: mark.caption,
+                      theme: mark.theme,
+                      changed: true,
+                    );
                   }
                   _compute();
                 });
               },
               child: ListTile(
-                tileColor: mark['Changed'] == true
+                tileColor: mark.changed == true
                     ? Theme.of(context).colorScheme.secondaryContainer
                     : null,
                 leading: SizedBox(
                   width: 24,
                   child: Text(
-                    mark['MarkText'] ?? '',
+                    mark.markText,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.red,
                       fontWeight: FontWeight.w500,
@@ -166,28 +176,21 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                title: (mark['Caption'] ?? '').isNotEmpty
-                    ? Text(mark['Caption'])
-                    : null,
-                subtitle: (mark['Theme'] ?? '').isNotEmpty
-                    ? Text(mark['Theme'])
-                    : null,
+                title: mark.caption.isNotEmpty ? Text(mark.caption) : null,
+                subtitle: mark.theme.isNotEmpty ? Text(mark.theme) : null,
                 trailing: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (mark['Changed'] == true)
-                      const Icon(Icons.edit, size: 16),
-                    if (mark['MarkDate'] != null)
-                      Text(
-                        DateFormat('d. M. yyyy').format(mark['MarkDate']),
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    if (mark['Weight'] != null)
-                      Text(
-                        '${AppLocalizations.of(context)!.weight}: ${mark['Weight']}',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
+                    if (mark.changed == true) const Icon(Icons.edit, size: 16),
+                    Text(
+                      DateFormat('d. M. yyyy').format(mark.markDate),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Text(
+                      '${AppLocalizations.of(context)!.weight}: ${mark.weight}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ],
                 ),
               ),
@@ -201,12 +204,18 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
               );
               if (!mounted || newMark == null) return;
               setState(() {
-                _marks.insert(0, {
-                  ...newMark,
-                  'MarkDate': DateTime.now(),
-                  'Caption': '',
-                  'Theme': '',
-                });
+                _marks.insert(
+                  0,
+                  Mark(
+                    markText: newMark['MarkText'],
+                    weight: newMark['Weight'],
+                    subject: widget.subject,
+                    markDate: DateTime.now(),
+                    caption: '',
+                    theme: '',
+                    changed: true,
+                  ),
+                );
                 _compute();
               });
             },
