@@ -80,7 +80,11 @@ windows/
 
 # Code
 lib/
-  cache/              # platform-specific cache implementations
+  data/
+    cache/            # platform-specific cache implementations
+    models/           # parsed API models
+    data.dart         # data manager
+    resource.dart     # generic resource loader
   lang/               # app localization
   mocks/              # debug data for mock account
   screens/            # app screens
