@@ -20,6 +20,8 @@ class Resource<T> extends ChangeNotifier {
   }) async {
     error[endpoint] = null;
     loaded[endpoint] = null;
+    notifyListeners();
+
     try {
       final cached = await cache.load(endpoint);
       if (cached != null) {
@@ -37,6 +39,9 @@ class Resource<T> extends ChangeNotifier {
     }
 
     if (!Config.autoRefresh.value && !force) return;
+    error[endpoint] = null;
+    loaded[endpoint] = null;
+    notifyListeners();
 
     try {
       final fetched = await api.request(endpoint);
