@@ -92,7 +92,7 @@ String safeString(
   bool stringify = false,
 }) {
   if (value == null) return def;
-  if (stringify) return value.toString();
+  if (stringify) return trim ? value.toString().trim() : value.toString();
   if (value is! String) return def;
   return trim ? value.trim() : value;
 }
