@@ -63,7 +63,7 @@ class ConfigOption<T> extends ValueNotifier<T> {
 class Config {
   static final language = ConfigOption('language', 'System');
   static final seedColor = ConfigOption('seedColor', Colors.lightBlue as Color);
-  static final useM3Color = ConfigOption('useM3Color', true);
+  static final useM3Color = ConfigOption('useM3Color', false);
   static final brightness = ConfigOption('brightness', 'System');
   static final autoRefresh = ConfigOption('autoRefresh', true);
   static final flexTimetable = ConfigOption('useFlexTimetable', false);
