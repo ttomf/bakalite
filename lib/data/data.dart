@@ -1,3 +1,4 @@
+import 'package:bakalite/data/models/homework.dart';
 import 'package:bakalite/data/models/marks.dart';
 import 'package:bakalite/data/models/user.dart';
 import 'package:bakalite/data/resource.dart';
@@ -15,8 +16,16 @@ class Data {
     return marksRes.load('marks', force: force);
   }
 
+  static final homeworkRes = Resource<Homework>(Homework.parse);
+  static Homework? get homework =>
+      homeworkRes.data['homeworks?from=2000-01-01'];
+  static Future<void> loadHomework({bool force = false}) {
+    return homeworkRes.load('homeworks?from=2000-01-01', force: force);
+  }
+
   static void clear() {
     userRes.clear();
     marksRes.clear();
+    homeworkRes.clear();
   }
 }
