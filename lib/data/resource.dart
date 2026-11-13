@@ -20,7 +20,7 @@ class Resource<T> extends ChangeNotifier {
   }) async {
     error[endpoint] = null;
     loaded[endpoint] = null;
-    notifyListeners();
+    notify();
 
     try {
       final cached = await cache.load(endpoint);
@@ -31,17 +31,17 @@ class Resource<T> extends ChangeNotifier {
         );
         error[endpoint] = null;
         loaded[endpoint] = DateTime.now();
-        notifyListeners();
+        notify();
       }
     } catch (exception) {
       error[endpoint] = exception;
-      notifyListeners();
+      notify();
     }
 
     if (!Config.autoRefresh.value && !force) return;
     error[endpoint] = null;
     loaded[endpoint] = null;
-    notifyListeners();
+    notify();
 
     try {
       final fetched = await api.request(endpoint);
@@ -50,14 +50,14 @@ class Resource<T> extends ChangeNotifier {
         cacheTimestamp[endpoint] = null;
         error[endpoint] = null;
         loaded[endpoint] = DateTime.now();
-        notifyListeners();
+        notify();
         if (cacheData) {
           await cache.save(endpoint, fetched);
         }
       }
     } catch (exception) {
       error[endpoint] = exception;
-      notifyListeners();
+      notify();
     }
   }
 
@@ -66,6 +66,10 @@ class Resource<T> extends ChangeNotifier {
     cacheTimestamp.clear();
     loaded.clear();
     error.clear();
+    notify();
+  }
+
+  void notify() {
     notifyListeners();
   }
 }
