@@ -8,6 +8,8 @@ class Entity({
   final String type = '',
   final String beginTime = '',
   final String endTime = '',
+  final int start = -1,
+  final int duration = -1,
   final String caption = '',
   final int size = -1,
 }) {
@@ -20,6 +22,8 @@ class Entity({
       type: safeString(data['Type']),
       beginTime: safeString(data['BeginTime']),
       endTime: safeString(data['EndTime']),
+      start: data['Start'] is int ? data['Start'] : -1,
+      duration: data['Duration'] is int ? data['Duration'] : -1,
       caption: safeString(data['Caption']),
       size: data['Size'] is int ? data['Size'] : -1,
     );
