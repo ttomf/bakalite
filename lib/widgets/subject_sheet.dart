@@ -1,3 +1,4 @@
+import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/fields_table.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 class SubjectSheet extends StatelessWidget {
   const SubjectSheet(this.subject, {super.key});
 
-  final Map<String, dynamic> subject;
+  final Atom subject;
 
   @override
   Widget build(BuildContext context) {
@@ -17,26 +18,23 @@ class SubjectSheet extends StatelessWidget {
           spacing: 24,
           children: [
             SelectableText(
-              subject['Subject']?[1] ?? '',
+              subject.subject?.name ?? '',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             FieldsTable(
               values: {
-                AppLocalizations.of(context)!.group: (subject['Groups'] ?? [])
-                    .where((group) => group != null)
-                    .map((group) => group[0])
+                AppLocalizations.of(context)!.group: subject.groups
+                    .map((group) => group.abbrev)
                     .join(', '),
-                AppLocalizations.of(context)!.room: subject['Room'] != null
-                    ? '${subject['Room'][1]} (${subject['Room'][0]})'
+                AppLocalizations.of(context)!.room: subject.room != null
+                    ? '${subject.room?.name} (${subject.room?.abbrev})'
                     : null,
-                AppLocalizations.of(context)!
-                    .teacher: subject['Teacher'] != null
-                    ? '${subject['Teacher'][1]} (${subject['Teacher'][0]})'
+                AppLocalizations.of(context)!.teacher: subject.teacher != null
+                    ? '${subject.teacher?.name} (${subject.teacher?.abbrev})'
                     : null,
-                AppLocalizations.of(context)!.lessonTopic: subject['Theme'],
-                AppLocalizations.of(context)!.change: subject['Change'] != null
-                    ? subject['Change']['Description']
-                    : null,
+                AppLocalizations.of(context)!.lessonTopic: subject.theme,
+                AppLocalizations.of(context)!.change:
+                    subject.change?.description,
               },
             ),
           ],

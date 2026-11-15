@@ -1,21 +1,32 @@
+import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/widgets/subject_sheet.dart';
 import 'package:flutter/material.dart';
 
 class SubjectCard extends StatelessWidget {
-  const SubjectCard(this.subject, {super.key});
+  const SubjectCard(this.atom, {super.key});
 
-  final Map<String, dynamic> subject;
+  final Atom atom;
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final nowMinutes = now.hour * 60 + now.minute;
+    final isNow =
+        atom.date != null &&
+        atom.date!.year == now.year &&
+        atom.date!.month == now.month &&
+        atom.date!.day == now.day &&
+        atom.start < nowMinutes &&
+        nowMinutes < (atom.start + atom.duration);
+
     return Card(
       shape: RoundedRectangleBorder(
-        side: (subject['Now'] ?? false)
-            ? BorderSide(color: Theme.of(context).colorScheme.primary)
+        side: isNow
+            ? BorderSide(color: Theme.of(context).colorScheme.primary, width: 2)
             : BorderSide.none,
         borderRadius: BorderRadius.circular(4),
       ),
-      color: subject['Change'] != null
+      color: atom.change != null
           ? Theme.of(context).colorScheme.errorContainer
           : null,
       margin: const EdgeInsets.all(1),
@@ -27,7 +38,7 @@ class SubjectCard extends StatelessWidget {
             context: context,
             useSafeArea: true,
             constraints: const BoxConstraints(minWidth: double.infinity),
-            builder: (context) => SubjectSheet(subject),
+            builder: (context) => SubjectSheet(atom),
           );
         },
         child: Padding(
@@ -37,22 +48,19 @@ class SubjectCard extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  (subject['Groups'] ?? [])
-                      .where((group) => group != null)
-                      .map((group) => group[0])
-                      .join(', '),
+                  atom.groups.map((group) => group.abbrev).join(', '),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
               const Spacer(),
-              if ((subject['Subject']?[0] ?? '').isNotEmpty)
+              if ((atom.subject?.abbrev ?? '').isNotEmpty)
                 Text(
-                  subject['Subject'][0],
+                  atom.subject!.abbrev,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-              if ((subject['Change']?['TypeAbbrev'] ?? '').isNotEmpty)
+              if ((atom.change?.typeAbbrev ?? '').isNotEmpty)
                 Text(
-                  subject['Change']['TypeAbbrev'],
+                  atom.change!.typeAbbrev,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               Expanded(
@@ -63,10 +71,10 @@ class SubjectCard extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   runSpacing: 8,
                   children: [
-                    if ((subject['Teacher']?[0] ?? '').isNotEmpty)
-                      Text(subject['Teacher'][0]),
-                    if ((subject['Room']?[0] ?? '').isNotEmpty)
-                      Text(subject['Room'][0]),
+                    if ((atom.teacher?.abbrev ?? '').isNotEmpty)
+                      Text(atom.teacher!.abbrev),
+                    if ((atom.room?.abbrev ?? '').isNotEmpty)
+                      Text(atom.room!.abbrev),
                   ],
                 ),
               ),

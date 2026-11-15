@@ -1,43 +1,74 @@
+import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimetableGrid extends StatelessWidget {
-  const TimetableGrid(
-    this.timetable,
-    this.hours,
-    this.scrollController, {
-    super.key,
-  });
+  const TimetableGrid(this.timetable, this.scrollController, {super.key});
 
-  final List<Map<String, dynamic>> timetable;
-  final List<dynamic> hours;
+  final Timetable timetable;
 
   static const double containerWidth = 80;
   static const double headerHeight = 40;
 
   final ScrollController scrollController;
 
+  Widget _buildDay(BuildContext context, TimetableDay day) {
+    if (day.dayType != null && day.dayType != 'WorkDay') {
+      return Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outlineVariant,
+            width: 0.5,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            day.dayDescription ?? day.dayType ?? '',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ),
+      );
+    }
+
+    final Map<String, List<Atom>> atoms = {};
+    for (final atom in day.atoms) {
+      for (final hour in timetable.hours) {
+        if (atom.start < hour.start + hour.duration &&
+            hour.start < atom.start + atom.duration) {
+          (atoms[hour.id] ??= []).add(atom);
+        }
+      }
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final hour in timetable.hours)
+          Container(
+            width: containerWidth,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceDim,
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                width: 0.5,
+              ),
+            ),
+            child: Column(
+              children: [
+                for (final atom in atoms[hour.id] ?? const <Atom>[])
+                  Expanded(child: SubjectCard(atom)),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final atoms = [
-      for (final day in timetable)
-        {
-          ...day,
-          'Atoms': List.generate(hours.length, (index) {
-            final hour = hours[index];
-            final matchingHours = day['Atoms'].where((h) {
-              return h['HourId'] == hour['Id'];
-            });
-            if (matchingHours.isEmpty) {
-              return null;
-            }
-            return matchingHours;
-          }),
-        },
-    ];
-
     return Row(
       children: [
         IntrinsicWidth(
@@ -45,7 +76,7 @@ class TimetableGrid extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: headerHeight),
-              for (final (index, day) in atoms.indexed)
+              for (final (index, day) in timetable.timetable.indexed)
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -71,9 +102,9 @@ class TimetableGrid extends StatelessWidget {
                                         .onPrimaryContainer,
                                   ),
                             ),
-                            if (day['Date'] != null)
+                            if (day.date != null)
                               Text(
-                                DateFormat('d. M.').format(day['Date']),
+                                DateFormat('d. M.').format(day.date!),
                                 style: Theme.of(context).textTheme.labelSmall
                                     ?.copyWith(
                                       fontWeight: FontWeight.normal,
@@ -101,7 +132,7 @@ class TimetableGrid extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      for (final hour in hours)
+                      for (final hour in timetable.hours)
                         Container(
                           width: containerWidth,
                           height: headerHeight,
@@ -119,7 +150,7 @@ class TimetableGrid extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                hour['Caption'],
+                                hour.caption,
                                 style: Theme.of(context).textTheme.titleSmall
                                     ?.copyWith(
                                       color: Theme.of(context)
@@ -128,7 +159,7 @@ class TimetableGrid extends StatelessWidget {
                                     ),
                               ),
                               Text(
-                                '${hour['BeginTime']} – ${hour['EndTime']}',
+                                '${hour.beginTime} – ${hour.endTime}',
                                 style: Theme.of(context).textTheme.labelSmall
                                     ?.copyWith(
                                       fontWeight: FontWeight.normal,
@@ -142,69 +173,8 @@ class TimetableGrid extends StatelessWidget {
                         ),
                     ],
                   ),
-                  for (final day in atoms)
-                    Expanded(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          if (day['DayType'] == null ||
-                              day['DayType'] == 'WorkDay') ...[
-                            for (final hour in day['Atoms'])
-                              Container(
-                                width: containerWidth,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surfaceDim,
-                                  border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .outlineVariant,
-                                    width: 0.5,
-                                  ),
-                                ),
-                                child: hour != null
-                                    ? Column(
-                                        children: [
-                                          for (final subject in hour)
-                                            Expanded(
-                                              child: SubjectCard(subject),
-                                            ),
-                                        ],
-                                      )
-                                    : null,
-                              ),
-                          ] else ...[
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondaryContainer,
-                                  border: Border.all(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .outlineVariant,
-                                    width: 0.5,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    day['DayDescription'] ??
-                                        day['DayType'] ??
-                                        '',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
+                  for (final day in timetable.timetable)
+                    Expanded(child: _buildDay(context, day)),
                 ],
               ),
             ),

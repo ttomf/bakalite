@@ -1,30 +1,106 @@
-import 'dart:math';
-
+import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/subject_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimetableGridFlex extends StatelessWidget {
-  const TimetableGridFlex(
-    this.timetable,
-    this.hours,
-    this.scrollController, {
-    super.key,
-  });
+  const TimetableGridFlex(this.timetable, this.scrollController, {super.key});
 
-  final List<Map<String, dynamic>> timetable;
-  final List<dynamic> hours;
+  final Timetable timetable;
 
   static const double pixelsPerMinute = 1.8;
   static const double headerHeight = 40;
 
   final ScrollController scrollController;
 
+  Widget _buildDay(
+    BuildContext context,
+    TimetableDay day,
+    int timelineStart,
+    double timelineWidth,
+  ) {
+    if (day.dayType != null && day.dayType != 'WorkDay') {
+      return SizedBox(
+        width: timelineWidth,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondaryContainer,
+            border: Border.all(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              width: 0.5,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              day.dayDescription ?? day.dayType ?? '',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+        ),
+      );
+    }
+
+    final sorted =
+        day.atoms.where((a) => a.start >= 0 && a.duration > 0).toList()
+          ..sort((a, b) => a.start.compareTo(b.start));
+
+    final List<({Atom atom, int lane, int lanes})> layout = [];
+    List<({Atom atom, int lane})> cluster = [];
+    final List<int> laneEnds = [];
+
+    for (final atom in sorted) {
+      if (laneEnds.isNotEmpty && laneEnds.every((end) => end <= atom.start)) {
+        for (final c in cluster) {
+          layout.add((atom: c.atom, lane: c.lane, lanes: laneEnds.length));
+        }
+        cluster = [];
+        laneEnds.clear();
+      }
+
+      var lane = laneEnds.indexWhere((end) => end <= atom.start);
+      if (lane == -1) {
+        lane = laneEnds.length;
+        laneEnds.add(0);
+      }
+      laneEnds[lane] = atom.start + atom.duration;
+      cluster.add((atom: atom, lane: lane));
+    }
+
+    for (final c in cluster) {
+      layout.add((atom: c.atom, lane: c.lane, lanes: laneEnds.length));
+    }
+    cluster = [];
+    laneEnds.clear();
+
+    return SizedBox(
+      width: timelineWidth,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              for (final item in layout)
+                Positioned(
+                  left: (item.atom.start - timelineStart) * pixelsPerMinute,
+                  width: item.atom.duration * pixelsPerMinute,
+                  top: item.lane * constraints.maxHeight / item.lanes,
+                  height: constraints.maxHeight / item.lanes,
+                  child: SubjectCard(item.atom),
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final timelineStart = hours.first['Start'];
-    final timelineEnd = hours.last['Start'] + hours.last['Duration'];
+    final timelineStart = timetable.hours.first.start;
+    final timelineEnd =
+        timetable.hours.last.start + timetable.hours.last.duration;
+    final timelineWidth = (timelineEnd - timelineStart) * pixelsPerMinute;
+
     return Row(
       children: [
         IntrinsicWidth(
@@ -32,7 +108,7 @@ class TimetableGridFlex extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: headerHeight),
-              for (final (index, day) in timetable.indexed)
+              for (final (index, day) in timetable.timetable.indexed)
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -58,9 +134,9 @@ class TimetableGridFlex extends StatelessWidget {
                                         .onPrimaryContainer,
                                   ),
                             ),
-                            if (day['Date'] != null)
+                            if (day.date != null)
                               Text(
-                                DateFormat('d. M.').format(day['Date']),
+                                DateFormat('d. M.').format(day.date!),
                                 style: Theme.of(context).textTheme.labelSmall
                                     ?.copyWith(
                                       fontWeight: FontWeight.normal,
@@ -95,15 +171,15 @@ class TimetableGridFlex extends StatelessWidget {
                   ),
                   child: SizedBox(
                     height: headerHeight,
-                    width: (timelineEnd - timelineStart) * pixelsPerMinute,
+                    width: timelineWidth,
                     child: Stack(
                       children: [
-                        for (final hour in hours)
+                        for (final hour in timetable.hours)
                           Positioned(
                             left:
-                                (hour['Start'] - hours.first['Start']) *
+                                (hour.start - timetable.hours.first.start) *
                                 pixelsPerMinute,
-                            width: hour['Duration'] * pixelsPerMinute,
+                            width: hour.duration * pixelsPerMinute,
                             child: Container(
                               height: headerHeight,
                               decoration: BoxDecoration(
@@ -122,7 +198,7 @@ class TimetableGridFlex extends StatelessWidget {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
-                                    hour['Caption'],
+                                    hour.caption,
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall
@@ -139,7 +215,7 @@ class TimetableGridFlex extends StatelessWidget {
                                         horizontal: 4,
                                       ),
                                       child: Text(
-                                        '${hour['BeginTime']} – ${hour['EndTime']}',
+                                        '${hour.beginTime} – ${hour.endTime}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall
@@ -160,116 +236,13 @@ class TimetableGridFlex extends StatelessWidget {
                     ),
                   ),
                 ),
-                for (final day in timetable)
+                for (final day in timetable.timetable)
                   Expanded(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        final List<Map<String, dynamic>> atoms = [];
-                        final List atomsToAdd = [...day['Atoms']];
-                        int lane = 0;
-
-                        while (atomsToAdd.isNotEmpty) {
-                          final Set seen = {};
-                          final List<Map<String, dynamic>> currentAtoms = [];
-
-                          atomsToAdd.removeWhere((hour) {
-                            if (hour == null ||
-                                hour['Start'] == null ||
-                                hour['Duration'] == null) {
-                              return true;
-                            }
-                            final start = hour['Start'];
-                            final duration = hour['Duration'];
-                            if ((hour['Change']?['Start'] != null) &&
-                                (hour['Change']?['Duration'] != null) &&
-                                !seen.add(
-                                  '${hour['Change']?['Start']}_${hour['Change']?['Duration']}',
-                                )) {
-                              return true;
-                            }
-
-                            if (currentAtoms.any(
-                              (atom) =>
-                                  start < atom['Start'] + atom['Duration'] &&
-                                  atom['Start'] < start + duration,
-                            )) {
-                              return false;
-                            }
-
-                            currentAtoms.add({...hour, 'Lane': lane});
-                            return true;
-                          });
-
-                          atoms.addAll(currentAtoms);
-                          lane++;
-                        }
-
-                        for (final hour in atoms) {
-                          int maxLane = hour['Lane'];
-                          for (final atom in atoms) {
-                            if (hour != atom &&
-                                hour['Start'] <
-                                    atom['Start'] + atom['Duration'] &&
-                                atom['Start'] <
-                                    hour['Start'] + hour['Duration']) {
-                              maxLane = max(maxLane, atom['Lane']);
-                            }
-                          }
-                          hour['MaxLane'] = maxLane;
-                        }
-
-                        return SizedBox(
-                          width:
-                              (timelineEnd - timelineStart) * pixelsPerMinute,
-                          child:
-                              (day['DayType'] == null ||
-                                  day['DayType'] == 'WorkDay')
-                              ? Stack(
-                                  children: [
-                                    for (final hour in atoms)
-                                      Positioned(
-                                        left:
-                                            (hour['Start'] - timelineStart) *
-                                            pixelsPerMinute,
-                                        width:
-                                            hour['Duration'] * pixelsPerMinute,
-                                        top:
-                                            hour['Lane'] *
-                                            (constraints.maxHeight /
-                                                (hour['MaxLane'] + 1)),
-                                        bottom:
-                                            (hour['MaxLane'] - hour['Lane']) *
-                                            (constraints.maxHeight /
-                                                (hour['MaxLane'] + 1)),
-                                        child: SubjectCard(hour),
-                                      ),
-                                  ],
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer,
-                                    border: Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .outlineVariant,
-                                      width: 0.5,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      day['DayDescription'] ??
-                                          day['DayType'] ??
-                                          '',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge,
-                                    ),
-                                  ),
-                                ),
-                        );
-                      },
+                    child: _buildDay(
+                      context,
+                      day,
+                      timelineStart,
+                      timelineWidth,
                     ),
                   ),
               ],
