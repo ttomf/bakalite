@@ -18,6 +18,8 @@ class Resource<T> extends ChangeNotifier {
     bool force = false,
     bool cacheData = true,
   }) async {
+    await Future.delayed(Duration.zero);
+
     error[endpoint] = null;
     loaded[endpoint] = null;
     notify();
