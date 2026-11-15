@@ -56,6 +56,18 @@ Future<void> setupApi(Account account, bool throwErrors) async {
   }
 }
 
+DateTime weekStart(DateTime date) {
+  return DateTime(date.year, date.month, date.day - date.weekday + 1);
+}
+
+int daysBetween(DateTime a, DateTime b) {
+  return DateTime.utc(
+    a.year,
+    a.month,
+    a.day,
+  ).difference(DateTime.utc(b.year, b.month, b.day)).inDays;
+}
+
 String getCacheInfo(
   BuildContext context,
   DateTime? timestamp,
