@@ -1,10 +1,11 @@
+import 'package:bakalite/data/models/komens.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MessageCard extends StatelessWidget {
   const MessageCard(this.message, {super.key});
 
-  final Map<String, dynamic> message;
+  final Message message;
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +20,13 @@ class MessageCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                message['SenderName'],
+                message.sender.name,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(message['Title']),
+              Text(message.title),
               const SizedBox(height: 8),
               Divider(
                 height: 1,
@@ -36,10 +37,8 @@ class MessageCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    DateFormat('d. M. yyyy H:mm').format(message['SentDate']),
-                  ),
-                  Text(message['Type']),
+                  Text(DateFormat('d. M. yyyy H:mm').format(message.sentDate)),
+                  Text(message.type),
                 ],
               ),
             ],

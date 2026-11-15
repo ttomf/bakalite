@@ -1,3 +1,4 @@
+import 'package:bakalite/data/models/komens.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/attachment_card.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,9 @@ class MessageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map message = ModalRoute.of(context)!.settings.arguments as Map;
+    final Message message =
+        ModalRoute.of(context)!.settings.arguments as Message;
+
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.message)),
       body: SafeArea(
@@ -24,31 +27,30 @@ class MessageScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      message['SenderName'],
+                      message.sender.name,
                       style: Theme.of(context).textTheme.titleLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      message['Title'],
+                      message.title,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(
-                      DateFormat('d. M. yyyy H:mm').format(message['SentDate']),
+                      DateFormat('d. M. yyyy H:mm').format(message.sentDate),
                     ),
-                    if (message['Attachments'] != null)
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            for (final attachment in message['Attachments'])
-                              AttachmentCard(
-                                id: attachment['Id'],
-                                name: attachment['Name'],
-                                mime: attachment['Type'],
-                              ),
-                          ],
-                        ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          for (final attachment in message.attachments)
+                            AttachmentCard(
+                              id: attachment.id,
+                              name: attachment.name,
+                              mime: attachment.type,
+                            ),
+                        ],
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -68,7 +70,7 @@ class MessageScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     child: SelectionArea(
                       child: HtmlWidget(
-                        message['Text'],
+                        message.text,
                         onTapUrl: (url) {
                           return launchUrl(Uri.parse(url));
                         },

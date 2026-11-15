@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:bakalite/data/models/homework.dart';
+import 'package:bakalite/data/models/komens.dart';
 import 'package:bakalite/data/models/marks.dart';
 import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/data/models/user.dart';
@@ -25,6 +28,13 @@ class Data {
     perm: timetableRes.data['timetable/permanent'],
   );
 
+  static final komensRes = Resource<Komens>(Komens.parse);
+  static ({Komens? noticeboard, Komens? received, Komens? sent}) get komens => (
+    received: komensRes.data['komens/messages/received'],
+    sent: komensRes.data['komens/messages/sent'],
+    noticeboard: komensRes.data['komens/messages/noticeboard'],
+  );
+
   static Future<void> loadUser({bool force = false}) {
     return userRes.load('user', force: force);
   }
@@ -48,10 +58,43 @@ class Data {
     ]);
   }
 
+  static Future<void> loadKomens({bool force = false}) {
+    return Future.wait([
+      komensRes.load(
+        'komens/messages/received',
+        force: force,
+        method: 'POST',
+        body: jsonEncode({
+          'DateFrom': '2000-01-01T00:00:00.000',
+          'IncludeHidden': true,
+        }),
+      ),
+      komensRes.load(
+        'komens/messages/sent',
+        force: force,
+        method: 'POST',
+        body: jsonEncode({
+          'DateFrom': '2000-01-01T00:00:00.000',
+          'IncludeHidden': true,
+        }),
+      ),
+      komensRes.load(
+        'komens/messages/noticeboard',
+        force: force,
+        method: 'POST',
+        body: jsonEncode({
+          'DateFrom': '2000-01-01T00:00:00.000',
+          'IncludeHidden': true,
+        }),
+      ),
+    ]);
+  }
+
   static void clear() {
     userRes.clear();
     marksRes.clear();
     homeworkRes.clear();
     timetableRes.clear();
+    komensRes.clear();
   }
 }
