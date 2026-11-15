@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bakalite/accounts.dart';
-import 'package:bakalite/data/cache/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:http/http.dart' as http;
 
@@ -213,8 +212,6 @@ class BakalariAPI {
           'Expected a JSON dict',
         );
       }
-
-      cache.save(endpoint, content);
 
       return content;
     } on FormatException {
