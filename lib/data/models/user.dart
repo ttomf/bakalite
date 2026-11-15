@@ -8,6 +8,7 @@ class User({
 }) {
   factory User.parse(String string) {
     final data = jsonDecode(string);
+
     return User(
       fullName: safeString(data['FullName']),
       userTypeText: safeString(data['UserTypeText']),
