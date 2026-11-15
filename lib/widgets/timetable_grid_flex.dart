@@ -238,11 +238,20 @@ class TimetableGridFlex extends StatelessWidget {
                 ),
                 for (final day in timetable.timetable)
                   Expanded(
-                    child: _buildDay(
-                      context,
-                      day,
-                      timelineStart,
-                      timelineWidth,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceDim,
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                          width: 0.5,
+                        ),
+                      ),
+                      child: _buildDay(
+                        context,
+                        day,
+                        timelineStart,
+                        timelineWidth,
+                      ),
                     ),
                   ),
               ],
