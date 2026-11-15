@@ -17,6 +17,8 @@ class Resource<T> extends ChangeNotifier {
     String endpoint, {
     bool force = false,
     bool cacheData = true,
+    String method = 'GET',
+    String? body,
   }) async {
     await Future.delayed(Duration.zero);
 
@@ -46,7 +48,7 @@ class Resource<T> extends ChangeNotifier {
     notify();
 
     try {
-      final fetched = await api.request(endpoint);
+      final fetched = await api.request(endpoint, method: method, body: body);
       if (fetched != null) {
         data[endpoint] = parse(fetched);
         cacheTimestamp[endpoint] = null;
