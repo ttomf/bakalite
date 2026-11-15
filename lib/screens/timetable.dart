@@ -21,10 +21,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
   double? _scrollOffset;
 
   late final ScrollController _actualScrollController = _createScrollController(
-    () => Data.timetable?.hours,
+    () => Data.timetable.actual?.hours,
   );
   late final ScrollController _permScrollController = _createScrollController(
-    () => Data.timetablePerm?.hours,
+    () => Data.timetable.perm?.hours,
   );
 
   ScrollController _createScrollController(List<dynamic>? Function() hours) {
@@ -72,7 +72,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
     Data.timetableDate = weekStart(DateTime.now());
     super.initState();
     Data.loadTimetable();
-    Data.loadTimetablePerm();
   }
 
   @override
@@ -89,7 +88,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
         : TimetableGrid.new;
 
     return ListenableBuilder(
-      listenable: Listenable.merge([Data.timetableRes, Data.timetablePermRes]),
+      listenable: Data.timetableRes,
       builder: (context, _) {
         final actualEndpoint =
             'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(Data.timetableDate)}';
@@ -99,11 +98,11 @@ class _TimetableScreenState extends State<TimetableScreen> {
           subtitle: getCacheInfo(
             context,
             Data.timetableRes.cacheTimestamp[actualEndpoint] ??
-                Data.timetablePermRes.cacheTimestamp['timetable/permanent'],
+                Data.timetableRes.cacheTimestamp['timetable/permanent'],
             Data.timetableRes.loaded[actualEndpoint] != null &&
-                Data.timetablePermRes.loaded['timetable/permanent'] != null,
+                Data.timetableRes.loaded['timetable/permanent'] != null,
             Data.timetableRes.error[actualEndpoint] != null ||
-                Data.timetablePermRes.error['timetable/permanent'] != null,
+                Data.timetableRes.error['timetable/permanent'] != null,
           ),
           tabs: [
             AppLocalizations.of(context)!.actual,
@@ -111,7 +110,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
           ],
           onRefresh: () {
             Data.loadTimetable(force: true);
-            Data.loadTimetablePerm(force: true);
           },
           children: [
             Column(
@@ -172,14 +170,17 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   ],
                 ),
                 Expanded(
-                  child: Data.timetable != null
-                      ? timetableGrid(Data.timetable!, _actualScrollController)
+                  child: Data.timetable.actual != null
+                      ? timetableGrid(
+                          Data.timetable.actual!,
+                          _actualScrollController,
+                        )
                       : const Center(child: CircularProgressIndicator()),
                 ),
               ],
             ),
-            Data.timetablePerm != null
-                ? timetableGrid(Data.timetablePerm!, _permScrollController)
+            Data.timetable.perm != null
+                ? timetableGrid(Data.timetable.perm!, _permScrollController)
                 : const Center(child: CircularProgressIndicator()),
           ],
         );
