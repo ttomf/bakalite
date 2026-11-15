@@ -15,7 +15,7 @@ class MessageScreen extends StatelessWidget {
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.message)),
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
