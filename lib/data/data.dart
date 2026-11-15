@@ -1,7 +1,10 @@
 import 'package:bakalite/data/models/homework.dart';
 import 'package:bakalite/data/models/marks.dart';
+import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/data/models/user.dart';
 import 'package:bakalite/data/resource.dart';
+import 'package:bakalite/utils.dart';
+import 'package:intl/intl.dart';
 
 class Data {
   static final userRes = Resource<User>(User.parse);
@@ -23,9 +26,29 @@ class Data {
     return homeworkRes.load('homeworks?from=2000-01-01', force: force);
   }
 
+  static final timetableRes = Resource<Timetable>(Timetable.parse);
+  static DateTime timetableDate = weekStart(DateTime.now());
+  static Timetable? get timetable => timetableRes
+      .data['timetable/actual?date=${DateFormat('yyyy-MM-dd').format(timetableDate)}'];
+  static Future<void> loadTimetable({bool force = false}) {
+    return timetableRes.load(
+      'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(timetableDate)}',
+      force: force,
+    );
+  }
+
+  static final timetablePermRes = Resource<Timetable>(Timetable.parse);
+  static Timetable? get timetablePerm =>
+      timetablePermRes.data['timetable/permanent'];
+  static Future<void> loadTimetablePerm({bool force = false}) {
+    return timetablePermRes.load('timetable/permanent', force: force);
+  }
+
   static void clear() {
     userRes.clear();
     marksRes.clear();
     homeworkRes.clear();
+    timetableRes.clear();
+    timetablePermRes.clear();
   }
 }
