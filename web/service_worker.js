@@ -30,8 +30,24 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
+  if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
+  } else if (event.data?.type === "CACHE_URLS") {
+    event.waitUntil(
+      (async () => {
+        const cache = await caches.open(CACHE_NAME);
+        await Promise.all(
+          event.data.urls.map(async (url) => {
+            if (
+              url.startsWith(self.location.origin) &&
+              !(await cache.match(url))
+            ) {
+              await cache.add(url).catch(() => {});
+            }
+          }),
+        );
+      })(),
+    );
   }
 });
 
