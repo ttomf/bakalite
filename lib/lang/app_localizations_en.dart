@@ -199,6 +199,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passed => 'Passed';
 
   @override
+  String get teachers => 'Teachers';
+
+  @override
+  String get classes => 'Classes';
+
+  @override
+  String get rooms => 'Rooms';
+
+  @override
   String get byDate => 'By date';
 
   @override

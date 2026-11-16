@@ -65,6 +65,9 @@
   "public": "Public",
   "upcoming": "Upcoming",
   "passed": "Passed",
+  "teachers": "Teachers",
+  "classes": "Classes",
+  "rooms": "Rooms",
 
   "byDate": "By date",
   "bySubject": "By subject",

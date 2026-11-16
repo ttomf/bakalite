@@ -446,6 +446,24 @@ abstract class AppLocalizations {
   /// **'Passed'**
   String get passed;
 
+  /// No description provided for @teachers.
+  ///
+  /// In en, this message translates to:
+  /// **'Teachers'**
+  String get teachers;
+
+  /// No description provided for @classes.
+  ///
+  /// In en, this message translates to:
+  /// **'Classes'**
+  String get classes;
+
+  /// No description provided for @rooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get rooms;
+
   /// No description provided for @byDate.
   ///
   /// In en, this message translates to:

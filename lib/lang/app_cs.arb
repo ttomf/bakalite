@@ -65,6 +65,9 @@
   "public": "Veřejné",
   "upcoming": "Nadcházející",
   "passed": "Minulé",
+  "teachers": "Učitelé",
+  "classes": "Třídy",
+  "rooms": "Místnosti",
 
   "byDate": "Podle data",
   "bySubject": "Podle předmětu",

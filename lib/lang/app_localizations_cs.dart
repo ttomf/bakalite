@@ -199,6 +199,15 @@ class AppLocalizationsCs extends AppLocalizations {
   String get passed => 'Minulé';
 
   @override
+  String get teachers => 'Učitelé';
+
+  @override
+  String get classes => 'Třídy';
+
+  @override
+  String get rooms => 'Místnosti';
+
+  @override
   String get byDate => 'Podle data';
 
   @override
