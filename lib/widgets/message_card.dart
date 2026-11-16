@@ -1,3 +1,4 @@
+import 'package:bakalite/data/data.dart';
 import 'package:bakalite/data/models/komens.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -38,7 +39,10 @@ class MessageCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(DateFormat('d. M. yyyy H:mm').format(message.sentDate)),
-                  Text(message.type),
+                  Text(
+                    Data.komens.messageTypes?[message.type]?.name ??
+                        message.type,
+                  ),
                 ],
               ),
             ],

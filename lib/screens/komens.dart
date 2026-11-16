@@ -22,21 +22,37 @@ class _KomensScreenState extends State<KomensScreen> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Data.komensRes,
+      listenable: Listenable.merge([
+        Data.komensRes.komens,
+        Data.komensRes.messageTypes,
+      ]),
       builder: (context, _) {
         return Wrapper(
           title: AppLocalizations.of(context)!.komens,
           subtitle: getCacheInfo(
             context,
-            Data.komensRes.cacheTimestamp['komens/messages/received'] ??
-                Data.komensRes.cacheTimestamp['komens/messages/sent'] ??
-                Data.komensRes.cacheTimestamp['komens/messages/noticeboard'],
-            Data.komensRes.loaded['komens/messages/received'] != null &&
-                Data.komensRes.loaded['komens/messages/sent'] != null &&
-                Data.komensRes.loaded['komens/messages/noticeboard'] != null,
-            Data.komensRes.error['komens/messages/received'] != null ||
-                Data.komensRes.error['komens/messages/sent'] != null ||
-                Data.komensRes.error['komens/messages/noticeboard'] != null,
+            Data.komensRes.komens.cacheTimestamp['komens/messages/received'] ??
+                Data.komensRes.komens.cacheTimestamp['komens/messages/sent'] ??
+                Data
+                    .komensRes
+                    .komens
+                    .cacheTimestamp['komens/messages/noticeboard'] ??
+                Data
+                    .komensRes
+                    .messageTypes
+                    .cacheTimestamp['komens/message-types'],
+            Data.komensRes.komens.loaded['komens/messages/received'] != null &&
+                Data.komensRes.komens.loaded['komens/messages/sent'] != null &&
+                Data.komensRes.komens.loaded['komens/messages/noticeboard'] !=
+                    null &&
+                Data.komensRes.messageTypes.loaded['komens/message-types'] !=
+                    null,
+            Data.komensRes.komens.error['komens/messages/received'] != null ||
+                Data.komensRes.komens.error['komens/messages/sent'] != null ||
+                Data.komensRes.komens.error['komens/messages/noticeboard'] !=
+                        null &&
+                    Data.komensRes.messageTypes.error['komens/message-types'] !=
+                        null,
           ),
           tabs: [
             AppLocalizations.of(context)!.received,
@@ -55,8 +71,7 @@ class _KomensScreenState extends State<KomensScreen> {
               type != null
                   ? ListView(
                       children: [
-                        for (final message in type.messages)
-                          MessageCard(message),
+                        for (final message in type) MessageCard(message),
                       ],
                     )
                   : const Center(child: CircularProgressIndicator()),

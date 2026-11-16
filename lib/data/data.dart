@@ -28,11 +28,21 @@ class Data {
     perm: timetableRes.data['timetable/permanent'],
   );
 
-  static final komensRes = Resource<Komens>(Komens.parse);
-  static ({Komens? noticeboard, Komens? received, Komens? sent}) get komens => (
-    received: komensRes.data['komens/messages/received'],
-    sent: komensRes.data['komens/messages/sent'],
-    noticeboard: komensRes.data['komens/messages/noticeboard'],
+  static final komensRes = (
+    komens: Resource<Komens>(Komens.parse),
+    messageTypes: Resource<MessageTypes>(MessageTypes.parse),
+  );
+  static ({
+    Map<String, MessageType>? messageTypes,
+    List<Message>? noticeboard,
+    List<Message>? received,
+    List<Message>? sent,
+  })
+  get komens => (
+    received: komensRes.komens.data['komens/messages/received']?.messages,
+    sent: komensRes.komens.data['komens/messages/sent']?.messages,
+    noticeboard: komensRes.komens.data['komens/messages/noticeboard']?.messages,
+    messageTypes: komensRes.messageTypes.data['komens/message-types']?.types,
   );
 
   static Future<void> loadUser({bool force = false}) {
@@ -60,7 +70,8 @@ class Data {
 
   static Future<void> loadKomens({bool force = false}) {
     return Future.wait([
-      komensRes.load(
+      komensRes.messageTypes.load('komens/message-types', force: force),
+      komensRes.komens.load(
         'komens/messages/received',
         force: force,
         method: 'POST',
@@ -69,7 +80,7 @@ class Data {
           'IncludeHidden': true,
         }),
       ),
-      komensRes.load(
+      komensRes.komens.load(
         'komens/messages/sent',
         force: force,
         method: 'POST',
@@ -78,7 +89,7 @@ class Data {
           'IncludeHidden': true,
         }),
       ),
-      komensRes.load(
+      komensRes.komens.load(
         'komens/messages/noticeboard',
         force: force,
         method: 'POST',
@@ -95,6 +106,7 @@ class Data {
     marksRes.clear();
     homeworkRes.clear();
     timetableRes.clear();
-    komensRes.clear();
+    komensRes.komens.clear();
+    komensRes.messageTypes.clear();
   }
 }

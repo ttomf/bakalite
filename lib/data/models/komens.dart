@@ -12,6 +12,8 @@ class Message({
   required final String type,
 });
 
+class MessageType({required final String abbrev, required final String name});
+
 class Komens({required final List<Message> messages}) {
   factory Komens.parse(String string) {
     final data = jsonDecode(string);
@@ -36,5 +38,21 @@ class Komens({required final List<Message> messages}) {
     messagesParsed.sort((a, b) => b.sentDate.compareTo(a.sentDate));
 
     return Komens(messages: messagesParsed);
+  }
+}
+
+class MessageTypes({required final Map<String, MessageType> types}) {
+  factory MessageTypes.parse(String string) {
+    final data = jsonDecode(string);
+
+    final Map<String, MessageType> typesParsed = {
+      for (final message in data['MessageTypes'] ?? [])
+        safeString(message['Abbreviation']): MessageType(
+          abbrev: safeString(message['Abbreviation']),
+          name: safeString(message['Name']),
+        ),
+    };
+
+    return MessageTypes(types: typesParsed);
   }
 }
