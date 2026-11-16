@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bakalite/data/models/events.dart';
 import 'package:bakalite/data/models/homework.dart';
 import 'package:bakalite/data/models/komens.dart';
 import 'package:bakalite/data/models/marks.dart';
@@ -43,6 +44,14 @@ class Data {
     sent: komensRes.komens.data['komens/messages/sent']?.messages,
     noticeboard: komensRes.komens.data['komens/messages/noticeboard']?.messages,
     messageTypes: komensRes.messageTypes.data['komens/message-types']?.types,
+  );
+
+  static final eventsRes = Resource<Events>(Events.parse);
+  static ({List<Event>? all, List<Event>? my, List<Event>? public})
+  get events => (
+    all: eventsRes.data['events']?.events,
+    my: eventsRes.data['events/my']?.events,
+    public: eventsRes.data['events/public']?.events,
   );
 
   static Future<void> loadUser({bool force = false}) {
@@ -101,6 +110,14 @@ class Data {
     ]);
   }
 
+  static Future<void> loadEvents({bool force = false}) {
+    return Future.wait([
+      eventsRes.load('events', force: force),
+      eventsRes.load('events/my', force: force),
+      eventsRes.load('events/public', force: force),
+    ]);
+  }
+
   static void clear() {
     userRes.clear();
     marksRes.clear();
@@ -108,5 +125,6 @@ class Data {
     timetableRes.clear();
     komensRes.komens.clear();
     komensRes.messageTypes.clear();
+    eventsRes.clear();
   }
 }
