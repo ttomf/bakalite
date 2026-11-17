@@ -23,7 +23,7 @@ class FieldsTable extends StatelessWidget {
                         ?.copyWith(color: Theme.of(context).hintColor),
                   ),
                   const SizedBox(width: 8),
-                  SelectableText(
+                  Text(
                     entry.value!,
                     style: Theme.of(context).textTheme.bodyLarge
                         ?.copyWith(fontWeight: FontWeight.w500),

@@ -13,31 +13,33 @@ class SubjectSheet extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 24,
-          children: [
-            SelectableText(
-              subject.subject?.name ?? '',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            FieldsTable(
-              values: {
-                AppLocalizations.of(context)!.group: subject.groups
-                    .map((group) => group.abbrev)
-                    .join(', '),
-                AppLocalizations.of(context)!.room: subject.room != null
-                    ? '${subject.room?.name} (${subject.room?.abbrev})'
-                    : null,
-                AppLocalizations.of(context)!.teacher: subject.teacher != null
-                    ? '${subject.teacher?.name} (${subject.teacher?.abbrev})'
-                    : null,
-                AppLocalizations.of(context)!.lessonTopic: subject.theme,
-                AppLocalizations.of(context)!.change:
-                    subject.change?.description,
-              },
-            ),
-          ],
+        child: SelectionArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 24,
+            children: [
+              Text(
+                subject.subject?.name ?? '',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              FieldsTable(
+                values: {
+                  AppLocalizations.of(context)!.group: subject.groups
+                      .map((group) => group.abbrev)
+                      .join(', '),
+                  AppLocalizations.of(context)!.room: subject.room != null
+                      ? '${subject.room?.name} (${subject.room?.abbrev})'
+                      : null,
+                  AppLocalizations.of(context)!.teacher: subject.teacher != null
+                      ? '${subject.teacher?.name} (${subject.teacher?.abbrev})'
+                      : null,
+                  AppLocalizations.of(context)!.lessonTopic: subject.theme,
+                  AppLocalizations.of(context)!.change:
+                      subject.change?.description,
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

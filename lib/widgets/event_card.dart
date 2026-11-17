@@ -13,97 +13,99 @@ class EventCard extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              event.title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+        child: SelectionArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                event.title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (event.description.isNotEmpty) Text(event.description),
+              if (event.eventType.name.isNotEmpty) Text(event.eventType.name),
+              const SizedBox(height: 8),
+              Divider(
+                height: 1,
+                thickness: 1.5,
                 color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold,
               ),
-            ),
-            if (event.description.isNotEmpty) Text(event.description),
-            if (event.eventType.name.isNotEmpty) Text(event.eventType.name),
-            const SizedBox(height: 8),
-            Divider(
-              height: 1,
-              thickness: 1.5,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(height: 8),
-            if (event.classes.isNotEmpty)
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '${AppLocalizations.of(context)!.classes}: ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: event.classes
-                          .map((entity) => entity.abbrev)
-                          .join(', '),
-                    ),
-                  ],
-                  style: Theme.of(context).textTheme.bodyMedium,
+              const SizedBox(height: 8),
+              if (event.classes.isNotEmpty)
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${AppLocalizations.of(context)!.classes}: ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: event.classes
+                            .map((entity) => entity.abbrev)
+                            .join(', '),
+                      ),
+                    ],
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
-              ),
-            if (event.teachers.isNotEmpty)
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '${AppLocalizations.of(context)!.teachers}: ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: event.teachers
-                          .map((entity) => entity.name)
-                          .join(', '),
-                    ),
-                  ],
-                  style: Theme.of(context).textTheme.bodyMedium,
+              if (event.teachers.isNotEmpty)
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${AppLocalizations.of(context)!.teachers}: ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: event.teachers
+                            .map((entity) => entity.name)
+                            .join(', '),
+                      ),
+                    ],
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
-              ),
-            if (event.rooms.isNotEmpty)
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '${AppLocalizations.of(context)!.rooms}: ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: event.rooms
-                          .map((entity) => entity.abbrev)
-                          .join(', '),
-                    ),
-                  ],
-                  style: Theme.of(context).textTheme.bodyMedium,
+              if (event.rooms.isNotEmpty)
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '${AppLocalizations.of(context)!.rooms}: ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: event.rooms
+                            .map((entity) => entity.abbrev)
+                            .join(', '),
+                      ),
+                    ],
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
-              ),
-            if (event.interval.oneDay && event.interval.wholeDay) ...[
-              Text(
-                DateFormat(
-                  'EE d. M. yyyy',
-                  Localizations.localeOf(context).languageCode,
-                ).format(event.interval.start),
-              ),
-            ] else if (event.interval.oneDay) ...[
-              Text(
-                '${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.start)} ${DateFormat('H:mm', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('H:mm', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
-              ),
-            ] else if (event.interval.wholeDay) ...[
-              Text(
-                '${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
-              ),
-            ] else ...[
-              Text(
-                '${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
-              ),
+              if (event.interval.oneDay && event.interval.wholeDay) ...[
+                Text(
+                  DateFormat(
+                    'EE d. M. yyyy',
+                    Localizations.localeOf(context).languageCode,
+                  ).format(event.interval.start),
+                ),
+              ] else if (event.interval.oneDay) ...[
+                Text(
+                  '${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.start)} ${DateFormat('H:mm', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('H:mm', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
+                ),
+              ] else if (event.interval.wholeDay) ...[
+                Text(
+                  '${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
+                ),
+              ] else ...[
+                Text(
+                  '${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
