@@ -6,6 +6,8 @@ import 'package:bakalite/utils.dart';
 class TimeInterval({
   required final DateTime start,
   required final DateTime end,
+  required final bool oneDay,
+  required final bool wholeDay,
 }) {
   factory TimeInterval.parse(List times) {
     DateTime? timeStart;
@@ -26,6 +28,14 @@ class TimeInterval({
     return TimeInterval(
       start: timeStart ?? parseTime('0000-01-01'),
       end: timeEnd ?? parseTime('0000-01-01'),
+      oneDay:
+          timeStart != null &&
+          timeEnd != null &&
+          times.length == 1 &&
+          timeStart.year == timeEnd.year &&
+          timeStart.month == timeEnd.month &&
+          timeStart.day == timeEnd.day,
+      wholeDay: times.every((time) => time['WholeDay']),
     );
   }
 }

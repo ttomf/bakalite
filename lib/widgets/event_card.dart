@@ -83,9 +83,26 @@ class EventCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
-            Text(
-              '${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
-            ),
+            if (event.interval.oneDay && event.interval.wholeDay) ...[
+              Text(
+                DateFormat(
+                  'EE d. M. yyyy',
+                  Localizations.localeOf(context).languageCode,
+                ).format(event.interval.start),
+              ),
+            ] else if (event.interval.oneDay) ...[
+              Text(
+                '${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.start)} ${DateFormat('H:mm', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('H:mm', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
+              ),
+            ] else if (event.interval.wholeDay) ...[
+              Text(
+                '${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('EE d. M. yyyy', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
+              ),
+            ] else ...[
+              Text(
+                '${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.start)} – ${DateFormat('EE d. M. yyyy H:mm', Localizations.localeOf(context).languageCode).format(event.interval.end)}',
+              ),
+            ],
           ],
         ),
       ),
