@@ -77,8 +77,8 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RichText(
-                  text: TextSpan(
+                Text.rich(
+                  TextSpan(
                     children: [
                       TextSpan(
                         text: '${AppLocalizations.of(context)!.average}: ',
@@ -95,8 +95,8 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-                RichText(
-                  text: TextSpan(
+                Text.rich(
+                  TextSpan(
                     children: [
                       TextSpan(
                         text: '${AppLocalizations.of(context)!.totalWeight}: ',
@@ -110,8 +110,8 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-                RichText(
-                  text: TextSpan(
+                Text.rich(
+                  TextSpan(
                     children: [
                       TextSpan(
                         text: '${AppLocalizations.of(context)!.marks}: ',

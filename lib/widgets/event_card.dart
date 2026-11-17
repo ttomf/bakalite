@@ -33,8 +33,8 @@ class EventCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             if (event.classes.isNotEmpty)
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   children: [
                     TextSpan(
                       text: '${AppLocalizations.of(context)!.classes}: ',
@@ -50,8 +50,8 @@ class EventCard extends StatelessWidget {
                 ),
               ),
             if (event.teachers.isNotEmpty)
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   children: [
                     TextSpan(
                       text: '${AppLocalizations.of(context)!.teachers}: ',
@@ -67,8 +67,8 @@ class EventCard extends StatelessWidget {
                 ),
               ),
             if (event.rooms.isNotEmpty)
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   children: [
                     TextSpan(
                       text: '${AppLocalizations.of(context)!.rooms}: ',
