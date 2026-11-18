@@ -52,10 +52,8 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
       },
     ) as T?;
 
-    if (val == null) return;
-    setState(() {
-      widget.setting!.value = val;
-    });
+    if (!mounted || val == null) return;
+    widget.setting!.value = val;
     widget.onSet?.call(widget.setting!.value);
   }
 
@@ -83,10 +81,8 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
       ],
     );
 
-    if (val == null) return;
-    setState(() {
-      widget.setting!.value = val;
-    });
+    if (!mounted || val == null) return;
+    widget.setting!.value = val;
     widget.onSet?.call(widget.setting!.value);
   }
 
@@ -98,9 +94,7 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
       return Switch(
         value: widget.setting!.value as bool,
         onChanged: (val) {
-          setState(() {
-            widget.setting!.value = val as T;
-          });
+          widget.setting!.value = val as T;
           widget.onSet?.call(widget.setting!.value);
         },
       );
@@ -124,6 +118,19 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
 
   @override
   Widget build(BuildContext context) {
+    final setting = widget.setting;
+
+    if (setting == null) {
+      return buildCard();
+    }
+
+    return ValueListenableBuilder<T>(
+      valueListenable: setting,
+      builder: (context, value, child) => buildCard(),
+    );
+  }
+
+  Card buildCard() {
     return Card(
       child: InkWell(
         key: _key,
@@ -134,9 +141,7 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
           }
 
           if (T == bool) {
-            setState(() {
-              widget.setting!.value = !(widget.setting!.value as bool) as T;
-            });
+            widget.setting!.value = !(widget.setting!.value as bool) as T;
             widget.onSet?.call(widget.setting!.value);
           } else if (T == Color) {
             pickColor();
