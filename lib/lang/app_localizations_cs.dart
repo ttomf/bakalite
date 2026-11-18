@@ -34,6 +34,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get no => 'Ne';
 
   @override
+  String get ok => 'OK';
+
+  @override
   String get cancel => 'Zrušit';
 
   @override
