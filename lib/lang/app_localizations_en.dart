@@ -34,6 +34,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get no => 'No';
 
   @override
+  String get cancel => 'Cancel';
+
+  @override
   String get cached => 'Cached data from';
 
   @override
