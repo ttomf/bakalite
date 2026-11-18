@@ -15,7 +15,7 @@ class TimetableGrid extends StatelessWidget {
   final ScrollController scrollController;
 
   Widget _buildDay(BuildContext context, TimetableDay day) {
-    if (day.dayType != null && day.dayType != 'WorkDay') {
+    if (day.dayType != null && day.dayType != 'WorkDay' && day.atoms.isEmpty) {
       return Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondaryContainer,

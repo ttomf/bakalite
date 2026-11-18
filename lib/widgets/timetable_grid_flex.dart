@@ -20,7 +20,7 @@ class TimetableGridFlex extends StatelessWidget {
     int timelineStart,
     double timelineWidth,
   ) {
-    if (day.dayType != null && day.dayType != 'WorkDay') {
+    if (day.dayType != null && day.dayType != 'WorkDay' && day.atoms.isEmpty) {
       return SizedBox(
         width: timelineWidth,
         child: Container(
