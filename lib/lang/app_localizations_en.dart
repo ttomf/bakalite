@@ -115,6 +115,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get relativeDateLabels => 'Relative date labels';
 
   @override
+  String get dashboardOrder => 'Dashboard card order';
+
+  @override
   String get devMode => 'Developer mode';
 
   @override

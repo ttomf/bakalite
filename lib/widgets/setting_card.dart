@@ -8,6 +8,7 @@ class SettingCard<T> extends StatefulWidget {
     this.info,
     this.setting,
     this.choices,
+    this.order,
     this.onSet,
   });
 
@@ -15,6 +16,7 @@ class SettingCard<T> extends StatefulWidget {
   final String? info;
   final ValueNotifier<T>? setting;
   final Map<T, String>? choices;
+  final List<({String key, String label})>? order;
   final ValueChanged<T?>? onSet;
 
   @override
@@ -86,6 +88,66 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
     widget.onSet?.call(widget.setting!.value);
   }
 
+  Future<void> sortList() async {
+    if (widget.order == null) return;
+    final order = (widget.setting!.value as List)
+        .map((item) => widget.order!.firstWhere((e) => e.key == item))
+        .toList();
+
+    final val = await showDialog<T>(
+      context: context,
+      builder: (context) {
+        final items = List.of(order);
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(widget.label),
+              content: SizedBox(
+                width: double.maxFinite,
+                height: 300,
+                child: ReorderableListView(
+                  onReorderItem: (oldIndex, newIndex) {
+                    setDialogState(() {
+                      final item = items.removeAt(oldIndex);
+                      items.insert(newIndex, item);
+                    });
+                  },
+                  proxyDecorator: (child, index, animation) => child,
+                  children: [
+                    for (final e in items)
+                      Card(
+                        key: ValueKey(e.key),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Text(e.label),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.cancel),
+                  onPressed: () => Navigator.pop(context, null),
+                ),
+                TextButton(
+                  child: Text(AppLocalizations.of(context)!.ok),
+                  onPressed: () =>
+                      Navigator.pop(context, items.map((e) => e.key).toList()),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (!mounted || val == null) return;
+    widget.setting!.value = val;
+    widget.onSet?.call(widget.setting!.value);
+  }
+
   Widget getControl() {
     if (widget.setting == null) {
       return const SizedBox(height: 48);
@@ -111,6 +173,9 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
             as String,
         style: Theme.of(context).textTheme.labelLarge,
       );
+    }
+    if ((T == List<String>) && (widget.order?.isNotEmpty ?? false)) {
+      return const Icon(Icons.sort);
     }
 
     throw ArgumentError('Unsupported setting type: $T');
@@ -147,6 +212,8 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
             pickColor();
           } else if (T == String) {
             pickString();
+          } else if (T == List<String>) {
+            sortList();
           }
         },
         child: Padding(

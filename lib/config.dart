@@ -68,6 +68,13 @@ class Config {
   static final autoRefresh = ConfigOption('autoRefresh', true);
   static final flexTimetable = ConfigOption('useFlexTimetable', false);
   static final relativeDateLabels = ConfigOption('relativeDateLabels', true);
+  static final dashboardOrder = ConfigOption('dashboardOrder', [
+    'komens',
+    'events',
+    'marks',
+    'homework',
+    'timetable',
+  ]);
   static final devMode = ConfigOption('devMode', false);
 
   static Future<void> reset() async {
@@ -79,6 +86,7 @@ class Config {
       autoRefresh.reset(),
       flexTimetable.reset(),
       relativeDateLabels.reset(),
+      dashboardOrder.reset(),
       devMode.reset(),
     ]);
   }

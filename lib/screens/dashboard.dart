@@ -23,7 +23,11 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Listenable.merge([Data.userRes, Config.devMode]),
+      listenable: Listenable.merge([
+        Data.userRes,
+        Config.devMode,
+        Config.dashboardOrder,
+      ]),
       builder: (context, _) {
         return Wrapper(
           title: AppLocalizations.of(context)!.dashboard,
@@ -56,31 +60,35 @@ class _DashboardState extends State<Dashboard> {
                             maxCrossAxisExtent: 300,
                           ),
                       children: [
-                        ModuleCard(
-                          route: '/komens',
-                          label: AppLocalizations.of(context)!.komens,
-                          icon: Icons.message,
-                        ),
-                        ModuleCard(
-                          route: '/events',
-                          label: AppLocalizations.of(context)!.events,
-                          icon: Icons.event,
-                        ),
-                        ModuleCard(
-                          route: '/marks',
-                          label: AppLocalizations.of(context)!.marks,
-                          icon: Icons.grade,
-                        ),
-                        ModuleCard(
-                          route: '/homework',
-                          label: AppLocalizations.of(context)!.homework,
-                          icon: Icons.assignment,
-                        ),
-                        ModuleCard(
-                          route: '/timetable',
-                          label: AppLocalizations.of(context)!.timetable,
-                          icon: Icons.calendar_month,
-                        ),
+                        for (final item in Config.dashboardOrder.value)
+                          switch (item) {
+                            'komens' => ModuleCard(
+                              route: '/komens',
+                              label: AppLocalizations.of(context)!.komens,
+                              icon: Icons.message,
+                            ),
+                            'events' => ModuleCard(
+                              route: '/events',
+                              label: AppLocalizations.of(context)!.events,
+                              icon: Icons.event,
+                            ),
+                            'marks' => ModuleCard(
+                              route: '/marks',
+                              label: AppLocalizations.of(context)!.marks,
+                              icon: Icons.grade,
+                            ),
+                            'homework' => ModuleCard(
+                              route: '/homework',
+                              label: AppLocalizations.of(context)!.homework,
+                              icon: Icons.assignment,
+                            ),
+                            'timetable' => ModuleCard(
+                              route: '/timetable',
+                              label: AppLocalizations.of(context)!.timetable,
+                              icon: Icons.calendar_month,
+                            ),
+                            _ => const SizedBox.shrink(),
+                          },
                       ],
                     ),
                   ),

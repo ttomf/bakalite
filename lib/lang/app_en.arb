@@ -35,6 +35,7 @@
   "autoRefresh": "Automatic data refresh",
   "flexTimetable": "Use FLEXI timetable",
   "relativeDateLabels": "Relative date labels",
+  "dashboardOrder": "Dashboard card order",
   "devMode": "Developer mode",
   "resetSettings": "Reset settings",
   "about": "About app",

@@ -35,6 +35,7 @@
   "autoRefresh": "Automatická synchronizace",
   "flexTimetable": "Použít FLEXI rozvrh",
   "relativeDateLabels": "Relativní názvy dat",
+  "dashboardOrder": "Uspořádání domovské obrazovky",
   "devMode": "Vývojářský mód",
   "resetSettings": "Obnovit nastavení",
   "about": "O aplikaci",

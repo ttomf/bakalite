@@ -290,6 +290,12 @@ abstract class AppLocalizations {
   /// **'Relative date labels'**
   String get relativeDateLabels;
 
+  /// No description provided for @dashboardOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard card order'**
+  String get dashboardOrder;
+
   /// No description provided for @devMode.
   ///
   /// In en, this message translates to:

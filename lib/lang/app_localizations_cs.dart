@@ -115,6 +115,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get relativeDateLabels => 'Relativní názvy dat';
 
   @override
+  String get dashboardOrder => 'Uspořádání domovské obrazovky';
+
+  @override
   String get devMode => 'Vývojářský mód';
 
   @override

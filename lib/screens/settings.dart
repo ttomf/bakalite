@@ -72,6 +72,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
               info: AppLocalizations.of(context)!.relativeDateLabelsInfo,
               label: AppLocalizations.of(context)!.relativeDateLabels,
             ),
+            SettingCard<List<String>>(
+              key: ValueKey((settingsKey, 'dashboardOrder')),
+              setting: Config.dashboardOrder,
+              order: [
+                (key: 'komens', label: AppLocalizations.of(context)!.komens),
+                (key: 'events', label: AppLocalizations.of(context)!.events),
+                (key: 'marks', label: AppLocalizations.of(context)!.marks),
+                (
+                  key: 'homework',
+                  label: AppLocalizations.of(context)!.homework,
+                ),
+                (
+                  key: 'timetable',
+                  label: AppLocalizations.of(context)!.timetable,
+                ),
+              ],
+              label: AppLocalizations.of(context)!.dashboardOrder,
+            ),
             SettingCard<bool>(
               key: ValueKey((settingsKey, 'devMode')),
               setting: Config.devMode,

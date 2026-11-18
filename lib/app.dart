@@ -36,15 +36,17 @@ class MainApp extends StatelessWidget {
       '/accounts': (context) => const AccountsScreen(),
     };
 
-    return AnimatedBuilder(
-      animation: Listenable.merge([
+    return ListenableBuilder(
+      listenable: Listenable.merge([
         Config.language,
         Config.seedColor,
         Config.useM3Color,
-        Config.relativeDateLabels,
         Config.brightness,
+        Config.autoRefresh,
+        Config.flexTimetable,
+        Config.relativeDateLabels,
       ]),
-      builder: (context, child) {
+      builder: (context, _) {
         return MaterialApp(
           title: 'BakaLite',
           debugShowCheckedModeBanner: false,
