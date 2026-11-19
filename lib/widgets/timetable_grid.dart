@@ -33,12 +33,38 @@ class TimetableGrid extends StatelessWidget {
       );
     }
 
+    final now = DateTime.now();
+    final nowMinutes = now.hour * 60 + now.minute;
+
+    bool foundNow = false;
     final Map<String, List<Atom>> atoms = {};
     for (final atom in day.atoms) {
       for (final hour in timetable.hours) {
         if (atom.start < hour.start + hour.duration &&
             hour.start < atom.start + atom.duration) {
+          if (atom.date?.year == now.year &&
+              atom.date?.month == now.month &&
+              atom.date?.day == now.day &&
+              atom.start < nowMinutes &&
+              nowMinutes < (atom.start + atom.duration)) {
+            atom.isNow = true;
+            foundNow = true;
+          }
           (atoms[hour.id] ??= []).add(atom);
+        }
+      }
+    }
+
+    if (!foundNow) {
+      for (final hour in atoms.values) {
+        for (final atom in hour) {
+          if (atom.date?.year == now.year &&
+              atom.date?.month == now.month &&
+              atom.date?.day == now.day &&
+              (atom.start - 30) < nowMinutes &&
+              nowMinutes < (atom.start + atom.duration)) {
+            atom.isNow = true;
+          }
         }
       }
     }

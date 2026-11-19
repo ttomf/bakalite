@@ -9,19 +9,9 @@ class SubjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final nowMinutes = now.hour * 60 + now.minute;
-    final isNow =
-        atom.date != null &&
-        atom.date!.year == now.year &&
-        atom.date!.month == now.month &&
-        atom.date!.day == now.day &&
-        atom.start < nowMinutes &&
-        nowMinutes < (atom.start + atom.duration);
-
     return Card(
       shape: RoundedRectangleBorder(
-        side: isNow
+        side: atom.isNow
             ? BorderSide(color: Theme.of(context).colorScheme.primary, width: 2)
             : BorderSide.none,
         borderRadius: BorderRadius.circular(4),

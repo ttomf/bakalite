@@ -32,6 +32,7 @@ class Atom({
   required final Change? change,
   required final String theme,
   final DateTime? date,
+  var bool isNow = false,
 });
 
 class TimetableDay({

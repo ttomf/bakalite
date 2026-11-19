@@ -45,6 +45,33 @@ class TimetableGridFlex extends StatelessWidget {
         day.atoms.where((a) => a.start >= 0 && a.duration > 0).toList()
           ..sort((a, b) => a.start.compareTo(b.start));
 
+    final now = DateTime.now();
+    final nowMinutes = now.hour * 60 + now.minute;
+
+    bool foundNow = false;
+    for (final atom in sorted) {
+      if (atom.date?.year == now.year &&
+          atom.date?.month == now.month &&
+          atom.date?.day == now.day &&
+          atom.start < nowMinutes &&
+          nowMinutes < (atom.start + atom.duration)) {
+        atom.isNow = true;
+        foundNow = true;
+      }
+    }
+
+    if (!foundNow) {
+      for (final atom in sorted) {
+        if (atom.date?.year == now.year &&
+            atom.date?.month == now.month &&
+            atom.date?.day == now.day &&
+            (atom.start - 30) < nowMinutes &&
+            nowMinutes < (atom.start + atom.duration)) {
+          atom.isNow = true;
+        }
+      }
+    }
+
     final List<({Atom atom, int lane, int lanes})> layout = [];
     List<({Atom atom, int lane})> cluster = [];
     final List<int> laneEnds = [];
