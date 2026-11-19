@@ -1,4 +1,4 @@
-const VERSION = "0.3.0";
+const VERSION = "0.3.1";
 const CACHE_PREFIX = "bakalite-cache";
 const CACHE_NAME = `${CACHE_PREFIX}-v${VERSION}`;
 
