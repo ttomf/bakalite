@@ -1,3 +1,4 @@
+import 'package:bakalite/config.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class SettingCard<T> extends StatefulWidget {
 
   final String label;
   final String? info;
-  final ValueNotifier<T>? setting;
+  final ConfigOption<T>? setting;
   final Map<T, String>? choices;
   final List<({String key, String label})>? order;
   final ValueChanged<T?>? onSet;
@@ -231,8 +232,19 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
+                      if (widget.setting?.defaultValue != widget.setting?.value)
+                        IconButton(
+                          key: const ValueKey('undo'),
+                          icon: const Icon(Icons.undo),
+                          onPressed: () {
+                            widget.setting!.value =
+                                widget.setting!.defaultValue;
+                            widget.onSet?.call(widget.setting!.value);
+                          },
+                        ),
                       if (widget.info != null)
                         IconButton(
+                          key: const ValueKey('info'),
                           icon: const Icon(Icons.info_outline),
                           onPressed: () {
                             showDialog(
