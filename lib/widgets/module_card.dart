@@ -5,12 +5,14 @@ class ModuleCard extends StatelessWidget {
     required this.route,
     required this.label,
     required this.icon,
+    this.color = false,
     super.key,
   });
 
   final String route;
   final String label;
   final IconData icon;
+  final bool color;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,11 @@ class ModuleCard extends StatelessWidget {
                 child: Center(
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
-                    child: Icon(icon, size: 50),
+                    child: Icon(
+                      icon,
+                      size: 50,
+                      color: color ? Theme.of(context).primaryColor : null,
+                    ),
                   ),
                 ),
               ),
