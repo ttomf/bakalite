@@ -1,11 +1,15 @@
 # BakaLite
 
+> [!IMPORTANT]
+> **DISCLAIMER**: BakaLite is an unofficial client and is not affiliated with Bakaláři or its developers.
+
 A lightweight, intuitive and open-source alternative client for [Bakaláři](https://bakalari.cz/), without the ads and tracking found in the official app.
 
 Try it here: [baka.ttomf.cc](https://baka.ttomf.cc).
 
-> [!IMPORTANT]
-> **DISCLAIMER**: BakaLite is an unofficial client and is not affiliated with Bakaláři or its developers.
+> [!TIP]
+> If you just want to test the app, or if you don't have a Bakaláři account, use `debug` as the URL, and any username and password.
+> The app will use mock data.
 
 > [!WARNING]
 > BakaLite is currently under development. Please report any bugs you find in [Issues](https://github.com/ttomf/bakalite/issues).
@@ -15,6 +19,7 @@ Try it here: [baka.ttomf.cc](https://baka.ttomf.cc).
 ### Modules
 
 - **Komens (Messages)**: received, sent and noticeboard messages with HTML content rendering and attachments
+- **Events**: view all, your and public events, with filtering by upcoming or past events
 - **Marks**: marks sorted by date or subject, with weights, average and local what-if calculations
 - **Homework**: current, after-deadline and closed homework, completion tracking, timeline and attachments
 - **Timetable**: actual and permanent timetable, week navigation, current lesson highlighting and FLEXI layout
@@ -43,10 +48,6 @@ Enter your school's Bakaláři URL **without `/api`**
 (for example `https://school.bakalari.cz/bakaweb`), or search for your school in the list.
 School search may not work in the web build because the Bakaláři server does not allow cross-origin requests.
 Then fill in your username and password.
-
-> [!TIP]
-> If you just want to test the app, or if you don't have a Bakaláři account, use `debug` as the URL, and any username and password.
-> The app will use mock data.
 
 ## Build from source
 
