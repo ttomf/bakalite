@@ -118,6 +118,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get dashboardOrder => 'Uspořádání domovské obrazovky';
 
   @override
+  String get dashboardColor => 'Barevné ikony na domovské obrazovce';
+
+  @override
   String get devMode => 'Vývojářský mód';
 
   @override

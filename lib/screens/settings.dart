@@ -91,6 +91,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               label: AppLocalizations.of(context)!.dashboardOrder,
             ),
             SettingCard<bool>(
+              key: ValueKey((settingsKey, 'dashboardColor')),
+              setting: Config.dashboardColor,
+              label: AppLocalizations.of(context)!.dashboardColor,
+            ),
+            SettingCard<bool>(
               key: ValueKey((settingsKey, 'devMode')),
               setting: Config.devMode,
               info: AppLocalizations.of(context)!.devModeInfo,

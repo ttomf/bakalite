@@ -32,7 +32,9 @@ class ModuleCard extends StatelessWidget {
                     child: Icon(
                       icon,
                       size: 50,
-                      color: color ? Theme.of(context).primaryColor : null,
+                      color: color
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
                     ),
                   ),
                 ),

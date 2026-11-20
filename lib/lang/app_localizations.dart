@@ -296,6 +296,12 @@ abstract class AppLocalizations {
   /// **'Dashboard card order'**
   String get dashboardOrder;
 
+  /// No description provided for @dashboardColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Colorful icons on dashboard'**
+  String get dashboardColor;
+
   /// No description provided for @devMode.
   ///
   /// In en, this message translates to:

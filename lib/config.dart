@@ -75,6 +75,7 @@ class Config {
     'homework',
     'timetable',
   ]);
+  static final dashboardColor = ConfigOption('dashboardColor', true);
   static final devMode = ConfigOption('devMode', false);
 
   static Future<void> reset() async {
@@ -87,6 +88,7 @@ class Config {
       flexTimetable.reset(),
       relativeDateLabels.reset(),
       dashboardOrder.reset(),
+      dashboardColor.reset(),
       devMode.reset(),
     ]);
   }
