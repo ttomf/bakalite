@@ -220,6 +220,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get rooms => 'Místnosti';
 
   @override
+  String get date => 'Datum';
+
+  @override
   String get byDate => 'Podle data';
 
   @override

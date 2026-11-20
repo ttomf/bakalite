@@ -220,6 +220,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rooms => 'Rooms';
 
   @override
+  String get date => 'Date';
+
+  @override
   String get byDate => 'By date';
 
   @override

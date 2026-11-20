@@ -488,6 +488,12 @@ abstract class AppLocalizations {
   /// **'Rooms'**
   String get rooms;
 
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
   /// No description provided for @byDate.
   ///
   /// In en, this message translates to:
