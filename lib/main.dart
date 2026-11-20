@@ -7,13 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  prefs = await SharedPreferencesWithCache.create(
+  final prefsFuture = SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(),
   );
-  await Cache.init();
+  final cacheFuture = Cache.init();
+  prefs = await prefsFuture;
+  await cacheFuture;
   Account? account = await accountManager.getActiveAccount();
   if (account != null) {
-    await setupApi(account, false);
+    setupApi(account, false);
   }
   runApp(MainApp(route: account == null ? '/login' : '/dashboard'));
 }
