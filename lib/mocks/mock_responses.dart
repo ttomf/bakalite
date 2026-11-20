@@ -1443,4 +1443,370 @@ mockResponses = {
       },
     ],
   },
+  'GET /api/3/events': (request, params) => {
+    'Events': [
+      {
+        'Id': 'DEBUG_EVENT_MY_1',
+        'Title': 'School trip to the science museum',
+        'Description': 'Whole-day trip, bring a packed lunch.',
+        'Times': [
+          {
+            'WholeDay': true,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 7))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 7))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T3', 'Abbrev': 'Fey', 'Name': 'Richard Feynman'},
+        ],
+        'Rooms': [
+          {'Id': 'R3', 'Abbrev': '311', 'Name': 'Room 311'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_MY_2',
+        'Title': "Parents' evening",
+        'Description': 'Meeting with teachers in the school hall.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 2))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 2, hours: 2))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T1', 'Abbrev': 'Tur', 'Name': 'Alan Turing'},
+          {'Id': 'T2', 'Abbrev': 'Aus', 'Name': 'Jane Austen'},
+          {'Id': 'T3', 'Abbrev': 'Fey', 'Name': 'Richard Feynman'},
+          {'Id': 'T4', 'Abbrev': 'Tao', 'Name': 'Terence Tao'},
+        ],
+        'Rooms': [
+          {'Id': 'R1', 'Abbrev': '109', 'Name': 'Room 109'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_MY_3',
+        'Title': 'Project week',
+        'Description': 'Work on the BakaLite app with your team.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 20))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 22))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T1', 'Abbrev': 'Tur', 'Name': 'Alan Turing'},
+          {'Id': 'T4', 'Abbrev': 'Tao', 'Name': 'Terence Tao'},
+        ],
+        'Rooms': [
+          {'Id': 'R1', 'Abbrev': '109', 'Name': 'Room 109'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_MY_4',
+        'Title': 'Alumni talk',
+        'Description': 'Former students talk about their careers.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .subtract(const Duration(days: 10))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .subtract(const Duration(days: 10))
+                .add(const Duration(hours: 2))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T2', 'Abbrev': 'Aus', 'Name': 'Jane Austen'},
+        ],
+        'Rooms': [
+          {'Id': 'R2', 'Abbrev': '203', 'Name': 'Room 203'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_PUBLIC_1',
+        'Title': 'School break',
+        'Description': 'School is closed for the whole week.',
+        'Times': [
+          {
+            'WholeDay': true,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 10))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 14))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'HD', 'Abbrev': 'Holiday', 'Name': 'Holiday'},
+        'Classes': [],
+        'Teachers': [],
+        'Rooms': [],
+      },
+      {
+        'Id': 'DEBUG_EVENT_PUBLIC_2',
+        'Title': 'Open day',
+        'Description': 'Come and see the school, everyone is welcome.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 15))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 15, hours: 7))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'PB', 'Abbrev': 'Public', 'Name': 'Public event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T1', 'Abbrev': 'Tur', 'Name': 'Alan Turing'},
+          {'Id': 'T2', 'Abbrev': 'Aus', 'Name': 'Jane Austen'},
+        ],
+        'Rooms': [
+          {'Id': 'R1', 'Abbrev': '109', 'Name': 'Room 109'},
+          {'Id': 'R2', 'Abbrev': '203', 'Name': 'Room 203'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_PUBLIC_3',
+        'Title': 'Foundation day',
+        'Description': 'Anniversary of the school foundation.',
+        'Times': [
+          {
+            'WholeDay': true,
+            'StartTime': DateTime.now()
+                .subtract(const Duration(days: 30))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .subtract(const Duration(days: 30))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'PB', 'Abbrev': 'Public', 'Name': 'Public event'},
+        'Classes': [],
+        'Teachers': [],
+        'Rooms': [],
+      },
+    ],
+  },
+  'GET /api/3/events/my': (request, params) => {
+    'Events': [
+      {
+        'Id': 'DEBUG_EVENT_MY_1',
+        'Title': 'School trip to the science museum',
+        'Description': 'Whole-day trip, bring a packed lunch.',
+        'Times': [
+          {
+            'WholeDay': true,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 7))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 7))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T3', 'Abbrev': 'Fey', 'Name': 'Richard Feynman'},
+        ],
+        'Rooms': [
+          {'Id': 'R3', 'Abbrev': '311', 'Name': 'Room 311'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_MY_2',
+        'Title': "Parents' evening",
+        'Description': 'Meeting with teachers in the school hall.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 2))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 2, hours: 2))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T1', 'Abbrev': 'Tur', 'Name': 'Alan Turing'},
+          {'Id': 'T2', 'Abbrev': 'Aus', 'Name': 'Jane Austen'},
+          {'Id': 'T3', 'Abbrev': 'Fey', 'Name': 'Richard Feynman'},
+          {'Id': 'T4', 'Abbrev': 'Tao', 'Name': 'Terence Tao'},
+        ],
+        'Rooms': [
+          {'Id': 'R1', 'Abbrev': '109', 'Name': 'Room 109'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_MY_3',
+        'Title': 'Project week',
+        'Description': 'Work on the BakaLite app with your team.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 20))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 22))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T1', 'Abbrev': 'Tur', 'Name': 'Alan Turing'},
+          {'Id': 'T4', 'Abbrev': 'Tao', 'Name': 'Terence Tao'},
+        ],
+        'Rooms': [
+          {'Id': 'R1', 'Abbrev': '109', 'Name': 'Room 109'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_MY_4',
+        'Title': 'Alumni talk',
+        'Description': 'Former students talk about their careers.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .subtract(const Duration(days: 10))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .subtract(const Duration(days: 10))
+                .add(const Duration(hours: 2))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'SA', 'Abbrev': 'School', 'Name': 'School event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T2', 'Abbrev': 'Aus', 'Name': 'Jane Austen'},
+        ],
+        'Rooms': [
+          {'Id': 'R2', 'Abbrev': '203', 'Name': 'Room 203'},
+        ],
+      },
+    ],
+  },
+  'GET /api/3/events/public': (request, params) => {
+    'Events': [
+      {
+        'Id': 'DEBUG_EVENT_PUBLIC_1',
+        'Title': 'School break',
+        'Description': 'School is closed for the whole week.',
+        'Times': [
+          {
+            'WholeDay': true,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 10))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 14))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'HD', 'Abbrev': 'Holiday', 'Name': 'Holiday'},
+        'Classes': [],
+        'Teachers': [],
+        'Rooms': [],
+      },
+      {
+        'Id': 'DEBUG_EVENT_PUBLIC_2',
+        'Title': 'Open day',
+        'Description': 'Come and see the school, everyone is welcome.',
+        'Times': [
+          {
+            'WholeDay': false,
+            'StartTime': DateTime.now()
+                .add(const Duration(days: 15))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .add(const Duration(days: 15, hours: 7))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'PB', 'Abbrev': 'Public', 'Name': 'Public event'},
+        'Classes': [
+          {'Id': 'C1', 'Abbrev': '5.A', 'Name': '5. A'},
+        ],
+        'Teachers': [
+          {'Id': 'T1', 'Abbrev': 'Tur', 'Name': 'Alan Turing'},
+          {'Id': 'T2', 'Abbrev': 'Aus', 'Name': 'Jane Austen'},
+        ],
+        'Rooms': [
+          {'Id': 'R1', 'Abbrev': '109', 'Name': 'Room 109'},
+          {'Id': 'R2', 'Abbrev': '203', 'Name': 'Room 203'},
+        ],
+      },
+      {
+        'Id': 'DEBUG_EVENT_PUBLIC_3',
+        'Title': 'Foundation day',
+        'Description': 'Anniversary of the school foundation.',
+        'Times': [
+          {
+            'WholeDay': true,
+            'StartTime': DateTime.now()
+                .subtract(const Duration(days: 30))
+                .toIso8601String(),
+            'EndTime': DateTime.now()
+                .subtract(const Duration(days: 30))
+                .toIso8601String(),
+          },
+        ],
+        'EventType': {'Id': 'PB', 'Abbrev': 'Public', 'Name': 'Public event'},
+        'Classes': [],
+        'Teachers': [],
+        'Rooms': [],
+      },
+    ],
+  },
 };
