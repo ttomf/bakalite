@@ -21,45 +21,75 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: Data.eventsRes,
-      builder: (context, _) {
-        return Wrapper(
-          title: AppLocalizations.of(context)!.events,
-          subtitle: getCacheInfo(
-            context,
-            Data.eventsRes.cacheTimestamp['events'] ??
-                Data.eventsRes.cacheTimestamp['events/my'] ??
-                Data.eventsRes.cacheTimestamp['events/public'],
-            Data.eventsRes.loaded['events'] != null &&
-                Data.eventsRes.loaded['events/my'] != null &&
-                Data.eventsRes.loaded['events/public'] != null,
-            Data.eventsRes.error['events'] != null ||
-                Data.eventsRes.error['events/my'] != null ||
-                Data.eventsRes.error['events/public'] != null,
-          ),
-          tabs: [
-            AppLocalizations.of(context)!.all,
-            AppLocalizations.of(context)!.my,
-            AppLocalizations.of(context)!.public,
-          ],
-          onRefresh: () {
-            Data.loadEvents(force: true);
-          },
-          children: [
-            for (final type in [
-              Data.events.all,
-              Data.events.my,
-              Data.events.public,
-            ])
-              type != null
-                  ? ListView(
-                      children: [for (final event in type) EventCard(event)],
-                    )
-                  : const Center(child: CircularProgressIndicator()),
-          ],
-        );
-      },
+    return DefaultTabController(
+      length: 2,
+      child: ListenableBuilder(
+        listenable: Data.eventsRes,
+        builder: (context, _) {
+          final tabController = DefaultTabController.of(context);
+
+          return Wrapper(
+            title: AppLocalizations.of(context)!.events,
+            subtitle: getCacheInfo(
+              context,
+              Data.eventsRes.cacheTimestamp['events'] ??
+                  Data.eventsRes.cacheTimestamp['events/my'] ??
+                  Data.eventsRes.cacheTimestamp['events/public'],
+              Data.eventsRes.loaded['events'] != null &&
+                  Data.eventsRes.loaded['events/my'] != null &&
+                  Data.eventsRes.loaded['events/public'] != null,
+              Data.eventsRes.error['events'] != null ||
+                  Data.eventsRes.error['events/my'] != null ||
+                  Data.eventsRes.error['events/public'] != null,
+            ),
+            tabs: [
+              AppLocalizations.of(context)!.all,
+              AppLocalizations.of(context)!.my,
+              AppLocalizations.of(context)!.public,
+            ],
+            onRefresh: () {
+              Data.loadEvents(force: true);
+            },
+            header: TabBar(
+              controller: tabController,
+              tabs: [
+                Tab(child: Text(AppLocalizations.of(context)!.upcoming)),
+                Tab(child: Text(AppLocalizations.of(context)!.passed)),
+              ],
+            ),
+            children: [
+              for (final type in [
+                Data.events.all,
+                Data.events.my,
+                Data.events.public,
+              ])
+                TabBarView(
+                  controller: tabController,
+                  children: [
+                    type != null
+                        ? ListView(
+                            children: [
+                              for (final event in type)
+                                if (event.interval.end.isAfter(DateTime.now()))
+                                  EventCard(event),
+                            ],
+                          )
+                        : const Center(child: CircularProgressIndicator()),
+                    type != null
+                        ? ListView(
+                            children: [
+                              for (final event in type)
+                                if (event.interval.end.isBefore(DateTime.now()))
+                                  EventCard(event),
+                            ],
+                          )
+                        : const Center(child: CircularProgressIndicator()),
+                  ],
+                ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
