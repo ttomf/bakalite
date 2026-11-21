@@ -4,12 +4,16 @@ import 'package:bakalite/data/models/entity.dart';
 import 'package:bakalite/utils.dart';
 
 class Message({
+  required final String id,
   required final DateTime sentDate,
   required final String title,
   required final String text,
   required final Entity sender,
   required final List<Entity> attachments,
   required final String type,
+  required var bool read,
+  required var bool confirmed,
+  required final bool canConfirm,
 });
 
 class MessageType({required final String abbrev, required final String name});
@@ -21,6 +25,7 @@ class Komens({required final List<Message> messages}) {
     final List<Message> messagesParsed = [
       for (final message in data['Messages'] ?? [])
         Message(
+          id: safeString(message['Id']),
           sentDate: parseTime(
             safeString(message['SentDate'], def: '0000-01-01'),
           ),
@@ -32,6 +37,9 @@ class Komens({required final List<Message> messages}) {
               Entity.parse(attachment ?? {}),
           ],
           type: safeString(message['Type']),
+          read: message['Read'] ?? false,
+          confirmed: message['Confirmed'] ?? false,
+          canConfirm: message['CanConfirm'] ?? false,
         ),
     ];
 

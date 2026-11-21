@@ -196,6 +196,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get message => 'Message';
 
   @override
+  String get markAsRead => 'Mark as read';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
   String get all => 'All';
 
   @override

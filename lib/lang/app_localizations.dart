@@ -440,6 +440,18 @@ abstract class AppLocalizations {
   /// **'Message'**
   String get message;
 
+  /// No description provided for @markAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get markAsRead;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
   /// No description provided for @all.
   ///
   /// In en, this message translates to:

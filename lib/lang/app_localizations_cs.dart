@@ -196,6 +196,12 @@ class AppLocalizationsCs extends AppLocalizations {
   String get message => 'Zpráva';
 
   @override
+  String get markAsRead => 'Označit jako přečtené';
+
+  @override
+  String get confirm => 'Potvrdit';
+
+  @override
   String get all => 'Všechny';
 
   @override

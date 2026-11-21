@@ -63,6 +63,8 @@
   "sent": "Sent",
   "noticeboard": "Noticeboard",
   "message": "Message",
+  "markAsRead": "Mark as read",
+  "confirm": "Confirm",
 
   "all": "All",
   "my": "My",

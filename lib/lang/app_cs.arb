@@ -63,6 +63,8 @@
   "sent": "Odeslané",
   "noticeboard": "Nástěnka",
   "message": "Zpráva",
+  "markAsRead": "Označit jako přečtené",
+  "confirm": "Potvrdit",
 
   "all": "Všechny",
   "my": "Moje",
