@@ -68,6 +68,25 @@ class SubjectCard extends StatelessWidget {
                   ],
                 ),
               ),
+              if (atom.homework.isNotEmpty)
+                Card(
+                  elevation: 0,
+                  color: Theme.of(context).colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      'H',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

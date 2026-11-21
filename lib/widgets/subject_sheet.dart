@@ -19,7 +19,7 @@ class SubjectSheet extends StatelessWidget {
             spacing: 24,
             children: [
               Text(
-                subject.subject?.name ?? '',
+                subject.subject?.name ?? subject.change?.typeName ?? '',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               FieldsTable(
@@ -34,6 +34,9 @@ class SubjectSheet extends StatelessWidget {
                       ? '${subject.teacher?.name} (${subject.teacher?.abbrev})'
                       : null,
                   AppLocalizations.of(context)!.lessonTopic: subject.theme,
+                  AppLocalizations.of(context)!.homework: subject.homework
+                      .map((homework) => homework.text)
+                      .join(', '),
                   AppLocalizations.of(context)!.change:
                       subject.change?.description,
                 },

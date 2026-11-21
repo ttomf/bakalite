@@ -6,6 +6,7 @@ import 'package:bakalite/utils.dart';
 class Change({
   required final String changeType,
   required final String typeAbbrev,
+  required final String typeName,
   required final String description,
   required final int? start,
   required final int? duration,
@@ -14,6 +15,7 @@ class Change({
     return Change(
       changeType: safeString(data['ChangeType']),
       typeAbbrev: safeString(data['TypeAbbrev']),
+      typeName: safeString(data['TypeName']),
       description: safeString(data['Description']),
       start: data['Start'],
       duration: data['Duration'],
@@ -31,6 +33,7 @@ class Atom({
   required final String hourId,
   required final Change? change,
   required final String theme,
+  required final List<Entity> homework,
   final DateTime? date,
   var bool isNow = false,
 });
@@ -91,6 +94,10 @@ class Timetable({
           change: change,
           hourId: safeString(hour['HourId'], stringify: true),
           theme: hour['Theme'] ?? '',
+          homework: [
+            for (final homework in hour['Homeworks'] ?? [])
+              Entity.parse(homework ?? {}),
+          ],
           date: date,
         ),
       );

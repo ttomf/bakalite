@@ -11,6 +11,7 @@ class Entity({
   final int start = -1,
   final int duration = -1,
   final String caption = '',
+  final String text = '',
   final int size = -1,
 }) {
   factory Entity.parse(Map<String, dynamic> data) {
@@ -25,6 +26,7 @@ class Entity({
       start: data['Start'] is int ? data['Start'] : -1,
       duration: data['Duration'] is int ? data['Duration'] : -1,
       caption: safeString(data['Caption']),
+      text: safeString(data['Text']),
       size: data['Size'] is int ? data['Size'] : -1,
     );
   }
