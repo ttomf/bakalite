@@ -2,7 +2,7 @@ import 'package:bakalite/accounts.dart';
 import 'package:bakalite/app.dart';
 import 'package:bakalite/data/cache/cache.dart';
 import 'package:bakalite/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {

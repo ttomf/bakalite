@@ -7,8 +7,8 @@ import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/timetable_grid.dart';
 import 'package:bakalite/widgets/timetable_grid_flex.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TimetableScreen extends StatefulWidget {
   const TimetableScreen({super.key});

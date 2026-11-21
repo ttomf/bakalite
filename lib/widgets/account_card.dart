@@ -2,7 +2,7 @@ import 'package:bakalite/accounts.dart';
 import 'package:bakalite/data/data.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AccountCard<T> extends StatelessWidget {
   const AccountCard({

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:bakalite/api.dart';
 import 'package:bakalite/data/cache/cache.dart';
 import 'package:bakalite/exceptions.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class DevScreen extends StatefulWidget {

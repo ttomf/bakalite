@@ -4,8 +4,8 @@ import 'package:bakalite/data/cache/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/mocks/mock_http_client.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late final SharedPreferencesWithCache prefs;

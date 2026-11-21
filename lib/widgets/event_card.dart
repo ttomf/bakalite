@@ -1,7 +1,7 @@
 import 'package:bakalite/data/models/events.dart';
 import 'package:bakalite/lang/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard(this.event, {super.key});

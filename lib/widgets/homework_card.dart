@@ -1,8 +1,8 @@
 import 'package:bakalite/data/models/homework.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/attachment_card.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 class HomeworkCard extends StatelessWidget {
   const HomeworkCard(this.homework, {super.key, this.onFinishedChange});

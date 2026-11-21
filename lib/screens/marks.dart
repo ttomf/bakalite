@@ -4,7 +4,7 @@ import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/mark_card.dart';
 import 'package:bakalite/widgets/subject_marks_card.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MarksScreen extends StatefulWidget {
   const MarksScreen({super.key});

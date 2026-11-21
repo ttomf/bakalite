@@ -1,7 +1,7 @@
 import 'package:bakalite/data/data.dart';
 import 'package:bakalite/data/models/komens.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MessageCard extends StatelessWidget {
   const MessageCard(this.message, {super.key});

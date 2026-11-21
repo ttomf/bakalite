@@ -2,8 +2,8 @@ import 'package:bakalite/data/models/entity.dart';
 import 'package:bakalite/data/models/marks.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/edit_mark_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SubjectMarksCard extends StatefulWidget {
   const SubjectMarksCard({

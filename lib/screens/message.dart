@@ -1,9 +1,9 @@
 import 'package:bakalite/data/models/komens.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/attachment_card.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MessageScreen extends StatelessWidget {

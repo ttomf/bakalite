@@ -6,7 +6,7 @@ import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/mocks/mock_http_client.dart';
 import 'package:bakalite/utils.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:uuid/v4.dart';
 
 class SchoolSearchDialog extends StatefulWidget {

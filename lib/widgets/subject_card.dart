@@ -1,6 +1,6 @@
 import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/widgets/subject_sheet.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SubjectCard extends StatelessWidget {
   const SubjectCard(this.atom, {super.key});

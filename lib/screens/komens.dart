@@ -3,7 +3,7 @@ import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/message_card.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class KomensScreen extends StatefulWidget {
   const KomensScreen({super.key});

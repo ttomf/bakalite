@@ -2,7 +2,7 @@ import 'package:bakalite/api.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/utils.dart';
 import 'package:file_saver/file_saver.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AttachmentCard extends StatelessWidget {
   const AttachmentCard({

@@ -12,8 +12,7 @@ import 'package:bakalite/screens/message.dart';
 import 'package:bakalite/screens/settings.dart';
 import 'package:bakalite/screens/timetable.dart';
 import 'package:bakalite/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key, this.route = '/login'});

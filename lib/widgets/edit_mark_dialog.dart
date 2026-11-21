@@ -1,6 +1,6 @@
 import 'package:bakalite/data/models/marks.dart';
 import 'package:bakalite/lang/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class EditMarkDialog extends StatefulWidget {
   const EditMarkDialog({super.key, this.mark});

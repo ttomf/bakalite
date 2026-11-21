@@ -1,7 +1,7 @@
 import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/widgets/fields_table.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class SubjectSheet extends StatelessWidget {
   const SubjectSheet(this.subject, {super.key});
