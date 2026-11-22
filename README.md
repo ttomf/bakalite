@@ -18,11 +18,11 @@ Try it here: [baka.ttomf.cc](https://baka.ttomf.cc).
 
 ### Modules
 
-- **Komens (Messages)**: received, sent and noticeboard messages with HTML content rendering and attachments
+- **Komens (Messages)**: received, sent and noticeboard messages, unread/unconfirmed message highlighting, HTML content rendering and attachments
 - **Events**: view all, your and public events, with filtering by upcoming or past events
 - **Marks**: marks sorted by date or subject, with weights, average and local what-if calculations
 - **Homework**: current, after-deadline and closed homework, completion tracking, timeline and attachments
-- **Timetable**: actual and permanent timetable, week navigation, current lesson highlighting and FLEXI layout
+- **Timetable**: actual and permanent timetable, week navigation, current lesson highlighting, FLEXI layout and bag content changes
 
 ### More
 
