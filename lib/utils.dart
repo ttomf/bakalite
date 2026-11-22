@@ -68,6 +68,10 @@ int daysBetween(DateTime a, DateTime b) {
   ).difference(DateTime.utc(b.year, b.month, b.day)).inDays;
 }
 
+DateTime addDays(DateTime date, int days) {
+  return DateTime(date.year, date.month, date.day + days);
+}
+
 String getCacheInfo(
   BuildContext context,
   DateTime? timestamp,
