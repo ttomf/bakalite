@@ -153,7 +153,8 @@ class _TimetableScreenState extends State<TimetableScreen> {
                 Table(
                   columnWidths: const {
                     0: IntrinsicColumnWidth(),
-                    1: FlexColumnWidth(),
+                    1: FixedColumnWidth(8),
+                    2: FlexColumnWidth(),
                   },
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   children: [
@@ -164,6 +165,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                           style: Theme.of(context).textTheme.titleLarge,
                           textAlign: TextAlign.end,
                         ),
+                        const SizedBox(),
                         DateSelector(
                           date: changeFrom,
                           label: switch (Config.relativeDateLabels.value
@@ -194,6 +196,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                           style: Theme.of(context).textTheme.titleLarge,
                           textAlign: TextAlign.end,
                         ),
+                        const SizedBox(),
                         DateSelector(
                           date: changeTo,
                           label: switch (Config.relativeDateLabels.value
@@ -251,7 +254,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
 
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -265,11 +268,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
                                       ),
                                   ],
                                 ),
+                                const SizedBox(width: 8),
                                 VerticalDivider(
                                   width: 1,
                                   thickness: 1.5,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
+                                const SizedBox(width: 8),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
