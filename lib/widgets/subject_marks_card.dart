@@ -210,7 +210,7 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
                     markText: newMark['MarkText'],
                     weight: newMark['Weight'],
                     subject: widget.subject,
-                    markDate: DateTime.now(),
+                    markDate: DateUtils.dateOnly(DateTime.now()),
                     caption: '',
                     theme: '',
                     changed: true,

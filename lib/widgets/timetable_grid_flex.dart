@@ -50,9 +50,7 @@ class TimetableGridFlex extends StatelessWidget {
 
     bool foundNow = false;
     for (final atom in sorted) {
-      if (atom.date?.year == now.year &&
-          atom.date?.month == now.month &&
-          atom.date?.day == now.day &&
+      if (DateUtils.isSameDay(atom.date, now) &&
           atom.start < nowMinutes &&
           nowMinutes < (atom.start + atom.duration)) {
         atom.isNow = true;
@@ -62,9 +60,7 @@ class TimetableGridFlex extends StatelessWidget {
 
     if (!foundNow) {
       for (final atom in sorted) {
-        if (atom.date?.year == now.year &&
-            atom.date?.month == now.month &&
-            atom.date?.day == now.day &&
+        if (DateUtils.isSameDay(atom.date, now) &&
             (atom.start - 30) < nowMinutes &&
             nowMinutes < (atom.start + atom.duration)) {
           atom.isNow = true;

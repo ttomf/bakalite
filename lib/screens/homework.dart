@@ -48,6 +48,8 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     return ListenableBuilder(
       listenable: Data.homeworkRes,
       builder: (context, _) {
+        final nowDay = DateUtils.dateOnly(DateTime.now());
+
         return Wrapper(
           title: AppLocalizations.of(context)!.homework,
           subtitle: getCacheInfo(
@@ -70,9 +72,8 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                     children: [
                       for (final homework in Data.homework!.homework)
                         if (!homework.closed &&
-                            homework.dateEnd
-                                .add(const Duration(days: 1))
-                                .isAfter(DateTime.now()))
+                            !DateUtils.dateOnly(homework.dateEnd)
+                                .isBefore(nowDay))
                           HomeworkCard(
                             homework,
                             key: ValueKey(homework.id),
@@ -87,9 +88,8 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                     children: [
                       for (final homework in Data.homework!.homework)
                         if (!homework.closed &&
-                            homework.dateEnd
-                                .add(const Duration(days: 1))
-                                .isBefore(DateTime.now()))
+                            DateUtils.dateOnly(homework.dateEnd)
+                                .isBefore(nowDay))
                           HomeworkCard(
                             homework,
                             key: ValueKey(homework.id),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bakalite/data/models/entity.dart';
 import 'package:bakalite/utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TimeInterval({
   required final DateTime start,
@@ -32,9 +33,7 @@ class TimeInterval({
           timeStart != null &&
           timeEnd != null &&
           times.length == 1 &&
-          timeStart.year == timeEnd.year &&
-          timeStart.month == timeEnd.month &&
-          timeStart.day == timeEnd.day,
+          DateUtils.dateOnly(timeStart) == DateUtils.dateOnly(timeEnd),
       wholeDay: times.every((time) => time['WholeDay']),
     );
   }

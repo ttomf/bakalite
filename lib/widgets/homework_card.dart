@@ -1,5 +1,6 @@
 import 'package:bakalite/data/models/homework.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/utils.dart';
 import 'package:bakalite/widgets/attachment_card.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
@@ -12,8 +13,12 @@ class HomeworkCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int remainingDays =
-        (homework.dateEnd.difference(DateTime.now()).inHours / 24).ceil();
+    final nowDay = DateUtils.dateOnly(DateTime.now());
+    final endDay = DateUtils.dateOnly(homework.dateEnd);
+    final startDay = DateUtils.dateOnly(homework.dateStart);
+
+    final int remainingDays = daysBetween(endDay, nowDay);
+    final int totalDays = daysBetween(endDay, startDay);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -47,10 +52,7 @@ class HomeworkCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              if (homework.closed ||
-                  homework.dateEnd
-                      .add(const Duration(days: 1))
-                      .isBefore(DateTime.now())) ...[
+              if (homework.closed || endDay.isBefore(nowDay)) ...[
                 Divider(
                   height: 1,
                   thickness: 1.5,
@@ -58,12 +60,7 @@ class HomeworkCard extends StatelessWidget {
                 ),
               ] else ...[
                 LinearProgressIndicator(
-                  value:
-                      1 -
-                      remainingDays /
-                          homework.dateEnd
-                              .difference(homework.dateStart)
-                              .inDays,
+                  value: 1 - remainingDays / (totalDays == 0 ? 1 : totalDays),
                   stopIndicatorRadius: 0,
                   trackGap: 0,
                   minHeight: 5,

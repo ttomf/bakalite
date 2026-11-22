@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bakalite/data/models/entity.dart';
 import 'package:bakalite/utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 class HomeworkItem({
   required final Entity subject,
@@ -15,10 +16,10 @@ class HomeworkItem({
 }) implements Comparable<HomeworkItem> {
   @override
   int compareTo(HomeworkItem other) {
-    final now = DateTime.now();
+    final nowDay = DateUtils.dateOnly(DateTime.now());
 
-    final aExpired = dateEnd.add(const Duration(days: 1)).isBefore(now);
-    final bExpired = other.dateEnd.add(const Duration(days: 1)).isBefore(now);
+    final aExpired = DateUtils.dateOnly(dateEnd).isBefore(nowDay);
+    final bExpired = DateUtils.dateOnly(other.dateEnd).isBefore(nowDay);
 
     if (closed != other.closed) return closed ? 1 : -1;
     if (closed && other.closed) return other.dateEnd.compareTo(dateEnd);
