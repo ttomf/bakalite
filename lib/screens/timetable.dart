@@ -5,6 +5,7 @@ import 'package:bakalite/data/data.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
+import 'package:bakalite/widgets/date_selector.dart';
 import 'package:bakalite/widgets/timetable_grid.dart';
 import 'package:bakalite/widgets/timetable_grid_flex.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,8 @@ class TimetableScreen extends StatefulWidget {
 
 class _TimetableScreenState extends State<TimetableScreen> {
   double? _scrollOffset;
+  DateTime changeFrom = DateTime.now();
+  DateTime changeTo = addDays(DateTime.now(), 1);
 
   late final ScrollController _actualScrollController = _createScrollController(
     () => Data.timetable.actual?.hours,
@@ -103,6 +106,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
           tabs: [
             AppLocalizations.of(context)!.actual,
             AppLocalizations.of(context)!.permanent,
+            AppLocalizations.of(context)!.bagChanges,
           ],
           onRefresh: () {
             Data.loadTimetable(force: true);
@@ -143,6 +147,151 @@ class _TimetableScreenState extends State<TimetableScreen> {
             Data.timetable.perm != null
                 ? timetableGrid(Data.timetable.perm!, _permScrollController)
                 : const Center(child: CircularProgressIndicator()),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Table(
+                  columnWidths: const {
+                    0: IntrinsicColumnWidth(),
+                    1: FlexColumnWidth(),
+                  },
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  children: [
+                    TableRow(
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.sourceDay,
+                          style: Theme.of(context).textTheme.titleLarge,
+                          textAlign: TextAlign.end,
+                        ),
+                        DateSelector(
+                          date: changeFrom,
+                          label: switch (Config.relativeDateLabels.value
+                              ? daysBetween(changeFrom, DateTime.now())
+                              : null) {
+                            -1 => AppLocalizations.of(context)!.yesterday,
+                            0 => AppLocalizations.of(context)!.today,
+                            1 => AppLocalizations.of(context)!.tomorrow,
+                            _ => DateFormat(
+                              'EE d. M. yyyy',
+                              AppLocalizations.of(context)!.localeName,
+                            ).format(changeFrom),
+                          },
+                          initialDate: DateTime.now(),
+                          onChanged: (date) {
+                            setState(() {
+                              changeFrom = date;
+                              Data.loadTimetable(customDate: date);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.targetDay,
+                          style: Theme.of(context).textTheme.titleLarge,
+                          textAlign: TextAlign.end,
+                        ),
+                        DateSelector(
+                          date: changeTo,
+                          label: switch (Config.relativeDateLabels.value
+                              ? daysBetween(changeTo, DateTime.now())
+                              : null) {
+                            -1 => AppLocalizations.of(context)!.yesterday,
+                            0 => AppLocalizations.of(context)!.today,
+                            1 => AppLocalizations.of(context)!.tomorrow,
+                            _ => DateFormat(
+                              'EE d. M. yyyy',
+                              AppLocalizations.of(context)!.localeName,
+                            ).format(changeTo),
+                          },
+                          initialDate: addDays(DateTime.now(), 1),
+                          onChanged: (date) {
+                            setState(() {
+                              changeTo = date;
+                              Data.loadTimetable(customDate: date);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Data.timetable.byDate[changeFrom] != null &&
+                        Data.timetable.byDate[changeTo] != null
+                    ? IntrinsicHeight(
+                        child: Builder(
+                          builder: (context) {
+                            final from =
+                                Data.timetable.byDate[changeFrom]?.atoms
+                                    .map((e) => e.subject?.name)
+                                    .whereType<String>()
+                                    .toSet() ??
+                                {};
+                            final to =
+                                Data.timetable.byDate[changeTo]?.atoms
+                                    .map((e) => e.subject?.name)
+                                    .whereType<String>()
+                                    .toSet() ??
+                                {};
+
+                            final list = (
+                              from: [
+                                ...from.intersection(to),
+                                ...from.difference(to).map((e) => '- $e'),
+                              ]..sort(),
+                              to: [
+                                ...from.intersection(to),
+                                ...to.difference(from).map((e) => '+ $e'),
+                              ]..sort(),
+                            );
+
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    for (final subject in list.from)
+                                      Text(
+                                        subject,
+                                        style: subject.startsWith('- ')
+                                            ? const TextStyle(color: Colors.red)
+                                            : null,
+                                      ),
+                                  ],
+                                ),
+                                VerticalDivider(
+                                  width: 1,
+                                  thickness: 1.5,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    for (final subject in list.to)
+                                      Text(
+                                        subject,
+                                        style: subject.startsWith('+ ')
+                                            ? const TextStyle(
+                                                color: Colors.green,
+                                              )
+                                            : null,
+                                      ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      )
+                    : const Center(child: CircularProgressIndicator()),
+              ],
+            ),
           ],
         );
       },
