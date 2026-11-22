@@ -8,12 +8,14 @@ class DateSelector extends StatelessWidget {
     required this.label,
     required this.onChanged,
     this.step = 1,
+    this.initialDate,
   });
 
   final DateTime date;
   final String label;
   final ValueChanged<DateTime> onChanged;
   final int step;
+  final DateTime? initialDate;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class DateSelector extends StatelessWidget {
               }
             },
             onLongPress: () {
-              onChanged(DateUtils.dateOnly(DateTime.now()));
+              onChanged(DateUtils.dateOnly(initialDate ?? DateTime.now()));
             },
           ),
         ),
