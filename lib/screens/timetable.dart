@@ -63,10 +63,6 @@ class _TimetableScreenState extends State<TimetableScreen> {
     }
   }
 
-  DateTime _addDays(DateTime date, int days) {
-    return DateTime(date.year, date.month, date.day + days);
-  }
-
   @override
   void initState() {
     Data.timetableDate = weekStart(DateTime.now());
@@ -114,60 +110,25 @@ class _TimetableScreenState extends State<TimetableScreen> {
           children: [
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton.filled(
-                      icon: const Icon(Icons.keyboard_arrow_left),
-                      onPressed: () {
-                        Data.timetableDate = _addDays(Data.timetableDate, -7);
-                        Data.loadTimetable();
-                      },
-                    ),
-                    Expanded(
-                      child: TextButton.icon(
-                        icon: const Icon(Icons.date_range),
-                        label: Text(switch (Config.relativeDateLabels.value
-                            ? daysBetween(
-                                Data.timetableDate,
-                                weekStart(DateTime.now()),
-                              )
-                            : null) {
-                          -7 => AppLocalizations.of(context)!.previousWeek,
-                          0 => AppLocalizations.of(context)!.thisWeek,
-                          7 => AppLocalizations.of(context)!.nextWeek,
-                          _ =>
-                            '${DateFormat('d. M. yyyy').format(Data.timetableDate)} – ${DateFormat('d. M. yyyy').format(_addDays(Data.timetableDate, 4))}',
-                        }),
-                        onPressed: () async {
-                          final date = await showDatePicker(
-                            context: context,
-                            initialDate: Data.timetableDate,
-                            firstDate: DateTime.now().subtract(
-                              const Duration(days: 365 * 2),
-                            ),
-                            lastDate: DateTime.now().add(
-                              const Duration(days: 365 * 2),
-                            ),
-                          );
-                          if (date == null || !mounted) return;
-                          Data.timetableDate = weekStart(date);
-                          Data.loadTimetable();
-                        },
-                        onLongPress: () {
-                          Data.timetableDate = weekStart(DateTime.now());
-                          Data.loadTimetable();
-                        },
-                      ),
-                    ),
-                    IconButton.filled(
-                      icon: const Icon(Icons.keyboard_arrow_right),
-                      onPressed: () {
-                        Data.timetableDate = _addDays(Data.timetableDate, 7);
-                        Data.loadTimetable();
-                      },
-                    ),
-                  ],
+                DateSelector(
+                  date: Data.timetableDate,
+                  label: switch (Config.relativeDateLabels.value
+                      ? daysBetween(
+                          Data.timetableDate,
+                          weekStart(DateTime.now()),
+                        )
+                      : null) {
+                    -7 => AppLocalizations.of(context)!.previousWeek,
+                    0 => AppLocalizations.of(context)!.thisWeek,
+                    7 => AppLocalizations.of(context)!.nextWeek,
+                    _ =>
+                      '${DateFormat('d. M. yyyy').format(Data.timetableDate)} – ${DateFormat('d. M. yyyy').format(addDays(Data.timetableDate, 4))}',
+                  },
+                  onChanged: (date) {
+                    Data.timetableDate = weekStart(date);
+                    Data.loadTimetable();
+                  },
+                  step: 7,
                 ),
                 Expanded(
                   child: Data.timetable.actual != null
