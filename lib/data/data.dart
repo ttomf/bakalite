@@ -23,10 +23,16 @@ class Data {
 
   static final timetableRes = Resource<Timetable>(Timetable.parse);
   static DateTime timetableDate = weekStart(DateTime.now());
-  static ({Timetable? actual, Timetable? perm}) get timetable => (
+  static ({
+    Timetable? actual,
+    Timetable? perm,
+    Map<DateTime, TimetableDay> byDate,
+  })
+  get timetable => (
     actual: timetableRes
         .data['timetable/actual?date=${DateFormat('yyyy-MM-dd').format(timetableDate)}'],
     perm: timetableRes.data['timetable/permanent'],
+    byDate: Timetable.byDate,
   );
 
   static final komensRes = (
@@ -66,10 +72,13 @@ class Data {
     return homeworkRes.load('homeworks?from=2000-01-01', force: force);
   }
 
-  static Future<void> loadTimetable({bool force = false}) {
+  static Future<void> loadTimetable({
+    bool force = false,
+    DateTime? customDate,
+  }) {
     return Future.wait([
       timetableRes.load(
-        'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(timetableDate)}',
+        'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(customDate ?? timetableDate)}',
         force: force,
       ),
       if (force || timetable.perm == null)

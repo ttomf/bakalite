@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bakalite/data/models/entity.dart';
 import 'package:bakalite/utils.dart';
+import 'package:material_ui/material_ui.dart';
 
 class Change({
   required final String changeType,
@@ -49,6 +50,8 @@ class Timetable({
   required final List<TimetableDay> timetable,
   required final List<Entity> hours,
 }) {
+  static final Map<DateTime, TimetableDay> byDate = {};
+
   static List<Atom> parseAtoms(
     List atoms,
     Map<String, Map<String, Entity>> idMaps, {
@@ -123,21 +126,22 @@ class Timetable({
             entity['Id'].toString(): Entity.parse(entity),
         },
     };
-    final List<TimetableDay> timetableParsed = [
-      for (final day in data?['Days'] ?? [])
-        TimetableDay(
-          date: day['Date'] != null ? parseTime(safeString(day['Date'])) : null,
-          dayType: day['DayType']?.trim(),
-          dayDescription: day['DayDescription']?.trim(),
-          atoms: parseAtoms(
-            day['Atoms'] ?? [],
-            idMaps,
-            date: day['Date'] != null
-                ? parseTime(safeString(day['Date']))
-                : null,
-          ),
-        ),
-    ];
+    final List<TimetableDay> timetableParsed = [];
+
+    for (final day in data?['Days'] ?? []) {
+      final date = day['Date'] != null
+          ? DateUtils.dateOnly(parseTime(safeString(day['Date'])))
+          : null;
+      final timetableDay = TimetableDay(
+        date: date,
+        dayType: day['DayType']?.trim(),
+        dayDescription: day['DayDescription']?.trim(),
+        atoms: parseAtoms(day['Atoms'] ?? [], idMaps, date: date),
+      );
+
+      timetableParsed.add(timetableDay);
+      if (date != null) byDate[date] = timetableDay;
+    }
     final List<Entity> hoursParsed = [
       for (final hour in data?['Hours'] ?? []) Entity.parse(hour),
     ];
