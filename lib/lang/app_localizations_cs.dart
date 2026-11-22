@@ -289,6 +289,24 @@ class AppLocalizationsCs extends AppLocalizations {
   String get nextWeek => 'Příští týden';
 
   @override
+  String get today => 'Dnes';
+
+  @override
+  String get yesterday => 'Včera';
+
+  @override
+  String get tomorrow => 'Zítra';
+
+  @override
+  String get sourceDay => 'Výchozí den';
+
+  @override
+  String get targetDay => 'Cílový den';
+
+  @override
+  String get bagChanges => 'Změny v tašce';
+
+  @override
   String get group => 'Skupina';
 
   @override

@@ -98,6 +98,12 @@
   "previousWeek": "Minulý týden",
   "thisWeek": "Tento týden",
   "nextWeek": "Příští týden",
+  "today": "Dnes",
+  "yesterday": "Včera",
+  "tomorrow": "Zítra",
+  "sourceDay": "Výchozí den",
+  "targetDay": "Cílový den",
+  "bagChanges": "Změny v tašce",
 
   "group": "Skupina",
   "room": "Místnost",

@@ -626,6 +626,42 @@ abstract class AppLocalizations {
   /// **'Next week'**
   String get nextWeek;
 
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// No description provided for @tomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get tomorrow;
+
+  /// No description provided for @sourceDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Source day'**
+  String get sourceDay;
+
+  /// No description provided for @targetDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Target day'**
+  String get targetDay;
+
+  /// No description provided for @bagChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Bag changes'**
+  String get bagChanges;
+
   /// No description provided for @group.
   ///
   /// In en, this message translates to:

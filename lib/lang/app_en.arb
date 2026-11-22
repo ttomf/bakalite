@@ -98,6 +98,12 @@
   "previousWeek": "Previous week",
   "thisWeek": "This week",
   "nextWeek": "Next week",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "tomorrow": "Tomorrow",
+  "sourceDay": "Source day",
+  "targetDay": "Target day",
+  "bagChanges": "Bag changes",
 
   "group": "Group",
   "room": "Room",

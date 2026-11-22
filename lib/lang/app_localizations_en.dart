@@ -289,6 +289,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nextWeek => 'Next week';
 
   @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get tomorrow => 'Tomorrow';
+
+  @override
+  String get sourceDay => 'Source day';
+
+  @override
+  String get targetDay => 'Target day';
+
+  @override
+  String get bagChanges => 'Bag changes';
+
+  @override
   String get group => 'Group';
 
   @override
