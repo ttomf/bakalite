@@ -6,6 +6,7 @@
   "description": "Lightweight Bakaláři client",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
+  "background_color": "#3060f0",
   "icons": [
     {
       "src": "icons/Icon-192.png",
