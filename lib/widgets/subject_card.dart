@@ -3,9 +3,10 @@ import 'package:bakalite/widgets/subject_sheet.dart';
 import 'package:material_ui/material_ui.dart';
 
 class SubjectCard extends StatelessWidget {
-  const SubjectCard(this.atom, {super.key});
+  const SubjectCard(this.atom, {this.permanent = false, super.key});
 
   final Atom atom;
+  final bool permanent;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class SubjectCard extends StatelessWidget {
                   ],
                 ),
               ),
-              if (atom.homework.isNotEmpty)
+              if (atom.homework.isNotEmpty && !permanent)
                 Card(
                   elevation: 0,
                   color: Theme.of(context).colorScheme.primary,

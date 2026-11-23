@@ -5,9 +5,15 @@ import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
 class TimetableGridFlex extends StatelessWidget {
-  const TimetableGridFlex(this.timetable, this.scrollController, {super.key});
+  const TimetableGridFlex(
+    this.timetable,
+    this.scrollController, {
+    this.permanent = false,
+    super.key,
+  });
 
   final Timetable timetable;
+  final bool permanent;
 
   static const double pixelsPerMinute = 1.8;
   static const double headerHeight = 40;
@@ -20,7 +26,10 @@ class TimetableGridFlex extends StatelessWidget {
     int timelineStart,
     double timelineWidth,
   ) {
-    if (day.dayType != null && day.dayType != 'WorkDay' && day.atoms.isEmpty) {
+    if (day.dayType != null &&
+        day.dayType != 'WorkDay' &&
+        day.atoms.isEmpty &&
+        !permanent) {
       return SizedBox(
         width: timelineWidth,
         child: Container(
@@ -108,7 +117,7 @@ class TimetableGridFlex extends StatelessWidget {
                   width: item.atom.duration * pixelsPerMinute,
                   top: item.lane * constraints.maxHeight / item.lanes,
                   height: constraints.maxHeight / item.lanes,
-                  child: SubjectCard(item.atom),
+                  child: SubjectCard(item.atom, permanent: permanent),
                 ),
             ],
           );
@@ -157,7 +166,7 @@ class TimetableGridFlex extends StatelessWidget {
                                         .onPrimaryContainer,
                                   ),
                             ),
-                            if (day.date != null)
+                            if (day.date != null && !permanent)
                               Text(
                                 DateFormat('d. M.').format(day.date!),
                                 style: Theme.of(context).textTheme.labelSmall
