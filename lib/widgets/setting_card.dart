@@ -1,5 +1,6 @@
 import 'package:bakalite/config.dart';
 import 'package:bakalite/lang/app_localizations.dart';
+import 'package:bakalite/screens/wrapper.dart';
 import 'package:material_ui/material_ui.dart';
 
 class SettingCard<T> extends StatefulWidget {
@@ -11,6 +12,7 @@ class SettingCard<T> extends StatefulWidget {
     this.choices,
     this.order,
     this.onSet,
+    this.child,
   });
 
   final String label;
@@ -19,6 +21,7 @@ class SettingCard<T> extends StatefulWidget {
   final Map<T, String>? choices;
   final List<({String key, String label})>? order;
   final ValueChanged<T?>? onSet;
+  final Widget? child;
 
   @override
   State<SettingCard<T>> createState() => _SettingCardState<T>();
@@ -151,7 +154,11 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
 
   Widget getControl() {
     if (widget.setting == null) {
-      return const SizedBox(height: 48);
+      if (widget.child == null) {
+        return const SizedBox(height: 48);
+      } else {
+        return const Icon(Icons.arrow_forward);
+      }
     }
     if (T == bool) {
       return Switch(
@@ -202,7 +209,21 @@ class _SettingCardState<T> extends State<SettingCard<T>> {
         key: _key,
         onTap: () {
           if (widget.setting == null) {
-            widget.onSet?.call(null);
+            if (widget.child == null) {
+              widget.onSet?.call(null);
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return Wrapper(
+                      title: widget.label,
+                      children: [widget.child!],
+                    );
+                  },
+                ),
+              );
+            }
             return;
           }
 

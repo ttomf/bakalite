@@ -248,6 +248,24 @@ abstract class AppLocalizations {
   /// **'Accounts'**
   String get accounts;
 
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @general.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// No description provided for @interface.
+  ///
+  /// In en, this message translates to:
+  /// **'Interface'**
+  String get interface;
+
   /// No description provided for @language.
   ///
   /// In en, this message translates to:

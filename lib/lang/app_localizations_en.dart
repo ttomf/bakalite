@@ -94,6 +94,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accounts => 'Accounts';
 
   @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get interface => 'Interface';
+
+  @override
   String get language => 'Language';
 
   @override

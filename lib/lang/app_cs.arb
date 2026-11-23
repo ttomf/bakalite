@@ -28,6 +28,10 @@
   "settings": "Nastavení",
   "accounts": "Účty",
 
+  "appearance": "Vzhled",
+  "general": "Obecné",
+  "interface": "Rozhraní",
+
   "language": "Jazyk",
   "seedColor": "Výchozí barva vzhledu",
   "useM3Color": "Použít schéma barev Material 3",

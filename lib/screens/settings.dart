@@ -33,73 +33,103 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   lang.toLanguageTag(): lang.toLanguageTag(),
               },
             ),
-            SettingCard<Color>(
-              key: ValueKey((settingsKey, 'seedColor')),
-              setting: Config.seedColor,
-              info: AppLocalizations.of(context)!.seedColorInfo,
-              label: AppLocalizations.of(context)!.seedColor,
+            SettingCard(
+              label: AppLocalizations.of(context)!.general,
+              child: ListView(
+                children: [
+                  SettingCard<bool>(
+                    key: ValueKey((settingsKey, 'autoRefresh')),
+                    setting: Config.autoRefresh,
+                    info: AppLocalizations.of(context)!.autoRefreshInfo,
+                    label: AppLocalizations.of(context)!.autoRefresh,
+                  ),
+                  SettingCard<bool>(
+                    key: ValueKey((settingsKey, 'relativeDateLabels')),
+                    setting: Config.relativeDateLabels,
+                    info: AppLocalizations.of(context)!.relativeDateLabelsInfo,
+                    label: AppLocalizations.of(context)!.relativeDateLabels,
+                  ),
+                  SettingCard<bool>(
+                    key: ValueKey((settingsKey, 'devMode')),
+                    setting: Config.devMode,
+                    info: AppLocalizations.of(context)!.devModeInfo,
+                    label: AppLocalizations.of(context)!.devMode,
+                  ),
+                ],
+              ),
             ),
-            SettingCard<bool>(
-              key: ValueKey((settingsKey, 'useM3Color')),
-              setting: Config.useM3Color,
-              label: AppLocalizations.of(context)!.useM3Color,
+            SettingCard(
+              label: AppLocalizations.of(context)!.appearance,
+              child: ListView(
+                children: [
+                  SettingCard<Color>(
+                    key: ValueKey((settingsKey, 'seedColor')),
+                    setting: Config.seedColor,
+                    info: AppLocalizations.of(context)!.seedColorInfo,
+                    label: AppLocalizations.of(context)!.seedColor,
+                  ),
+                  SettingCard<bool>(
+                    key: ValueKey((settingsKey, 'useM3Color')),
+                    setting: Config.useM3Color,
+                    label: AppLocalizations.of(context)!.useM3Color,
+                  ),
+                  SettingCard<String>(
+                    key: ValueKey((settingsKey, 'brightness')),
+                    setting: Config.brightness,
+                    label: AppLocalizations.of(context)!.theme,
+                    choices: {
+                      'System': AppLocalizations.of(context)!.systemDefault,
+                      'light': AppLocalizations.of(context)!.light,
+                      'dark': AppLocalizations.of(context)!.dark,
+                    },
+                  ),
+                ],
+              ),
             ),
-            SettingCard<String>(
-              key: ValueKey((settingsKey, 'brightness')),
-              setting: Config.brightness,
-              label: AppLocalizations.of(context)!.theme,
-              choices: {
-                'System': AppLocalizations.of(context)!.systemDefault,
-                'light': AppLocalizations.of(context)!.light,
-                'dark': AppLocalizations.of(context)!.dark,
-              },
-            ),
-            SettingCard<bool>(
-              key: ValueKey((settingsKey, 'autoRefresh')),
-              setting: Config.autoRefresh,
-              info: AppLocalizations.of(context)!.autoRefreshInfo,
-              label: AppLocalizations.of(context)!.autoRefresh,
-            ),
-            SettingCard<bool>(
-              key: ValueKey((settingsKey, 'flexTimetable')),
-              setting: Config.flexTimetable,
-              info: AppLocalizations.of(context)!.flexTimetableInfo,
-              label: AppLocalizations.of(context)!.flexTimetable,
-            ),
-            SettingCard<bool>(
-              key: ValueKey((settingsKey, 'relativeDateLabels')),
-              setting: Config.relativeDateLabels,
-              info: AppLocalizations.of(context)!.relativeDateLabelsInfo,
-              label: AppLocalizations.of(context)!.relativeDateLabels,
-            ),
-            SettingCard<List<String>>(
-              key: ValueKey((settingsKey, 'dashboardOrder')),
-              setting: Config.dashboardOrder,
-              order: [
-                (key: 'komens', label: AppLocalizations.of(context)!.komens),
-                (key: 'events', label: AppLocalizations.of(context)!.events),
-                (key: 'marks', label: AppLocalizations.of(context)!.marks),
-                (
-                  key: 'homework',
-                  label: AppLocalizations.of(context)!.homework,
-                ),
-                (
-                  key: 'timetable',
-                  label: AppLocalizations.of(context)!.timetable,
-                ),
-              ],
-              label: AppLocalizations.of(context)!.dashboardOrder,
-            ),
-            SettingCard<bool>(
-              key: ValueKey((settingsKey, 'dashboardColor')),
-              setting: Config.dashboardColor,
-              label: AppLocalizations.of(context)!.dashboardColor,
-            ),
-            SettingCard<bool>(
-              key: ValueKey((settingsKey, 'devMode')),
-              setting: Config.devMode,
-              info: AppLocalizations.of(context)!.devModeInfo,
-              label: AppLocalizations.of(context)!.devMode,
+            SettingCard(
+              label: AppLocalizations.of(context)!.interface,
+              child: ListView(
+                children: [
+                  SettingCard<bool>(
+                    key: ValueKey((settingsKey, 'flexTimetable')),
+                    setting: Config.flexTimetable,
+                    info: AppLocalizations.of(context)!.flexTimetableInfo,
+                    label: AppLocalizations.of(context)!.flexTimetable,
+                  ),
+                  SettingCard<List<String>>(
+                    key: ValueKey((settingsKey, 'dashboardOrder')),
+                    setting: Config.dashboardOrder,
+                    order: [
+                      (
+                        key: 'komens',
+                        label: AppLocalizations.of(context)!.komens,
+                      ),
+                      (
+                        key: 'events',
+                        label: AppLocalizations.of(context)!.events,
+                      ),
+                      (
+                        key: 'marks',
+                        label: AppLocalizations.of(context)!.marks,
+                      ),
+                      (
+                        key: 'homework',
+                        label: AppLocalizations.of(context)!.homework,
+                      ),
+                      (
+                        key: 'timetable',
+                        label: AppLocalizations.of(context)!.timetable,
+                      ),
+                    ],
+                    label: AppLocalizations.of(context)!.dashboardOrder,
+                  ),
+                  SettingCard<bool>(
+                    key: ValueKey((settingsKey, 'dashboardColor')),
+                    setting: Config.dashboardColor,
+                    label: AppLocalizations.of(context)!.dashboardColor,
+                  ),
+                ],
+              ),
             ),
             SettingCard<void>(
               label: AppLocalizations.of(context)!.resetSettings,

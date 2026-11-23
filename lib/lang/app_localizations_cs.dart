@@ -94,6 +94,15 @@ class AppLocalizationsCs extends AppLocalizations {
   String get accounts => 'Účty';
 
   @override
+  String get appearance => 'Vzhled';
+
+  @override
+  String get general => 'Obecné';
+
+  @override
+  String get interface => 'Rozhraní';
+
+  @override
   String get language => 'Jazyk';
 
   @override

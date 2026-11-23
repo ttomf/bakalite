@@ -28,6 +28,10 @@
   "settings": "Settings",
   "accounts": "Accounts",
 
+  "appearance": "Appearance",
+  "general": "General",
+  "interface": "Interface",
+
   "language": "Language",
   "seedColor": "Theme seed color",
   "useM3Color": "Use Material 3 color scheme",
