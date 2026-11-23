@@ -9,6 +9,7 @@ class Message({
   required final String title,
   required final String text,
   required final Entity sender,
+  required final String relevantName,
   required final List<Entity> attachments,
   required final String type,
   required var bool read,
@@ -32,6 +33,7 @@ class Komens({required final List<Message> messages}) {
           title: safeString(message['Title'], trim: true),
           text: safeString(message['Text'], trim: true),
           sender: Entity.parse(message['Sender'] ?? {}),
+          relevantName: safeString(message['RelevantName'], trim: true),
           attachments: [
             for (final attachment in message['Attachments'] ?? [])
               Entity.parse(attachment ?? {}),
