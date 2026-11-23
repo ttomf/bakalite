@@ -20,7 +20,7 @@ class TimetableScreen extends StatefulWidget {
 
 class _TimetableScreenState extends State<TimetableScreen> {
   double? _scrollOffset;
-  DateTime changeFrom = DateTime.now();
+  DateTime changeFrom = addDays(DateTime.now(), 0);
   DateTime changeTo = addDays(DateTime.now(), 1);
 
   late final ScrollController _actualScrollController = _createScrollController(
