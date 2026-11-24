@@ -71,6 +71,9 @@ class _TimetableScreenState extends State<TimetableScreen> {
     Data.timetableDate = weekStart(DateTime.now());
     super.initState();
     Data.loadTimetable();
+    if (weekStart(changeTo) != Data.timetableDate) {
+      Data.loadTimetable(customDate: changeTo);
+    }
   }
 
   @override
@@ -91,6 +94,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
       builder: (context, _) {
         final actualEndpoint =
             'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(Data.timetableDate)}';
+        final changeFromEndpoint =
+            'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(weekStart(changeFrom))}';
+        final changeToEndpoint =
+            'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(weekStart(changeTo))}';
 
         return Wrapper(
           title: AppLocalizations.of(context)!.timetable,
@@ -99,9 +106,13 @@ class _TimetableScreenState extends State<TimetableScreen> {
             Data.timetableRes.cacheTimestamp[actualEndpoint] ??
                 Data.timetableRes.cacheTimestamp['timetable/permanent'],
             Data.timetableRes.loaded[actualEndpoint] != null &&
-                Data.timetableRes.loaded['timetable/permanent'] != null,
+                Data.timetableRes.loaded['timetable/permanent'] != null &&
+                Data.timetableRes.loaded[changeFromEndpoint] != null &&
+                Data.timetableRes.loaded[changeToEndpoint] != null,
             Data.timetableRes.error[actualEndpoint] != null ||
-                Data.timetableRes.error['timetable/permanent'] != null,
+                Data.timetableRes.error['timetable/permanent'] != null ||
+                Data.timetableRes.error[changeFromEndpoint] != null ||
+                Data.timetableRes.error[changeToEndpoint] != null,
           ),
           tabs: [
             AppLocalizations.of(context)!.actual,
@@ -298,7 +309,10 @@ class _TimetableScreenState extends State<TimetableScreen> {
                           },
                         ),
                       )
-                    : const Center(child: CircularProgressIndicator()),
+                    : Data.timetableRes.loaded[changeFromEndpoint] == null ||
+                          Data.timetableRes.loaded[changeToEndpoint] == null
+                    ? const Center(child: CircularProgressIndicator())
+                    : const SizedBox(),
               ],
             ),
           ],

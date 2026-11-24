@@ -78,7 +78,7 @@ class Data {
   }) {
     return Future.wait([
       timetableRes.load(
-        'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(customDate ?? timetableDate)}',
+        'timetable/actual?date=${DateFormat('yyyy-MM-dd').format(weekStart(customDate ?? timetableDate))}',
         force: force,
       ),
       if (force || timetable.perm == null)
@@ -132,6 +132,7 @@ class Data {
     marksRes.clear();
     homeworkRes.clear();
     timetableRes.clear();
+    Timetable.byDate.clear();
     komensRes.komens.clear();
     komensRes.messageTypes.clear();
     eventsRes.clear();
