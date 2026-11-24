@@ -50,7 +50,7 @@ class Event({
 });
 
 class Events({required final List<Event> events}) {
-  factory Events.parse(String string) {
+  factory Events.parse(String string, String endpoint) {
     final data = jsonDecode(string);
 
     final List<Event> eventsParsed = [

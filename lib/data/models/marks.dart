@@ -17,7 +17,7 @@ class Marks({
   required final List<Mark> marks,
   required final Map<Entity, ({String note, List<Mark> marks})> bySubject,
 }) {
-  factory Marks.parse(String string) {
+  factory Marks.parse(String string, String endpoint) {
     final data = jsonDecode(string);
     final List<Mark> marksParsed = [];
     final Map<Entity, ({String note, List<Mark> marks})> marksBySubject = {};

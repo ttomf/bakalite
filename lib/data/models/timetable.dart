@@ -35,6 +35,7 @@ class Atom({
   required final Change? change,
   required final String theme,
   required final List<Entity> homework,
+  required final bool permanent,
   final DateTime? date,
   var bool isNow = false,
 });
@@ -49,12 +50,14 @@ class TimetableDay({
 class Timetable({
   required final List<TimetableDay> timetable,
   required final List<Entity> hours,
+  required final bool permanent,
 }) {
   static final Map<DateTime, TimetableDay> byDate = {};
 
   static List<Atom> parseAtoms(
     List atoms,
-    Map<String, Map<String, Entity>> idMaps, {
+    Map<String, Map<String, Entity>> idMaps,
+    bool perm, {
     DateTime? date,
   }) {
     final List<Atom> res = [];
@@ -98,9 +101,11 @@ class Timetable({
           hourId: safeString(hour['HourId'], stringify: true),
           theme: hour['Theme'] ?? '',
           homework: [
-            for (final homework in hour['Homeworks'] ?? [])
-              Entity.parse(homework ?? {}),
+            if (!perm)
+              for (final homework in hour['Homeworks'] ?? [])
+                Entity.parse(homework ?? {}),
           ],
+          permanent: perm,
           date: date,
         ),
       );
@@ -109,7 +114,8 @@ class Timetable({
     return res;
   }
 
-  factory Timetable.parse(String string) {
+  factory Timetable.parse(String string, String endpoint) {
+    final perm = endpoint == 'timetable/permanent';
     final data = jsonDecode(string);
 
     final idMaps = {
@@ -136,16 +142,20 @@ class Timetable({
         date: date,
         dayType: day['DayType']?.trim(),
         dayDescription: day['DayDescription']?.trim(),
-        atoms: parseAtoms(day['Atoms'] ?? [], idMaps, date: date),
+        atoms: parseAtoms(day['Atoms'] ?? [], idMaps, perm, date: date),
       );
 
       timetableParsed.add(timetableDay);
-      if (date != null) byDate[date] = timetableDay;
+      if (date != null && !perm) byDate[date] = timetableDay;
     }
     final List<Entity> hoursParsed = [
       for (final hour in data?['Hours'] ?? []) Entity.parse(hour),
     ];
 
-    return Timetable(timetable: timetableParsed, hours: hoursParsed);
+    return Timetable(
+      timetable: timetableParsed,
+      hours: hoursParsed,
+      permanent: perm,
+    );
   }
 }

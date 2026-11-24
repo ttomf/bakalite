@@ -20,7 +20,7 @@ class Message({
 class MessageType({required final String abbrev, required final String name});
 
 class Komens({required final List<Message> messages}) {
-  factory Komens.parse(String string) {
+  factory Komens.parse(String string, String endpoint) {
     final data = jsonDecode(string);
 
     final List<Message> messagesParsed = [
@@ -52,7 +52,7 @@ class Komens({required final List<Message> messages}) {
 }
 
 class MessageTypes({required final Map<String, MessageType> types}) {
-  factory MessageTypes.parse(String string) {
+  factory MessageTypes.parse(String string, String endpoint) {
     final data = jsonDecode(string);
 
     final Map<String, MessageType> typesParsed = {

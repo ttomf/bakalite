@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 class Resource<T> extends ChangeNotifier {
   Resource(this.parse);
 
-  final T Function(String string) parse;
+  final T Function(String string, String endpoint) parse;
 
   final Map<String, T?> data = {};
   final Map<String, DateTime?> cacheTimestamp = {};
@@ -29,7 +29,7 @@ class Resource<T> extends ChangeNotifier {
     try {
       final cached = await cache.load(endpoint);
       if (cached != null) {
-        data[endpoint] = parse(cached['data']);
+        data[endpoint] = parse(cached['data'], endpoint);
         cacheTimestamp[endpoint] = DateTime.fromMillisecondsSinceEpoch(
           cached['timestamp'],
         );
@@ -50,7 +50,7 @@ class Resource<T> extends ChangeNotifier {
     try {
       final fetched = await api.request(endpoint, method: method, body: body);
       if (fetched != null) {
-        data[endpoint] = parse(fetched);
+        data[endpoint] = parse(fetched, endpoint);
         cacheTimestamp[endpoint] = null;
         error[endpoint] = null;
         loaded[endpoint] = DateTime.now();

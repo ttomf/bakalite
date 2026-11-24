@@ -156,11 +156,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
               ],
             ),
             Data.timetable.perm != null
-                ? timetableGrid(
-                    Data.timetable.perm!,
-                    _permScrollController,
-                    permanent: true,
-                  )
+                ? timetableGrid(Data.timetable.perm!, _permScrollController)
                 : const Center(child: CircularProgressIndicator()),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

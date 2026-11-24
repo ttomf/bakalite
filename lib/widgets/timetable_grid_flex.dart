@@ -5,15 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
 class TimetableGridFlex extends StatelessWidget {
-  const TimetableGridFlex(
-    this.timetable,
-    this.scrollController, {
-    this.permanent = false,
-    super.key,
-  });
+  const TimetableGridFlex(this.timetable, this.scrollController, {super.key});
 
   final Timetable timetable;
-  final bool permanent;
 
   static const double pixelsPerMinute = 1.8;
   static const double headerHeight = 40;
@@ -29,7 +23,7 @@ class TimetableGridFlex extends StatelessWidget {
     if (day.dayType != null &&
         day.dayType != 'WorkDay' &&
         day.atoms.isEmpty &&
-        !permanent) {
+        !timetable.permanent) {
       return SizedBox(
         width: timelineWidth,
         child: Container(
@@ -117,7 +111,7 @@ class TimetableGridFlex extends StatelessWidget {
                   width: item.atom.duration * pixelsPerMinute,
                   top: item.lane * constraints.maxHeight / item.lanes,
                   height: constraints.maxHeight / item.lanes,
-                  child: SubjectCard(item.atom, permanent: permanent),
+                  child: SubjectCard(item.atom),
                 ),
             ],
           );
@@ -166,7 +160,7 @@ class TimetableGridFlex extends StatelessWidget {
                                         .onPrimaryContainer,
                                   ),
                             ),
-                            if (day.date != null && !permanent)
+                            if (day.date != null && !timetable.permanent)
                               Text(
                                 DateFormat('d. M.').format(day.date!),
                                 style: Theme.of(context).textTheme.labelSmall

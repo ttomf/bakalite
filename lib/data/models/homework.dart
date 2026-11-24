@@ -38,7 +38,7 @@ class HomeworkItem({
 }
 
 class Homework({required var List<HomeworkItem> homework}) {
-  factory Homework.parse(String string) {
+  factory Homework.parse(String string, String endpoint) {
     final data = jsonDecode(string);
 
     final List<HomeworkItem> homeworkParsed = [

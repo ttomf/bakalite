@@ -6,7 +6,7 @@ class User({
   required final String fullName,
   required final String userTypeText,
 }) {
-  factory User.parse(String string) {
+  factory User.parse(String string, String endpoint) {
     final data = jsonDecode(string);
 
     return User(

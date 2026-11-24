@@ -5,15 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
 class TimetableGrid extends StatelessWidget {
-  const TimetableGrid(
-    this.timetable,
-    this.scrollController, {
-    this.permanent = false,
-    super.key,
-  });
+  const TimetableGrid(this.timetable, this.scrollController, {super.key});
 
   final Timetable timetable;
-  final bool permanent;
 
   static const double containerWidth = 80;
   static const double headerHeight = 40;
@@ -24,7 +18,7 @@ class TimetableGrid extends StatelessWidget {
     if (day.dayType != null &&
         day.dayType != 'WorkDay' &&
         day.atoms.isEmpty &&
-        !permanent) {
+        !timetable.permanent) {
       return Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondaryContainer,
@@ -90,7 +84,7 @@ class TimetableGrid extends StatelessWidget {
             child: Column(
               children: [
                 for (final atom in atoms[hour.id] ?? const <Atom>[])
-                  Expanded(child: SubjectCard(atom, permanent: permanent)),
+                  Expanded(child: SubjectCard(atom)),
               ],
             ),
           ),
@@ -133,7 +127,7 @@ class TimetableGrid extends StatelessWidget {
                                         .onPrimaryContainer,
                                   ),
                             ),
-                            if (day.date != null && !permanent)
+                            if (day.date != null && !timetable.permanent)
                               Text(
                                 DateFormat('d. M.').format(day.date!),
                                 style: Theme.of(context).textTheme.labelSmall
