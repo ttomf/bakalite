@@ -100,7 +100,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get general => 'General';
 
   @override
-  String get interface => 'Interface';
+  String get screens => 'Screens';
 
   @override
   String get language => 'Language';

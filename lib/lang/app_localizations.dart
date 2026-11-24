@@ -260,11 +260,11 @@ abstract class AppLocalizations {
   /// **'General'**
   String get general;
 
-  /// No description provided for @interface.
+  /// No description provided for @screens.
   ///
   /// In en, this message translates to:
-  /// **'Interface'**
-  String get interface;
+  /// **'Screens'**
+  String get screens;
 
   /// No description provided for @language.
   ///

@@ -100,7 +100,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get general => 'Obecné';
 
   @override
-  String get interface => 'Rozhraní';
+  String get screens => 'Obrazovky';
 
   @override
   String get language => 'Jazyk';

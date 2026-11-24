@@ -87,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             SettingCard(
-              label: AppLocalizations.of(context)!.interface,
+              label: AppLocalizations.of(context)!.screens,
               child: ListView(
                 children: [
                   SettingCard<bool>(
