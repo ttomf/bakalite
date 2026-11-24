@@ -33,7 +33,7 @@ class SubjectCard extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.all(2),
-          child: Column(
+          child: Stack(
             children: [
               Align(
                 alignment: Alignment.topLeft,
@@ -42,47 +42,65 @@ class SubjectCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
-              const Spacer(),
-              if ((atom.subject?.abbrev ?? '').isNotEmpty)
-                Text(
-                  atom.subject!.abbrev,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              if ((atom.change?.typeAbbrev ?? '').isNotEmpty)
-                Text(
-                  atom.change!.typeAbbrev,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              Expanded(
-                flex: 3,
-                child: Wrap(
-                  direction: Axis.vertical,
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  runSpacing: 8,
-                  children: [
-                    if ((atom.teacher?.abbrev ?? '').isNotEmpty)
-                      Text(atom.teacher!.abbrev),
-                    if ((atom.room?.abbrev ?? '').isNotEmpty)
-                      Text(atom.room!.abbrev),
-                  ],
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if ((atom.subject?.abbrev ?? '').isNotEmpty)
+                        Text(
+                          atom.subject!.abbrev,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      if ((atom.change?.typeAbbrev ?? '').isNotEmpty)
+                        Text(
+                          atom.change!.typeAbbrev,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      Flexible(
+                        child: Wrap(
+                          direction: Axis.vertical,
+                          alignment: WrapAlignment.start,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          runSpacing: 8,
+                          children: [
+                            if ((atom.teacher?.abbrev ?? '').isNotEmpty)
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(atom.teacher!.abbrev),
+                              ),
+                            if ((atom.room?.abbrev ?? '').isNotEmpty)
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(atom.room!.abbrev),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               if (atom.homework.isNotEmpty && !atom.permanent)
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).colorScheme.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Text(
-                      'H',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Card(
+                    elevation: 0,
+                    color: Colors.orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Text(
+                        'H',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
                       ),
                     ),
                   ),
