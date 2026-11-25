@@ -74,6 +74,7 @@ class Config {
     'marks',
     'homework',
     'timetable',
+    'subjects',
   ]);
   static final dashboardColor = ConfigOption('dashboardColor', true);
   static final devMode = ConfigOption('devMode', false);

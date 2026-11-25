@@ -88,6 +88,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get timetable => 'Timetable';
 
   @override
+  String get subjects => 'Subjects';
+
+  @override
   String get settings => 'Settings';
 
   @override

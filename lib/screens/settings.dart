@@ -120,6 +120,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         key: 'timetable',
                         label: AppLocalizations.of(context)!.timetable,
                       ),
+                      (
+                        key: 'subjects',
+                        label: AppLocalizations.of(context)!.subjects,
+                      ),
                     ],
                     label: AppLocalizations.of(context)!.dashboardOrder,
                   ),

@@ -88,6 +88,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get timetable => 'Rozvrh hodin';
 
   @override
+  String get subjects => 'Předměty';
+
+  @override
   String get settings => 'Nastavení';
 
   @override

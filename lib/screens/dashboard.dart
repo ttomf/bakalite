@@ -93,6 +93,12 @@ class _DashboardState extends State<Dashboard> {
                               icon: Icons.calendar_month,
                               color: Config.dashboardColor.value,
                             ),
+                            'subjects' => ModuleCard(
+                              route: '/subjects',
+                              label: AppLocalizations.of(context)!.subjects,
+                              icon: Icons.subject,
+                              color: Config.dashboardColor.value,
+                            ),
                             _ => const SizedBox.shrink(),
                           },
                       ],

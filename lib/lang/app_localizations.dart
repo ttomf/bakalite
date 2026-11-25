@@ -236,6 +236,12 @@ abstract class AppLocalizations {
   /// **'Timetable'**
   String get timetable;
 
+  /// No description provided for @subjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjects'**
+  String get subjects;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
