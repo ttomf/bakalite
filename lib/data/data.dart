@@ -4,6 +4,7 @@ import 'package:bakalite/data/models/events.dart';
 import 'package:bakalite/data/models/homework.dart';
 import 'package:bakalite/data/models/komens.dart';
 import 'package:bakalite/data/models/marks.dart';
+import 'package:bakalite/data/models/subjects.dart';
 import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/data/models/user.dart';
 import 'package:bakalite/data/resource.dart';
@@ -59,6 +60,9 @@ class Data {
     my: eventsRes.data['events/my']?.events,
     public: eventsRes.data['events/public']?.events,
   );
+
+  static final subjectsRes = Resource<Subjects>(Subjects.parse);
+  static Subjects? get subjects => subjectsRes.data['subjects'];
 
   static Future<void> loadUser({bool force = false}) {
     return userRes.load('user', force: force);
@@ -127,6 +131,10 @@ class Data {
     ]);
   }
 
+  static Future<void> loadSubjects({bool force = false}) {
+    return subjectsRes.load('subjects', force: force);
+  }
+
   static void clear() {
     userRes.clear();
     marksRes.clear();
@@ -136,5 +144,6 @@ class Data {
     komensRes.komens.clear();
     komensRes.messageTypes.clear();
     eventsRes.clear();
+    subjectsRes.clear();
   }
 }
