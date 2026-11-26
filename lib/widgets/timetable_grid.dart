@@ -1,6 +1,6 @@
 import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/lang/app_localizations.dart';
-import 'package:bakalite/widgets/subject_card.dart';
+import 'package:bakalite/widgets/timetable_card.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -84,7 +84,7 @@ class TimetableGrid extends StatelessWidget {
             child: Column(
               children: [
                 for (final atom in atoms[hour.id] ?? const <Atom>[])
-                  Expanded(child: SubjectCard(atom)),
+                  Expanded(child: TimetableCard(atom)),
               ],
             ),
           ),

@@ -1,6 +1,6 @@
 import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/lang/app_localizations.dart';
-import 'package:bakalite/widgets/subject_card.dart';
+import 'package:bakalite/widgets/timetable_card.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -111,7 +111,7 @@ class TimetableGridFlex extends StatelessWidget {
                   width: item.atom.duration * pixelsPerMinute,
                   top: item.lane * constraints.maxHeight / item.lanes,
                   height: constraints.maxHeight / item.lanes,
-                  child: SubjectCard(item.atom),
+                  child: TimetableCard(item.atom),
                 ),
             ],
           );
