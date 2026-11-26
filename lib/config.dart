@@ -27,6 +27,16 @@ class ConfigOption<T> extends ValueNotifier<T> {
       ),
     };
 
+    if (defaultValue is List<String> && value is List<String>) {
+      final defaultSet = defaultValue.toSet();
+      final valueSet = value.toSet();
+
+      if (defaultSet.length != valueSet.length ||
+          !defaultSet.containsAll(valueSet)) {
+        return defaultValue as T;
+      }
+    }
+
     return value as T;
   }
 
