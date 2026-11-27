@@ -75,7 +75,21 @@ class Events({required final List<Event> events}) {
         ),
     ];
 
-    eventsParsed.sort((a, b) => a.interval.start.compareTo(b.interval.start));
+    final now = DateTime.now();
+    eventsParsed.sort((a, b) {
+      final aExpired = !a.interval.end.isAfter(now);
+      final bExpired = !b.interval.end.isAfter(now);
+
+      if (aExpired != bExpired) {
+        return aExpired ? 1 : -1;
+      }
+
+      if (aExpired) {
+        return b.interval.start.compareTo(a.interval.start);
+      }
+
+      return a.interval.start.compareTo(b.interval.start);
+    });
 
     return Events(events: eventsParsed);
   }
