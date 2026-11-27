@@ -3,7 +3,6 @@ import 'package:bakalite/api.dart';
 import 'package:bakalite/data/cache/cache.dart';
 import 'package:bakalite/exceptions.dart';
 import 'package:bakalite/lang/app_localizations.dart';
-import 'package:bakalite/mocks/mock_http_client.dart';
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,13 +40,8 @@ DateTime parseTime(String time) {
 }
 
 Future<void> setupApi(Account account, bool throwErrors) async {
-  if (account.baseUrl == 'https://debug/api') {
-    api = BakalariAPI(client: MockHttpClient());
-    cache = const Cache('');
-  } else {
-    api = BakalariAPI();
-    cache = Cache(account.id);
-  }
+  api = BakalariAPI();
+  cache = Cache(account.id);
   api.baseUrl = account.baseUrl;
   try {
     await api.login(account.username, account.password);
