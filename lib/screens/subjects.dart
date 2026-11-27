@@ -2,6 +2,7 @@ import 'package:bakalite/data/data.dart';
 import 'package:bakalite/lang/app_localizations.dart';
 import 'package:bakalite/screens/wrapper.dart';
 import 'package:bakalite/utils.dart';
+import 'package:bakalite/widgets/subject_card.dart';
 import 'package:material_ui/material_ui.dart';
 
 class SubjectsScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 ? ListView(
                     children: [
                       for (final subject in Data.subjects!.subjects.values)
-                        Card(child: Text(subject.toString())),
+                        SubjectCard(subject),
                     ],
                   )
                 : const Center(child: CircularProgressIndicator()),
