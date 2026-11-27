@@ -5,6 +5,7 @@ import 'package:bakalite/data/models/homework.dart';
 import 'package:bakalite/data/models/komens.dart';
 import 'package:bakalite/data/models/marks.dart';
 import 'package:bakalite/data/models/subjects.dart';
+import 'package:bakalite/data/models/themes.dart';
 import 'package:bakalite/data/models/timetable.dart';
 import 'package:bakalite/data/models/user.dart';
 import 'package:bakalite/data/resource.dart';
@@ -63,6 +64,10 @@ class Data {
 
   static final subjectsRes = Resource<Subjects>(Subjects.parse);
   static Subjects? get subjects => subjectsRes.data['subjects'];
+
+  static final themesRes = Resource<Themes>(Themes.parse);
+  static Themes? themes(String subjectId) =>
+      themesRes.data['subjects/themes/$subjectId'];
 
   static Future<void> loadUser({bool force = false}) {
     return userRes.load('user', force: force);
@@ -135,6 +140,10 @@ class Data {
     return subjectsRes.load('subjects', force: force);
   }
 
+  static Future<void> loadThemes(String subjectId, {bool force = false}) {
+    return themesRes.load('subjects/themes/$subjectId');
+  }
+
   static void clear() {
     userRes.clear();
     marksRes.clear();
@@ -145,5 +154,6 @@ class Data {
     komensRes.messageTypes.clear();
     eventsRes.clear();
     subjectsRes.clear();
+    themesRes.clear();
   }
 }
