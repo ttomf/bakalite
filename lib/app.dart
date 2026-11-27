@@ -11,6 +11,7 @@ import 'package:bakalite/screens/marks.dart';
 import 'package:bakalite/screens/message.dart';
 import 'package:bakalite/screens/settings.dart';
 import 'package:bakalite/screens/subjects.dart';
+import 'package:bakalite/screens/themes.dart';
 import 'package:bakalite/screens/timetable.dart';
 import 'package:bakalite/theme.dart';
 import 'package:material_ui/material_ui.dart';
@@ -32,6 +33,7 @@ class MainApp extends StatelessWidget {
       '/homework': (context) => const HomeworkScreen(),
       '/timetable': (context) => const TimetableScreen(),
       '/subjects': (context) => const SubjectsScreen(),
+      '/subjects/themes': (context) => const ThemesScreen(),
       '/dev': (context) => const DevScreen(),
       '/settings': (context) => const SettingsScreen(),
       '/accounts': (context) => const AccountsScreen(),

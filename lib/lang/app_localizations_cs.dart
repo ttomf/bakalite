@@ -271,6 +271,12 @@ class AppLocalizationsCs extends AppLocalizations {
   String get update => 'Aktualizovat';
 
   @override
+  String get note => 'Poznámka';
+
+  @override
+  String get hour => 'Hodina';
+
+  @override
   String get current => 'Aktuální';
 
   @override

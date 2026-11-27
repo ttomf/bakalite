@@ -91,6 +91,8 @@
   "add": "Add",
   "remove": "Remove",
   "update": "Update",
+  "note": "Note",
+  "hour": "Hour",
 
   "current": "Current",
   "afterDeadline": "After deadline",

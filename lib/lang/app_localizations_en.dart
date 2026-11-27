@@ -271,6 +271,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get update => 'Update';
 
   @override
+  String get note => 'Note';
+
+  @override
+  String get hour => 'Hour';
+
+  @override
   String get current => 'Current';
 
   @override

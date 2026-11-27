@@ -91,6 +91,8 @@
   "add": "Přidat",
   "remove": "Odstranit",
   "update": "Aktualizovat",
+  "note": "Poznámka",
+  "hour": "Hodina",
 
   "current": "Aktuální",
   "afterDeadline": "Po odevzdání",

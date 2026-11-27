@@ -225,7 +225,17 @@ class _SubjectMarksCardState extends State<SubjectMarksCard> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
-              child: Text(widget.note),
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '${AppLocalizations.of(context)!.note}: ',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(text: widget.note),
+                  ],
+                ),
+              ),
             ),
         ],
       ),

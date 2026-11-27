@@ -10,9 +10,16 @@ class SubjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: SelectionArea(
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            '/subjects/themes',
+            arguments: subject.subject,
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
