@@ -29,76 +29,79 @@ class MessageScreen extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: SelectionArea(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          message.relevantName,
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          message.title,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        Text(
-                          DateFormat('d. M. yyyy H:mm')
-                              .format(message.sentDate),
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              for (final attachment in message.attachments)
-                                AttachmentCard(
-                                  id: attachment.id,
-                                  name: attachment.name,
-                                  mime: attachment.type,
-                                ),
-                            ],
-                          ),
-                        ),
-                        if (!message.read)
-                          OutlinedButton(
-                            child: Text(
-                              AppLocalizations.of(context)!.markAsRead,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SelectionArea(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              message.relevantName,
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            onPressed: () async {
-                              try {
-                                await api.request(
-                                  'komens/message/${message.id}/mark-as-read',
-                                  method: 'PUT',
-                                );
+                            Text(
+                              message.title,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            Text(
+                              DateFormat('d. M. yyyy H:mm')
+                                  .format(message.sentDate),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            for (final attachment in message.attachments)
+                              AttachmentCard(
+                                id: attachment.id,
+                                name: attachment.name,
+                                mime: attachment.type,
+                              ),
+                          ],
+                        ),
+                      ),
+                      if (!message.read)
+                        OutlinedButton(
+                          child: Text(AppLocalizations.of(context)!.markAsRead),
+                          onPressed: () async {
+                            try {
+                              await api.request(
+                                'komens/message/${message.id}/mark-as-read',
+                                method: 'PUT',
+                              );
 
-                                message.read = true;
-                                Data.komensRes.komens.notify();
-                              } on BakaLiteException catch (e) {
-                                if (!context.mounted) return;
-                                showError(context, e);
-                              }
-                            },
-                          ),
-                        if (!message.confirmed && message.canConfirm)
-                          OutlinedButton(
-                            child: Text(AppLocalizations.of(context)!.confirm),
-                            onPressed: () async {
-                              try {
-                                await api.request(
-                                  'komens/message/${message.id}/mark-as-confirmed',
-                                  method: 'PUT',
-                                );
+                              message.read = true;
+                              Data.komensRes.komens.notify();
+                            } on BakaLiteException catch (e) {
+                              if (!context.mounted) return;
+                              showError(context, e);
+                            }
+                          },
+                        ),
+                      if (!message.confirmed && message.canConfirm)
+                        OutlinedButton(
+                          child: Text(AppLocalizations.of(context)!.confirm),
+                          onPressed: () async {
+                            try {
+                              await api.request(
+                                'komens/message/${message.id}/mark-as-confirmed',
+                                method: 'PUT',
+                              );
 
-                                message.confirmed = true;
-                                Data.komensRes.komens.notify();
-                              } on BakaLiteException catch (e) {
-                                if (!context.mounted) return;
-                                showError(context, e);
-                              }
-                            },
-                          ),
-                      ],
-                    ),
+                              message.confirmed = true;
+                              Data.komensRes.komens.notify();
+                            } on BakaLiteException catch (e) {
+                              if (!context.mounted) return;
+                              showError(context, e);
+                            }
+                          },
+                        ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 8),
