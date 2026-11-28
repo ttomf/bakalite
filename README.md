@@ -8,7 +8,7 @@ A lightweight, intuitive and open-source alternative client for [Bakaláři](htt
 Try it here: [baka.ttomf.cc](https://baka.ttomf.cc).
 
 > [!TIP]
-> If you just want to test the app, or if you don't have a Bakaláři account, use `debug` as the URL, and any username and password.
+> If you just want to test the app, or if you don't have a Bakaláři account, use `bakamock.ttomf.cc` as the URL, and any username and password.
 > The app will use mock data.
 
 > [!WARNING]
@@ -79,6 +79,9 @@ web/
   service_worker.js
 windows/
 
+# Mock account, deployed to bakamock.ttomf.cc
+mock/
+
 # Code
 lib/
   data/
@@ -87,7 +90,6 @@ lib/
     data.dart         # data manager
     resource.dart     # generic resource loader
   lang/               # app localization
-  mocks/              # debug data for mock account
   screens/            # app screens
   widgets/            # reusable widgets
   accounts.dart       # account manager
