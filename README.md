@@ -32,6 +32,98 @@ Try it here: [baka.ttomf.cc](https://baka.ttomf.cc).
 - **Web app**: installable PWA with service worker caching
 - **Privacy**: no ads, no tracking, no third-party analytics, credentials are stored locally
 
+## Screenshots
+
+<details>
+<summary><b>Dashboard</b></summary>
+
+| BakaLite                                | Original app                            |
+| --------------------------------------- | --------------------------------------- |
+| ![](docs/images/bakalite_dashboard.png) | ![](docs/images/original_dashboard.png) |
+
+</details>
+
+<details>
+<summary><b>Marks</b></summary>
+
+| BakaLite                            | Original app                        |
+| ----------------------------------- | ----------------------------------- |
+| ![](docs/images/bakalite_marks.png) | ![](docs/images/original_marks.png) |
+
+</details>
+
+<details>
+<summary><b>Homework</b></summary>
+
+| BakaLite                               | Original app                           |
+| -------------------------------------- | -------------------------------------- |
+| ![](docs/images/bakalite_homework.png) | ![](docs/images/original_homework.png) |
+
+</details>
+
+<details>
+<summary><b>Komens (Messages)</b></summary>
+
+| BakaLite                               | Original app                           |
+| -------------------------------------- | -------------------------------------- |
+| ![](docs/images/bakalite_messages.png) | ![](docs/images/original_messages.png) |
+
+</details>
+
+<details>
+<summary><b>Timetable</b></summary>
+
+| BakaLite                                | Original app                            |
+| --------------------------------------- | --------------------------------------- |
+| ![](docs/images/bakalite_timetable.png) | ![](docs/images/original_timetable.png) |
+
+</details>
+
+<details>
+<summary><b>Timetable (FLEXI mode)</b></summary>
+
+| BakaLite                                      | Original app                            |
+| --------------------------------------------- | --------------------------------------- |
+| ![](docs/images/bakalite_timetable_flexi.png) | ![](docs/images/original_timetable.png) |
+
+</details>
+
+<details>
+<summary><b>Hour info</b></summary>
+
+| BakaLite                                     | Original app                                 |
+| -------------------------------------------- | -------------------------------------------- |
+| ![](docs/images/bakalite_timetable_info.png) | ![](docs/images/original_timetable_info.png) |
+
+</details>
+
+<details>
+<summary><b>Settings</b></summary>
+
+| BakaLite                               | Original app                           |
+| -------------------------------------- | -------------------------------------- |
+| ![](docs/images/bakalite_settings.png) | ![](docs/images/original_settings.png) |
+
+</details>
+
+<details>
+<summary><b>More features</b></summary>
+
+| No ads (screenshot from original app) | Offline access                       |
+| ------------------------------------- | ------------------------------------ |
+| ![](docs/images/original_ad.png)      | ![](docs/images/bakalite_cached.png) |
+
+</details>
+
+<details>
+<summary><b>Customization</b></summary>
+
+| Example 1                             | Example 2                             | Example 3                             |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| ![](docs/images/bakalite_theme_1.png) | ![](docs/images/bakalite_theme_2.png) | ![](docs/images/bakalite_theme_3.png) |
+
+</details>
+
 ## Supported platforms
 
 BakaLite is built with [Flutter](https://flutter.dev). The main targets are Android and web, but Linux, iOS, macOS and Windows builds are also possible.
