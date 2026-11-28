@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "checkJs": false,
+    "types": ["./worker-configuration.d.ts"]
+  },
+  "include": ["src/**/*", "worker-configuration.d.ts"]
+}

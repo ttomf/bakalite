@@ -1,0 +1,6 @@
+# Dependencies
+node_modules/
+
+# Cloudflare Wrangler
+.wrangler/
+worker-configuration.d.ts
